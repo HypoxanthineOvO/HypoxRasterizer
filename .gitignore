@@ -30,6 +30,11 @@
 *.exe
 *.out
 *.app
+HypoxRasterizer
+
+# Xmake
+.xmake/
+build/
 
 # VSCode specific
 .vscode/
