@@ -15,8 +15,11 @@ target("Utils")
 target("Rasterizer")
     add_deps("Utils")
     set_kind("static")
+    -- Camera
     add_includedirs("Modules/Camera", {public = true})
+    add_files("Modules/Camera/*.cpp")
     -- TODO: Add all thr directories
+    -- Rasterizer
     add_includedirs("Rasterizer", {public = true})
 
 target("HypoxRasterizer")
@@ -24,3 +27,13 @@ target("HypoxRasterizer")
     set_kind("binary")
     set_targetdir(".")
     add_files("main.cpp")
+
+-- Testcases
+target("CameraTest")
+    add_deps("Utils")
+    set_kind("binary")
+    add_includedirs("Modules/Camera", {public = true})
+    add_files("Modules/Camera/*.cpp")
+    add_files("Tests/CameraTest.cpp")
+    add_packages(depends, {public = true})
+    set_targetdir(".")

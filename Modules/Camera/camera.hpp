@@ -7,7 +7,9 @@ class Camera {
 public:
     /* Constructors */
     // Default Initialization
-    Camera();
+    Camera(): position(0, 0, 0)
+    // TODO: Initialize other function
+    {};
 
     // Move Functions
     void moveTo(Vec3f pos);
