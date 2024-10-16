@@ -5,7 +5,17 @@
 
 class Camera {
 public:
+    /* Constructors */
+    // Default Initialization
+    Camera();
 
+    // Move Functions
+    void moveTo(Vec3f pos);
+    void lookAt(Vec3f target);
+
+    // Get Matrix Functions
+    Mat4f getViewMatrix();
+    Mat4f getProjectionMatrix();
 private:
     // Extrinsic Parameters
     Vec3f position;
