@@ -19,6 +19,7 @@ namespace utils {
             }
             printf("\n");
         }
+        printf("\n");
     }
 };
 
