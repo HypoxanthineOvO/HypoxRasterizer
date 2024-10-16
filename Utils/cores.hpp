@@ -25,5 +25,9 @@ using Vec4f = Eigen::Vector4f;
 using Mat3f = Eigen::Matrix3f;
 using Mat4f = Eigen::Matrix4f;
 
+using VecXf = Eigen::VectorXf;
+using MatXf = Eigen::MatrixXf;
+
+
 
 #endif // CORES_HPP
