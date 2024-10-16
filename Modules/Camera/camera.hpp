@@ -7,9 +7,7 @@ class Camera {
 public:
     /* Constructors */
     // Default Initialization
-    Camera(): position(0, 0, 0)
-    // TODO: Initialize other function
-    {};
+    Camera();
 
     // Move Functions
     void moveTo(Vec3f pos);
@@ -22,7 +20,7 @@ public:
     // Setters
     void setFocalLength(float f) { focal_len = f; }
     void setFOV(float f) { fov = f; }
-    
+
     // Getters
     Vec3f getPosition() { return position; }
     Vec3f getForward() { return forward; }
@@ -30,6 +28,18 @@ public:
     Vec3f getUp() { return up; }
     float getFocalLength() { return focal_len; }
     float getFOV() { return fov; }
+    void printCameraInfo() {
+        printf("Position: ");
+        utils::printVec(position);
+        printf("Forward: ");
+        utils::printVec(forward);
+        printf("Right: ");
+        utils::printVec(right);
+        printf("Up: ");
+        utils::printVec(up);
+        printf("Focal Length: %f\n", focal_len);
+        printf("FOV: %f\n", fov);
+    }
 private:
     // Extrinsic Parameters
     Vec3f position;
