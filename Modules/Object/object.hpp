@@ -5,8 +5,8 @@
 
 class Object {
 public:
-    Object();
-    Object(const std::string& file_name) {
+    Object(): model_matrix(Mat4f::Identity()) {}
+    Object(const std::string& file_name): model_matrix(Mat4f::Identity()) {
         loadObject(file_name);
     };
 
@@ -15,7 +15,12 @@ public:
     void loadObject(const std::string& file_name);
 
     /* Transform Functions */
-    void localToWorld(const Mat4f& model_matrix);
+    void localToWorld(const Mat4f& model_mat);
+
+    /* Getters */
+    std::vector<Triangle> getTriangles() { return triangles; }
+    Mat4f getModelMatrix() { return model_matrix; }
+
 private:
     /* Raw Data in Local Space */
     std::vector<Triangle> triangles_local;

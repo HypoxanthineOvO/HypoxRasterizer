@@ -33,6 +33,9 @@
 HypoxRasterizer
 *Test
 
+# Assets
+assets/
+
 # Excute Results
 *.png
 

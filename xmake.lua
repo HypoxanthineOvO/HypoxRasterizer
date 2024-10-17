@@ -2,7 +2,7 @@ add_languages("c++17")
 
 add_rules("mode.release")
 local depends = {
-    "eigen", "stb", "nlohmann_json", "openmp"
+    "eigen", "stb", "nlohmann_json", "openmp", "tinyobjloader"
 }
 add_requires(depends)
 
@@ -54,5 +54,15 @@ target("TriangleTest")
     add_includedirs("Modules/Object/")
     add_files("Modules/Object/geometry.cpp")
     add_files("Tests/TriangleTest.cpp")
+    add_packages(depends, {public = true})
+    set_targetdir(".")
+
+target("ObjectTest")
+    add_deps("Utils")
+    set_kind("binary")
+    add_includedirs("Modules/Object/")
+    add_files("Modules/Object/geometry.cpp")
+    add_files("Modules/Object/object.cpp")
+    add_files("Tests/ObjectTest.cpp")
     add_packages(depends, {public = true})
     set_targetdir(".")

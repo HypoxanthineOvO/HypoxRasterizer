@@ -13,14 +13,28 @@ public:
 
     Vec3f position;
     Vec3f normal;
+    Vec2f uv;
+    Vec3f color;
     // TODO: Add Other Attributes
 };
 
 class Triangle {
 public:
     /* Constructors */
-    Triangle() = delete; // No Valid Default Constructor for Triangle
+    Triangle(): v0(Vec3f(0, 0, 0)), v1(Vec3f(0, 0, 0)), v2(Vec3f(0, 0, 0)) {}
     Triangle(Vertex v0, Vertex v1, Vertex v2) : v0(v0), v1(v1), v2(v2) {}
+
+    void setVertex(int idx, Vertex vert) {
+        if (idx == 0) {
+            v0 = vert;
+        } else if (idx == 1) {
+            v1 = vert;
+        } else if (idx == 2) {
+            v2 = vert;
+        } else {
+            throw std::runtime_error("Invalid Vertex Index");
+        }
+    }
     /* Interpolation Functions */
     bool isInside(Vec3f pos);
     Vec3f getInterpolationWeights(Vec3f pos);
