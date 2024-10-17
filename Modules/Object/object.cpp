@@ -5,6 +5,10 @@
 void Object::loadObject(const std::string& file_name) {
     printf("Loading Object: %s\n", file_name.c_str());
 
+    /*
+    Use tinyobjloader to load the object file
+        Reference: https://blog.csdn.net/qjh5606/article/details/89075014
+    */
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
