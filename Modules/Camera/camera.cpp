@@ -39,5 +39,12 @@ void Camera::lookAt(Vec3f target ) {
             up = up.normalized();
         } 
     }
+}
+
+Mat4f Camera::getViewMatrix() {
+
+}
+
+Mat4f Camera::getProjectionMatrix() {
 
 }
