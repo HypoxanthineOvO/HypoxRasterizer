@@ -29,7 +29,7 @@ target("HypoxRasterizer")
     set_targetdir(".")
     add_files("main.cpp")
 
--- Testcases
+---------- Testcases ----------
 target("CameraTest")
     add_deps("Utils")
     set_kind("binary")
@@ -45,5 +45,14 @@ target("ImageTest")
     add_includedirs("Utils/Image", {public = true})
     add_files("Utils/Image/*.cpp")
     add_files("Tests/ImageTest.cpp")
+    add_packages(depends, {public = true})
+    set_targetdir(".")
+
+target("TriangleTest")
+    add_deps("Utils")
+    set_kind("binary")
+    add_includedirs("Modules/Object/")
+    add_files("Modules/Object/geometry.cpp")
+    add_files("Tests/TriangleTest.cpp")
     add_packages(depends, {public = true})
     set_targetdir(".")

@@ -33,6 +33,9 @@
 HypoxRasterizer
 *Test
 
+# Excute Results
+*.png
+
 # Xmake
 .xmake/
 build/
