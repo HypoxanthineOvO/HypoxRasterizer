@@ -3,7 +3,7 @@
 
 #include "cores.hpp"
 #include <iostream>
-
+#include <cmath>
 namespace utils {
     // Print Function for Eigen Types
     static void printVec(const VecXf& vec) {
@@ -20,6 +20,17 @@ namespace utils {
             printf("\n");
         }
         printf("\n");
+    }
+    static bool isequalVec(const VecXf& vec1, const VecXf& vec2) {
+        if (vec1.size() != vec2.size()){
+            printf("两个向量维度不一样");
+            exit(0);
+        }
+        for (int i = 0; i < vec1.size(); i++) {
+            if (std::abs((vec1(i) - vec2(i))) > PARALLEL_EPS)
+                return false;
+        }
+        return true;
     }
 };
 
