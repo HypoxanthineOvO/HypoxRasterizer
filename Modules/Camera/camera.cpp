@@ -8,12 +8,19 @@ Camera::Camera():
     focal_len(1),
     fov(60)
 {}
+//construct by parameters:
+Camera::Camera(Vec3f pos, Vec3f target):
+    position(pos),
+    focal_len(1),
+    fov(60){
+    lookAt(target);
+}
 
 void Camera::moveTo(Vec3f pos) {
     position = pos;
 }
 
-void Camera::lookAt(Vec3f target ) {
+void Camera::lookAt(Vec3f target) {
     forward = target - position;
     if(forward.norm() < LENGTH_EPS){
         printf("自己看自己可还行\n");

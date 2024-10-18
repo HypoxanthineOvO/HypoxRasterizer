@@ -8,7 +8,7 @@ public:
     /* Constructors */
     // Default Initialization
     Camera();
-
+    Camera(Vec3f pos, Vec3f targ);
     // Move Functions
     void moveTo(Vec3f pos);
     void lookAt(Vec3f target);
