@@ -3,33 +3,47 @@
 
 #include "utils.hpp"
 
-class Light {
+class DirectVPL {
 public:
-    Light();
-    virtual ~Light() = 0;
-
-    virtual Vec3f getPositionProxy() = 0;
-private:
-
-};
-
-class PointLight: public Light {
-public:
-    virtual Vec3f getPositionProxy() override {
-        return position;
-    }
-private:
+    DirectVPL(Vec3f pos, Vec3f inten):
+        position(pos), intensity(inten)
+    {}
     Vec3f position;
     Vec3f intensity;
 };
 
-// TODO: Implement AreaLight
-// class AreaLight: public Light {
-// public:
+class IndirectVPL {
+public:
+    IndirectVPL(Vec3f pos, Vec3f flx):
+        position(pos), flux(flx)
+    {}
+    Vec3f position;
+    Vec3f flux;
+};
 
-// private:
+class Light {
+public:
+    Light() {}
+    Light(std::vector<DirectVPL> d_vpls, std::vector<IndirectVPL> i_vpls):
+        direct_vpls(d_vpls), indirect_vpls(i_vpls)
+    {}
+protected:
+    std::vector<DirectVPL> direct_vpls;
+    std::vector<IndirectVPL> indirect_vpls;
+};
 
-// };
+class PointLight: public Light {
+public:
+    PointLight(Vec3f pos, Vec3f inten) {
+        direct_vpls.clear();
+        DirectVPL d_vpl(pos, inten);
+        direct_vpls.push_back(d_vpl);
+    }
+    
+private:
+};
+
+// TODO: Real Light Class
 
 
 #endif // LIGHT_HPP_
