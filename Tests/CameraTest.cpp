@@ -2,30 +2,34 @@
 
 int main(int argc, char** argv) {
     // Construct Camera
-    std::shared_ptr<Camera> camera
+    std::shared_ptr<Camera> camera1
         = std::make_shared<Camera>();
-
-    // Test Initialize
-    puts("============================Test Initialize===============================");
-    camera->printCameraInfo();
+    std::shared_ptr<Camera> camera2 
+        = std::make_shared<Camera>(Vec3f(0, 1, 0), Vec3f(3, 6, 7));
+    // Test Default Initialize
+    puts("========================Test Edfault Initialize===========================");
+    camera1->printCameraInfo();
+    //Test Parameteric Initialize
+    puts("========================Test Edfault Initialize===========================");
+    camera2->printCameraInfo();
     // Test MoveTo
     puts("===============================Test MoveTo===============================");
-    camera->moveTo(Vec3f(4, 2, 3));
-    camera->printCameraInfo();
+    camera1->moveTo(Vec3f(4, 2, 3));
+    camera1->printCameraInfo();
     // Test lookAt
     puts("===============================Test lookAt===============================");
     puts("Forward == ref_up cases:");
-    camera->lookAt(Vec3f(4, 2, 4));
-    camera->printCameraInfo();
+    camera1->lookAt(Vec3f(4, 2, 4));
+    camera1->printCameraInfo();
     puts("---------------------------------------------------------------------------");
-    camera->lookAt(Vec3f(4, 2, 2));
-    camera->printCameraInfo();
+    camera1->lookAt(Vec3f(4, 2, 2));
+    camera1->printCameraInfo();
     puts("---------------------------------------------------------------------------");
     puts("Forward != ref_up cases:");
-    camera->lookAt(Vec3f(1, 2, 2));
-    camera->printCameraInfo();
+    camera1->lookAt(Vec3f(1, 2, 2));
+    camera1->printCameraInfo();
     puts("---------------------------------------------------------------------------");
     puts("target == position cases:");
-    camera->lookAt(Vec3f(4, 2, 3));
-    camera->printCameraInfo();
+    camera1->lookAt(Vec3f(4, 2, 3));
+    camera1->printCameraInfo();
 }
