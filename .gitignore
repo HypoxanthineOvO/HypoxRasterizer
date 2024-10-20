@@ -32,6 +32,7 @@
 *.app
 HypoxRasterizer
 *Test
+*Testpy
 
 # Assets
 assets/
