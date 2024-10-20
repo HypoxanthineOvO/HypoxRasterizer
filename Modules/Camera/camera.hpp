@@ -48,6 +48,8 @@ private:
     // Intrinsic Parameters
     float focal_len;
     float fov;
+    uint32_t width, height;
+    float aspect_ratio;
 };
 
 

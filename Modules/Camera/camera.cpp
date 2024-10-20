@@ -6,13 +6,13 @@ Camera::Camera():
     right(1, 0, 0),
     up(0, 1, 0),
     focal_len(1),
-    fov(FOV)
+    fov(DEFAULT_FOV)
 {}
 //construct by parameters:
 Camera::Camera(Vec3f pos, Vec3f target):
     position(pos),
     focal_len(1),
-    fov(FOV){
+    fov(DEFAULT_FOV){
     lookAt(target);
 }
 
@@ -64,9 +64,10 @@ Mat4f Camera::getViewMatrix() {
 }
 
 Mat4f Camera::getProjectionMatrix() {
-    float near = -focal_len, far = -FARLENGTH;
+    float near = -focal_len, far = -DEFAULT_FAR;
     Mat4f persp2ortho, ortho;
-    float aspect_ratio = 1;
+    
+    float aspect_ratio = static_cast<float>(width) / static_cast<float>(height);
     float top = near * tan(fov / 2 * M_PI / 180), bottom = -top;
     float right = top * aspect_ratio, left = -right;
     persp2ortho << -near, 0, 0, 0,
