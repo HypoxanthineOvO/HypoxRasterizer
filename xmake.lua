@@ -19,9 +19,16 @@ target("Rasterizer")
     -- Camera
     add_includedirs("Modules/Camera", {public = true})
     add_files("Modules/Camera/*.cpp")
+    -- Light
+    add_includedirs("Modules/Light", {public = true})
+    add_files("Modules/Light/*.cpp")
+    -- Object
+    add_includedirs("Modules/Object", {public = true})
+    add_files("Modules/Object/*.cpp")
     -- TODO: Add all thr directories
     -- Rasterizer
     add_includedirs("Rasterizer", {public = true})
+    add_files("Rasterizer/*.cpp")
 
 target("HypoxRasterizer")
     add_deps("Rasterizer")
