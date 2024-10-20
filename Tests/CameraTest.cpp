@@ -29,7 +29,30 @@ int main(int argc, char** argv) {
     camera1->lookAt(Vec3f(1, 2, 2));
     camera1->printCameraInfo();
     puts("---------------------------------------------------------------------------");
-    puts("target == position cases:");
-    camera1->lookAt(Vec3f(4, 2, 3));
-    camera1->printCameraInfo();
+    // puts("target == position cases:");
+    // camera1->lookAt(Vec3f(4, 2, 3));
+    // camera1->printCameraInfo();
+    puts("===============================Test getViewMatrix===============================");
+    Mat4f viewmat = camera1->getViewMatrix();
+    std::cout << "View matrix: " << std::endl;
+    std::cout << viewmat << std::endl;
+    Vec3f pos = camera1->getPosition();
+    Vec3f forw = camera1->getForward();
+    Vec3f up = camera1->getUp();
+    Vec3f right = camera1->getRight();
+    Vec3f object_for = pos + forw;
+    Vec3f object_up = pos + up;
+    Vec3f object_rig = pos + right;
+    Vec4f forw_obj_pos,up_obj_pos,right_obj_pos;
+    forw_obj_pos << object_for, 1 ;
+    up_obj_pos << object_up, 1;
+    right_obj_pos << object_rig, 1;
+    std::cout<<"Forward:\n" << viewmat * forw_obj_pos << std::endl;
+    std::cout<< "Up:\n" << viewmat * up_obj_pos << std::endl;
+    std::cout<< "Right:\n" << viewmat * right_obj_pos << std::endl;
+    puts("===============================Test getProjectionMatrix===============================");
+    Mat4f projmat = camera1->getProjectionMatrix();
+    Vec4f afterproj = projmat * Vec4f(0.5, 0.5, -20, 1);
+    std::cout << "Forward:\n"
+              << afterproj / afterproj(3) << std::endl;
 }
