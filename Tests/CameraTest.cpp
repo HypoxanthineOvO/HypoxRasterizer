@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
 
     puts("===============================Test getProjectionMatrix===============================");
     Mat4f projmat = camera1->getProjectionMatrix();
-    Vec4f afterproj = projmat * Vec4f(0.5, 0.5, -20, 1);
+    Vec4f afterproj = projmat * Vec4f(0.5, 0.5, -1, 1);
     //std::cout << "Forward:\n"
     //          << afterproj / afterproj(3) << std::endl;
     printf("Forward: ");
