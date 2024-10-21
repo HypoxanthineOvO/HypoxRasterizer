@@ -47,6 +47,15 @@ public:
             throw std::runtime_error("Invalid Vertex Index");
         }
     }
+    /* AABB */
+    Vec2f getXYMin() {
+        return Vec2f(std::min(v0.position.x(), std::min(v1.position.x(), v2.position.x())),
+                     std::min(v0.position.y(), std::min(v1.position.y(), v2.position.y())));
+    }
+    Vec2f getXYMax() {
+        return Vec2f(std::max(v0.position.x(), std::max(v1.position.x(), v2.position.x())),
+                     std::max(v0.position.y(), std::max(v1.position.y(), v2.position.y())));
+    }
     /* Interpolation Functions */
     bool isInside(Vec3f pos);
     Vec3f getInterpolationWeights(Vec3f pos);

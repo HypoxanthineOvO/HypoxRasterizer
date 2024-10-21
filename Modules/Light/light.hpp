@@ -27,6 +27,12 @@ public:
     Light(std::vector<DirectVPL> d_vpls, std::vector<IndirectVPL> i_vpls):
         direct_vpls(d_vpls), indirect_vpls(i_vpls)
     {}
+    std::vector<DirectVPL> getDirectVPLs() {
+        return direct_vpls;
+    }
+    std::vector<IndirectVPL> getIndirectVPLs() {
+        return indirect_vpls;
+    }
 protected:
     std::vector<DirectVPL> direct_vpls;
     std::vector<IndirectVPL> indirect_vpls;

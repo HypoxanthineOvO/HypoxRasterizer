@@ -2,12 +2,17 @@
 #define CONSTANT_HPP_
 
 /* Constants */
+// EPSILON
 #define PARALLEL_EPS 1e-8 //whether two vectors are parallel
 #define LENGTH_EPS 1e-8 //whether the vector has length 0
+// Coordinate System
 #define REF_UP Vec3f(0, 1, 0)
 #define REF_RIGHT Vec3f(1, 0, 0)
-#define DEFAULT_WIDTH 800
-#define DEFAULT_HEIGHT 800
+// Scene
+#define AMBIENT Vec3f(0.1, 0.1, 0.1)
+// Default Values
+#define DEFAULT_WIDTH 100
+#define DEFAULT_HEIGHT 100
 #define DEFAULT_FAR 20
-#define DEFAULT_FOV 90
+#define DEFAULT_FOV 120
 #endif // CONSTANT_HPP_

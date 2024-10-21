@@ -13,16 +13,14 @@ public:
             // TODO: Initialize Buffers.
             triangle_buffer.clear();
 
-            // Initialize the Screen Space Buffer
-            color_buffer.resize(camera->getWidth() * camera->getHeight());
-            depth_buffer.resize(camera->getWidth() * camera->getHeight());
+            // Initialize the Screen Space Buffer with -
+            color_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
+            depth_buffer.resize(camera->getWidth() * camera->getHeight(), 0.0f);
     }
 
     // Pass
     void Pass();
     void VertexProcessing();
-    void TriangleProcessing();
-    void Rasterization();
     void FragmentProcessing();
     void DisplayToImage();
 
