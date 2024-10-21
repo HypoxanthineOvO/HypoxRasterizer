@@ -69,9 +69,6 @@ void Rasterizer::FragmentProcessing() {
     for (Triangle& tri: triangle_buffer) {
         // Get AABB Of the Triangle
         Vec2f min = tri.getXYMin(), max = tri.getXYMax();
-        printf("AABB: ");
-        utils::printVec(min);
-        utils::printVec(max);
         float width = static_cast<float>(camera->getWidth()),
             height = static_cast<float>(camera->getHeight());
         Vec2i min_screen = Vec2i(
@@ -103,9 +100,6 @@ void Rasterizer::FragmentProcessing() {
                         weights.y() * tri.getVertex(1).color +
                         weights.z() * tri.getVertex(2).color;
                     // Write to the Color Buffer
-                    printf("Pixel (%d, %d)\n", x, y);
-                    printf("\tColor: ");
-                    utils::printVec(color);
                     color_buffer[y * camera->getWidth() + x] = color;
                 }
             }
