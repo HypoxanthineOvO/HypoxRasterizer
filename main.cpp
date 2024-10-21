@@ -5,7 +5,7 @@ int main(int argc, char const *argv[]) {
     puts("==================== HypoxRasterizer ====================");
     // Create a Camera
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(
-        Vec3f(2, 1, -1), Vec3f(0, -1, 2)
+        Vec3f(2, 1, -1), Vec3f(0, 1, -2)
     );
     // Create a Scene
     std::shared_ptr<Scene> scn = std::make_shared<Scene>();
