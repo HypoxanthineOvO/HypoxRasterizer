@@ -50,5 +50,6 @@ void Rasterizer::FragmentProcessing() {
 }
 
 void Rasterizer::DisplayToImage() {
-
+    // Write Color Buffer
+    writeImageToFile(color_buffer, camera->getResolution(), "output.png");
 }

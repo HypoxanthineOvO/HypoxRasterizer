@@ -2,6 +2,7 @@
 #define UTILS_HPP_
 
 #include "cores.hpp"
+#include "image.hpp"
 #include <iostream>
 #include <cmath>
 namespace utils {
