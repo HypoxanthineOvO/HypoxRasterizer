@@ -24,6 +24,18 @@ public:
     Triangle(): v0(Vec3f(0, 0, 0)), v1(Vec3f(0, 0, 0)), v2(Vec3f(0, 0, 0)) {}
     Triangle(Vertex v0, Vertex v1, Vertex v2) : v0(v0), v1(v1), v2(v2) {}
 
+    /* Getters and Setters */
+    Vertex getVertex(int idx) {
+        if (idx == 0) {
+            return v0;
+        } else if (idx == 1) {
+            return v1;
+        } else if (idx == 2) {
+            return v2;
+        } else {
+            throw std::runtime_error("Invalid Vertex Index");
+        }
+    }
     void setVertex(int idx, Vertex vert) {
         if (idx == 0) {
             v0 = vert;
