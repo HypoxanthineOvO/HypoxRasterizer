@@ -6,14 +6,29 @@ Camera::Camera():
     right(1, 0, 0),
     up(0, 1, 0),
     focal_len(1),
-    fov(DEFAULT_FOV)
+    fov(DEFAULT_FOV),
+    width(DEFAULT_WIDTH),
+    height(DEFAULT_HEIGHT)
 {}
 //construct by parameters:
 Camera::Camera(Vec3f pos, Vec3f target):
     position(pos),
     focal_len(1),
-    fov(DEFAULT_FOV){
+    fov(DEFAULT_FOV),
+    width(DEFAULT_WIDTH),
+    height(DEFAULT_HEIGHT)
+    {
     lookAt(target);
+}
+
+Camera::Camera(Vec2i res, Vec3f pos, Vec3f targ):
+    position(pos),
+    focal_len(1),
+    fov(DEFAULT_FOV),
+    width(res.x()),
+    height(res.y())
+{
+    lookAt(targ);
 }
 
 void Camera::moveTo(Vec3f pos) {
@@ -70,6 +85,7 @@ Mat4f Camera::getProjectionMatrix() {
     float aspect_ratio = static_cast<float>(width) / static_cast<float>(height);
     float top = near * tan(fov / 2 * M_PI / 180), bottom = -top;
     float right = top * aspect_ratio, left = -right;
+    printf("top: %f, bottom: %f, right: %f, left: %f\n", top, bottom, right, left);
     persp2ortho << -near, 0, 0, 0,
         0,  -near, 0, 0,
         0, 0, -(near + far), near * far,
@@ -78,5 +94,6 @@ Mat4f Camera::getProjectionMatrix() {
         0, 2 / (top - bottom), 0, -(top + bottom)/(top - bottom),
         0, 0, 2/ (near - far), -(near + far)/(near - far),
         0, 0, 0, 1;
+
     return ortho*persp2ortho;
 }

@@ -9,6 +9,7 @@ public:
     // Default Initialization
     Camera();
     Camera(Vec3f pos, Vec3f targ);
+    Camera(Vec2i res, Vec3f pos, Vec3f targ);
     // Move Functions
     void moveTo(Vec3f pos);
     void lookAt(Vec3f target);
@@ -28,6 +29,9 @@ public:
     Vec3f getUp() { return up; }
     float getFocalLength() { return focal_len; }
     float getFOV() { return fov; }
+    uint32_t getWidth() { return width; }
+    uint32_t getHeight() { return height; }
+    Vec2i getResolution() { return Vec2i(width, height); }
     void printCameraInfo() {
         printf("Position: ");
         utils::printVec(position);
