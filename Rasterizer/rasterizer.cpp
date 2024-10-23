@@ -47,6 +47,7 @@ void Rasterizer::VertexProcessing() {
                 new_vert.position = Vec3f(pos.x() / pos.w(), pos.y() / pos.w(), 0);
                 Vec4f norm = view_matrix * org_norm;
                 new_vert.normal = Vec3f(norm.x(), norm.y(), norm.z());
+                new_vert.uv = vert.uv;
                 new_vert.color = color;
                 
                 printf("Vertex %d\n", i);
