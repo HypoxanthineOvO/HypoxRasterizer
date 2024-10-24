@@ -25,7 +25,7 @@ void Rasterizer::VertexProcessing() {
                 
                 // Use the Material to Evaluate the Color of the Vertex
                 Vec3f vert_color = mat->evalColor(vert.uv);
-
+                float shininess = mat->evalShininess();
                 // Shading
                 Vec3f color = AMBIENT.cwiseProduct(vert_color); // Ambient Light
                 for (std::shared_ptr<Light> light : scene->getLights()) {
@@ -35,9 +35,18 @@ void Rasterizer::VertexProcessing() {
                         Vec3f light_dir = d_vpl.position - vert.position;
                         light_dir.normalize();
                         // Diffuse Shading
-                        float cos_theta = light_dir.dot(vert.normal);
-                        if (cos_theta > 0) {
-                            color += d_vpl.intensity.cwiseProduct(vert_color) * cos_theta;
+                        float cos_theta_diffuse = light_dir.dot(vert.normal);
+                        if (cos_theta_diffuse > 0) {
+                            color += d_vpl.intensity.cwiseProduct(vert_color) * cos_theta_diffuse;
+                        }
+                        // Specular Shading
+                        Vec3f view_dir = camera->getPosition() - vert.position;
+                        view_dir.normalize();
+                        Vec3f half_vec = (view_dir + light_dir).normalized();
+                        float cos_theta_specular = half_vec.dot(vert.normal);
+                        printf("Cos Theta Specular: %f\n", cos_theta_specular);
+                        if (cos_theta_specular > 0) {
+                            color += d_vpl.intensity.cwiseProduct(vert_color) * pow(cos_theta_specular, shininess);
                         }
                     }
 

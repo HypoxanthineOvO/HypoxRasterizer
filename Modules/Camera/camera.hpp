@@ -19,6 +19,8 @@ public:
     Mat4f getProjectionMatrix();
 
     // Setters
+    void setResolution(uint32_t h, uint32_t w) { height = h; width = w; }
+    void setResolution(Vec2i res) { height = res.y(); width = res.x(); }
     void setFocalLength(float f) { focal_len = f; }
     void setFOV(float f) { fov = f; }
 
