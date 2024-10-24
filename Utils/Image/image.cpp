@@ -21,7 +21,7 @@ void writeImageToFile(std::vector<Vec3f>& data, Vec2i resolution, const std::str
 		rgb_data[3 * i + 1] = gammaCorrection(data[i].y());
 		rgb_data[3 * i + 2] = gammaCorrection(data[i].z());
 	}
-	//stbi_flip_vertically_on_write(true);
+	stbi_flip_vertically_on_write(true);
 	stbi_write_png(file_name.c_str(), resolution.x(), resolution.y(), 3, rgb_data.data(), 0);
 }
 
