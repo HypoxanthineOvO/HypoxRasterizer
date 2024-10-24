@@ -15,14 +15,19 @@ void Rasterizer::VertexProcessing() {
         projection_matrix = camera->getProjectionMatrix();
     // Get All Vertices
     for (std::shared_ptr<Object> obj : scene->getObjects()) {
+        std::shared_ptr<Materials> mat = obj->getMaterial();
         for (Triangle tri : obj->getTriangles()) {
             Triangle new_tri;
             for (int i = 0; i < 3; i++) {
                 Vertex vert = tri.getVertex(i);
                 Vec4f org_pos = Vec4f(vert.position.x(), vert.position.y(), vert.position.z(), 1),
                     org_norm = Vec4f(vert.normal.x(), vert.normal.y(), vert.normal.z(), 0);
+                
+                // Use the Material to Evaluate the Color of the Vertex
+                Vec3f vert_color = mat->evalColor(vert.uv);
+
                 // Shading
-                Vec3f color = AMBIENT; // Ambient Light
+                Vec3f color = AMBIENT.cwiseProduct(vert_color); // Ambient Light
                 for (std::shared_ptr<Light> light : scene->getLights()) {
                     // Direct Shading
                     std::vector<DirectVPL> d_vpls = light->getDirectVPLs();
@@ -32,7 +37,7 @@ void Rasterizer::VertexProcessing() {
                         // Diffuse Shading
                         float cos_theta = light_dir.dot(vert.normal);
                         if (cos_theta > 0) {
-                            color += d_vpl.intensity * cos_theta;
+                            color += d_vpl.intensity.cwiseProduct(vert_color) * cos_theta;
                         }
                     }
 
@@ -50,13 +55,13 @@ void Rasterizer::VertexProcessing() {
                 new_vert.uv = vert.uv;
                 new_vert.color = color;
                 
-                printf("Vertex %d\n", i);
-                printf("\tPosition: ");
-                utils::printVec(new_vert.position);
-                printf("\tNormal: ");
-                utils::printVec(new_vert.normal);
-                printf("\tColor: ");
-                utils::printVec(color);
+                // printf("Vertex %d\n", i);
+                // printf("\tPosition: ");
+                // utils::printVec(new_vert.position);
+                // printf("\tNormal: ");
+                // utils::printVec(new_vert.normal);
+                // printf("\tColor: ");
+                // utils::printVec(color);
                 new_tri.setVertex(i, new_vert);
             }
             triangle_buffer.push_back(new_tri);

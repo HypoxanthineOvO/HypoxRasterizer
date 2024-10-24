@@ -14,8 +14,8 @@ public:
     Vec3f position;
     Vec3f normal;
     Vec2f uv;
+    // Color after Evaluation( Different from the color in Texture )
     Vec3f color;
-    // TODO: Add Other Attributes
 };
 
 class Triangle {

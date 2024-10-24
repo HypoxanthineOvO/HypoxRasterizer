@@ -9,6 +9,8 @@ int main(int argc, char const *argv[]) {
     );
     // Create a Scene
     std::shared_ptr<Scene> scn = std::make_shared<Scene>();
+    // Material
+    std::shared_ptr<Materials> mat = std::make_shared<ColorMaterial>(Vec3f(0.8, 0.3, 0.8));
     // Test scene: a triangle
     Vertex v0(Vec3f(0, 2, 0), Vec3f(1, 0, 0)),
         v1(Vec3f(0, 0, -2), Vec3f(1, 0, 0)),
@@ -16,10 +18,18 @@ int main(int argc, char const *argv[]) {
     Triangle tri(v0, v1, v2);
     std::shared_ptr<Object> obj = std::make_shared<Object>();
     obj->addTriangle(tri);
+    // std::shared_ptr<Object> obj = std::make_shared<Object>("./assets/Money/2.obj");
+    // Mat4f trans_matrix;
+    // trans_matrix << 0.05, 0, 0, 0,
+    //                 0, 0.05, 0, 0,
+    //                 0, 0, 0.05, 0,
+    //                 0, 0, 0, 5;
+    // obj->localToWorld(trans_matrix);
+    obj->setMaterial(mat);
     scn->addObject(obj);
     // Test scene: a light source
     std::shared_ptr<Light> light = std::make_shared<PointLight>(
-        Vec3f(2, 3, -1), Vec3f(1, 0.5, 0.5)
+        Vec3f(2, 3, -1), Vec3f(1, 1, 1)
     );
     scn->addLight(light);
     // Create a Rasterizer

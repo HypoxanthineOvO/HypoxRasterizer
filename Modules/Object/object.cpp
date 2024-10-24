@@ -51,7 +51,7 @@ void Object::loadObject(const std::string& file_name) {
                 Vertex vert(position_, normal_);
                 tri.setVertex(v, vert);
             }
-            addTriangle(tri);
+            addTriangleLocal(tri);
             index_offset += 3;
         }
     }
@@ -66,9 +66,22 @@ void Object::localToWorld(const Mat4f& model_mat) {
     model_matrix = model_mat;
     for (Triangle tri : triangles_local) {
         // Apply Transformation to Each Vertex's Position
-
+        for (int i = 0; i < 3; i++) {
+            Vertex vert = tri.getVertex(i);
+            Vec4f pos(vert.position.x(), vert.position.y(), vert.position.z(), 1);
+            Vec4f new_pos = model_mat * pos;
+            vert.position = Vec3f(new_pos.x(), new_pos.y(), new_pos.z());
+            tri.setVertex(i, vert);
+        }
         // Apply Transformation to Each Vertex's Normal
-
+        for (int i = 0; i < 3; i++) {
+            Vertex vert = tri.getVertex(i);
+            Vec4f norm(vert.normal.x(), vert.normal.y(), vert.normal.z(), 0);
+            Vec4f new_norm = model_mat * norm;
+            vert.normal = Vec3f(new_norm.x(), new_norm.y(), new_norm.z());
+            tri.setVertex(i, vert);
+        }
         // Add Triangle to triangles
+        addTriangle(tri);
     }
 }
