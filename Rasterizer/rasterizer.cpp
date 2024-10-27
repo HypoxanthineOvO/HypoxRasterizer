@@ -58,7 +58,7 @@ void Rasterizer::VertexProcessing() {
                 // Apply the Transformation
                 Vertex new_vert = vert;
                 Vec4f pos = projection_matrix * view_matrix * org_pos;
-                new_vert.position = Vec3f(pos.x() / pos.w(), pos.y() / pos.w(), 0);
+                new_vert.position = Vec3f(pos.x() / pos.w(), pos.y() / pos.w(), pos.z() / pos.w());
                 Vec4f norm = view_matrix * org_norm;
                 new_vert.normal = Vec3f(norm.x(), norm.y(), norm.z());
                 new_vert.uv = vert.uv;
@@ -109,13 +109,19 @@ void Rasterizer::FragmentProcessing() {
                     0
                 );
                 
-                if (tri.isInside(pos)) {
-                    Vec3f weights = tri.getInterpolationWeights(pos);
+                if (tri.isInsidefor2D(pos)) {
+                    Vec3f weights = tri.getInterpolationWeightsfor2D(pos);
                     Vec3f color = weights.x() * tri.getVertex(0).color +
                         weights.y() * tri.getVertex(1).color +
                         weights.z() * tri.getVertex(2).color;
                     // Write to the Color Buffer
                     color_buffer[y * camera->getWidth() + x] = color;
+
+                    float depth = weights.x() * tri.getVertex(0).position.z() +
+                        weights.y() * tri.getVertex(1).position.z() +
+                        weights.z() * tri.getVertex(2).position.z();
+                    // Write to the Depth Buffer
+                    depth_buffer[y * camera->getWidth() + x] = (depth + 1) / 2;
                 }
             }
         }
@@ -124,5 +130,7 @@ void Rasterizer::FragmentProcessing() {
 
 void Rasterizer::DisplayToImage() {
     // Write Color Buffer
-    writeImageToFile(color_buffer, camera->getResolution(), "output.png");
+    writeImageToFile(color_buffer, camera->getResolution(), "color.png");
+    // Write Depth Buffer
+    writeImageToFile(depth_buffer, camera->getResolution(), "depth.png");
 }

@@ -58,7 +58,9 @@ public:
     }
     /* Interpolation Functions */
     bool isInside(Vec3f pos);
+    bool isInsidefor2D(Vec3f pos);
     Vec3f getInterpolationWeights(Vec3f pos);
+    Vec3f getInterpolationWeightsfor2D(Vec3f pos);
 private:
     Vertex v0, v1, v2;
 };
