@@ -142,12 +142,19 @@ void Rasterizer::FragmentProcessing() {
                     // Write to the Depth Buffer
                     depth_buffer[y * camera->getWidth() + x] = std::abs(depth);
 
+                    // TODO: Complete the Fragment Processing
+                    Vec2f uv = weights.x() * tri.getVertex(0).uv +
+                        weights.y() * tri.getVertex(1).uv +
+                        weights.z() * tri.getVertex(2).uv;
+                    Vec3f frag_color = scene->getObjects()[0]->getMaterial()->evalColor(uv);
+
+
                     // Color
                     Vec3f color = weights.x() * tri.getVertex(0).color +
                         weights.y() * tri.getVertex(1).color +
                         weights.z() * tri.getVertex(2).color;
                     // Write to the Color Buffer
-                    color_buffer[y * camera->getWidth() + x] = color;
+                    color_buffer[y * camera->getWidth() + x] = frag_color;
 
 
                     // Normal

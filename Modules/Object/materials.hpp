@@ -46,12 +46,17 @@ public:
 
     void loadTexture(const std::string& file_name) {
         // Load Texture from image file
-        std::vector<Vec3f> raw = readImageFromFile(file_name);
+        std::vector<Vec4f> raw = readImageFromFile(file_name);
         // Resize the texture to width * height
         texture.resize(width * height);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                texture[j * width + i] = raw[j * width + i];
+                float alpha = raw[j * width + i].w();
+                texture[j * width + i] = raw[j * width + i].head(3) * alpha;
+                // If not zero
+                // if (raw[j*width+i].x() != 0 || raw[j*width+i].y() != 0 || raw[j*width+i].z() != 0){
+                //     utils::printVec(raw[j*width+i]);
+                // }
             }
         }
     }

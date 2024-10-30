@@ -16,15 +16,22 @@ static inline uint8_t gammaCorrection(float radiance) {
 	return static_cast<uint8_t>(ceil(255 * pow(clamp01(radiance), 1 / 2.2)));
 }
 
-std::vector<Vec3f> readImageFromFile(const std::string& file_name) {
+std::vector<Vec4f> readImageFromFile(const std::string& file_name) {
     int width, height, channels;
-    unsigned char* data = stbi_load(file_name.c_str(), &width, &height, &channels, 3);
+    unsigned char* data = stbi_load(file_name.c_str(), &width, &height, &channels, 0);
+    printf("WIDTH: %d, HEIGHT: %d, CHANNELS: %d\n", width, height, channels);
     if (!data) {
         throw std::runtime_error("Failed to load image: " + file_name);
     }
-    std::vector<Vec3f> image_data(width * height);
+    std::vector<Vec4f> image_data(width * height);
     for (int i = 0; i < width * height; i++) {
-        image_data[i] = Vec3f(data[3 * i] / 255.0f, data[3 * i + 1] / 255.0f, data[3 * i + 2] / 255.0f);
+        if (channels == 3) {
+            image_data[i] = Vec4f(data[channels * i] / 255.0f, data[channels * i + 1] / 255.0f, data[channels * i + 2] / 255.0f, 1.0f);
+        }
+        else if (channels == 4) {
+            image_data[i] = Vec4f(data[channels * i] / 255.0f, data[channels * i + 1] / 255.0f, data[channels * i + 2] / 255.0f, data[channels * i + 3] / 255.0f);
+        }
+        else throw std::runtime_error("Not support other image loading!");
     }
     stbi_image_free(data);
     return image_data;
