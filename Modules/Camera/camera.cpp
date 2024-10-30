@@ -85,7 +85,6 @@ Mat4f Camera::getProjectionMatrix() {
     float aspect_ratio = static_cast<float>(width) / static_cast<float>(height);
     float top = near * tan(fov / 2 * M_PI / 180), bottom = -top;
     float right = top * aspect_ratio, left = -right;
-    printf("top: %f, bottom: %f, right: %f, left: %f\n", top, bottom, right, left);
     persp2ortho << -near, 0, 0, 0,
         0,  -near, 0, 0,
         0, 0, -(near + far), near * far,

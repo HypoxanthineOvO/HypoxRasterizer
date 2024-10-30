@@ -48,7 +48,20 @@ void Object::loadObject(const std::string& file_name) {
                     attrib.normals[3 * idx.normal_index + 1],
                     attrib.normals[3 * idx.normal_index + 2]
                 );
-                Vertex vert(position_, normal_);
+                Vec2f texcoord_(
+                    attrib.texcoords[2 * idx.texcoord_index + 0],
+                    attrib.texcoords[2 * idx.texcoord_index + 1]
+                );
+                // Update the min_bound and max_bound
+                if (triangles_local.size() == 0) {
+                    min_bound_local = position_;
+                    max_bound_local = position_;
+                } else {
+                    min_bound_local = min_bound_local.cwiseMin(position_);
+                    max_bound_local = max_bound_local.cwiseMax(position_);
+                }
+
+                Vertex vert(position_, normal_, texcoord_);
                 tri.setVertex(v, vert);
             }
             addTriangleLocal(tri);
@@ -56,7 +69,17 @@ void Object::loadObject(const std::string& file_name) {
         }
     }
     
+    // Calculate the center
+    center_local = (min_bound_local + max_bound_local) / 2;
+
     puts("Object Loaded Successfully");
+    // Print the min_bound and max_bound of the object
+    printf("Min Bound: ");
+    utils::printVec(min_bound_local);
+    printf("Max Bound: ");
+    utils::printVec(max_bound_local);
+    printf("Center: ");
+    utils::printVec(center_local);
 }
 
 void Object::localToWorld(const Mat4f& model_mat) {
@@ -80,8 +103,28 @@ void Object::localToWorld(const Mat4f& model_mat) {
             Vec4f new_norm = model_mat * norm;
             vert.normal = Vec3f(new_norm.x(), new_norm.y(), new_norm.z());
             tri.setVertex(i, vert);
+
+            // Update the min_bound and max_bound
+            if (triangles.size() == 0) {
+                min_bound = vert.position;
+                max_bound = vert.position;
+            } else {
+                min_bound = min_bound.cwiseMin(vert.position);
+                max_bound = max_bound.cwiseMax(vert.position);
+            }
         }
         // Add Triangle to triangles
         addTriangle(tri);
     }
+
+    // Calculate the center
+    center = (min_bound + max_bound) / 2;
+    // Print the min_bound and max_bound of the object
+    puts("Apply Transformation Successfully");
+    printf("Min Bound: ");
+    utils::printVec(min_bound);
+    printf("Max Bound: ");
+    utils::printVec(max_bound);
+    printf("Center: ");
+    utils::printVec(center);
 }

@@ -44,7 +44,7 @@ void Rasterizer::VertexProcessing() {
                         view_dir.normalize();
                         Vec3f half_vec = (view_dir + light_dir).normalized();
                         float cos_theta_specular = half_vec.dot(vert.normal);
-                        printf("Cos Theta Specular: %f\n", cos_theta_specular);
+                        //printf("Cos Theta Specular: %f\n", cos_theta_specular);
                         if (cos_theta_specular > 0) {
                             color += d_vpl.intensity.cwiseProduct(vert_color) * pow(cos_theta_specular, shininess);
                         }
@@ -97,8 +97,8 @@ void Rasterizer::FragmentProcessing() {
         // Clip the bounding box
         min_screen = min_screen.cwiseMax(Vec2i(0, 0));
         max_screen = max_screen.cwiseMin(Vec2i(camera->getWidth(), camera->getHeight()));
-        printf("Screen Space AABB: ");
-        printf("(%d, %d) -> (%d, %d)\n", min_screen.x(), min_screen.y(), max_screen.x(), max_screen.y());
+        //printf("Screen Space AABB: ");
+        //printf("(%d, %d) -> (%d, %d)\n", min_screen.x(), min_screen.y(), max_screen.x(), max_screen.y());
     
         // Rasterize the Triangle
         for (int x = min_screen.x(); x < max_screen.x(); x++) {

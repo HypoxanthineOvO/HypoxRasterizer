@@ -10,6 +10,7 @@ public:
     Vertex(Vec3f pos) : position(pos), normal(1, 0, 0), uv(0, 0), color(0, 0, 0) {}
     Vertex(float x, float y, float z) : position(x, y, z), normal(1, 0, 0), uv(0, 0), color(0, 0, 0) {}
     Vertex(Vec3f pos, Vec3f norm) : position(pos), normal(norm), uv(0, 0), color(0, 0, 0) {}
+    Vertex(Vec3f pos, Vec3f norm, Vec2f uv) : position(pos), normal(norm), uv(uv), color(0, 0, 0) {}
 
     Vec3f position;
     Vec3f normal;

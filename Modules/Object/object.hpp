@@ -30,11 +30,14 @@ public:
 private:
     /* Raw Data in Local Space */
     std::vector<Triangle> triangles_local;
+    // Datas record the local triangles
+    Vec3f min_bound_local, max_bound_local, center_local;
     void addTriangleLocal(Triangle tri) { triangles_local.push_back(tri); }
 
     /* Data for Rendering */
     Mat4f model_matrix;
     std::vector<Triangle> triangles;
+    Vec3f min_bound, max_bound, center;
 
     /* Material */
     std::shared_ptr<Materials> material;

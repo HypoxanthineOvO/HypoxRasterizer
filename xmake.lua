@@ -1,5 +1,7 @@
 add_languages("c++17")
 
+add_rules("plugin.compile_commands.autoupdate", {outputdir = ".vscode"})
+
 add_rules("mode.release")
 local depends = {
     "eigen", "stb", "nlohmann_json", "openmp", "tinyobjloader"
