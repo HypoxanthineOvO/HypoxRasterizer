@@ -95,8 +95,8 @@ void Rasterizer::FragmentProcessing() {
                 static_cast<int>((max.y() + 1) / 2 * height)
             );
         // Clip the bounding box
-        min_screen = min_screen.cwiseMax(Vec2i(0, 0));
-        max_screen = max_screen.cwiseMin(Vec2i(camera->getWidth(), camera->getHeight()));
+        min_screen = (min_screen - Vec2i(1, 1)).cwiseMax(Vec2i(0, 0));
+        max_screen = (max_screen + Vec2i(1, 1)).cwiseMin(Vec2i(camera->getWidth(), camera->getHeight()));
         //printf("Screen Space AABB: ");
         //printf("(%d, %d) -> (%d, %d)\n", min_screen.x(), min_screen.y(), max_screen.x(), max_screen.y());
     

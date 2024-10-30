@@ -48,10 +48,15 @@ void Object::loadObject(const std::string& file_name) {
                     attrib.normals[3 * idx.normal_index + 1],
                     attrib.normals[3 * idx.normal_index + 2]
                 );
-                Vec2f texcoord_(
-                    attrib.texcoords[2 * idx.texcoord_index + 0],
-                    attrib.texcoords[2 * idx.texcoord_index + 1]
-                );
+                //printf("Texcoord Index: %d\n", idx.texcoord_index);
+                // If no texcoord is provided, set it to (0, 0)
+                Vec2f texcoord_(0, 0);
+                if (attrib.texcoords.size()) {
+                    texcoord_ = Vec2f(
+                        attrib.texcoords[2 * idx.texcoord_index + 0],
+                        attrib.texcoords[2 * idx.texcoord_index + 1]
+                    );
+                }
                 // Update the min_bound and max_bound
                 if (triangles_local.size() == 0) {
                     min_bound_local = position_;

@@ -10,29 +10,31 @@ int main(int argc, char const *argv[]) {
     cam->setResolution(800, 800);
     // Create a Scene
     std::shared_ptr<Scene> scn = std::make_shared<Scene>();
-    // // Material
-    // std::shared_ptr<Materials> mat = std::make_shared<ColorMaterial>(Vec3f(0.8, 0.3, 0.8), 5.0f);
-    // // Test scene: a triangle
-    // Vertex va0(Vec3f(0, 2, 0), Vec3f(1, 0, 0)),
-    //     va1(Vec3f(0, 0, -2), Vec3f(1, 0, 0)),
-    //     va2(Vec3f(0, 2, -2), Vec3f(1, 0, 0));
-    // Triangle tria(va0, va1, va2);
-    // Vertex vb0(Vec3f(1, 1, -0.5), Vec3f(1, 0, 0)),
-    //     vb1(Vec3f(1, 0, -1), Vec3f(1, 0, 0)),
-    //     vb2(Vec3f(1, 2, -2), Vec3f(1, 0, 0));   
-    // Triangle trib(vb0, vb1, vb2);
-    // std::shared_ptr<Object> obj = std::make_shared<Object>();
-    // obj->addTriangle(tria);
-    // obj->addTriangle(trib);
-    std::shared_ptr<Object> obj = std::make_shared<Object>("./assets/Money/2.obj");
+
+    std::shared_ptr<Object> obj = std::make_shared<Object>(
+        "./assets/Money/2.obj"  
+    );
     Mat4f trans_matrix = utils::generateModelMatrix(
         Vec3f(0, 0, 0), // Translation
         Vec3f(0, 0, 0), // Rotation
         Vec3f(0.08, 0.08, 0.08)
     );
-    std::shared_ptr<Materials> mat = std::make_shared<TextureMaterial>(
-        "./assets/Money/2.png"
-    );
+
+    // std::shared_ptr<Object> obj = std::make_shared<Object>(
+    //     "./assets/Bunny/bunny.obj"    
+    // );
+    // Mat4f trans_matrix = utils::generateModelMatrix(
+    //     Vec3f(0, -3, 0), // Translation
+    //     Vec3f(0, 140, 20), // Rotation
+    //     Vec3f(30, 30, 30)
+    // );
+    // Material
+    // std::shared_ptr<Materials> mat = std::make_shared<TextureMaterial>(
+    //     "./assets/Money/2.png"
+    // );
+    
+    std::shared_ptr<Materials> mat = std::make_shared<ColorMaterial>(Vec3f(0.8, 0.3, 0.8), 5.0f);
+    
     obj->localToWorld(trans_matrix);
     obj->setMaterial(mat);
     scn->addObject(obj);
