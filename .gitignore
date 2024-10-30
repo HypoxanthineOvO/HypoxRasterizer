@@ -38,7 +38,7 @@ HypoxRasterizer
 
 # Excute Results
 *.png
-
+!assets/*.png
 # Xmake
 .xmake/
 build/
