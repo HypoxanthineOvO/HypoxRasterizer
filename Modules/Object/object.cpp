@@ -48,6 +48,8 @@ void Object::loadObject(const std::string& file_name) {
                     attrib.normals[3 * idx.normal_index + 1],
                     attrib.normals[3 * idx.normal_index + 2]
                 );
+                // Normalize the normal
+                normal_.normalize();
                 //printf("Texcoord Index: %d\n", idx.texcoord_index);
                 // If no texcoord is provided, set it to (0, 0)
                 Vec2f texcoord_(0, 0);

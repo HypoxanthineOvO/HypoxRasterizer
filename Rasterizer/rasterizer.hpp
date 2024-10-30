@@ -15,7 +15,8 @@ public:
 
             // Initialize the Screen Space Buffer with -
             color_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
-            depth_buffer.resize(camera->getWidth() * camera->getHeight(), 0.0f);
+            depth_buffer.resize(camera->getWidth() * camera->getHeight(), 1e3);
+            normal_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
     }
 
     // Pass
@@ -34,6 +35,7 @@ private:
     /* Screen Space Buffer */
     std::vector<Vec3f> color_buffer;
     std::vector<float> depth_buffer;
+    std::vector<Vec3f> normal_buffer;
 };
 
 

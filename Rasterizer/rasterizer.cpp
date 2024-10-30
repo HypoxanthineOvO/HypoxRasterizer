@@ -35,7 +35,7 @@ void Rasterizer::VertexProcessing() {
                         Vec3f light_dir = d_vpl.position - vert.position;
                         light_dir.normalize();
                         // Diffuse Shading
-                        float cos_theta_diffuse = light_dir.dot(vert.normal);
+                        float cos_theta_diffuse = light_dir.dot(vert.normal.normalized());
                         if (cos_theta_diffuse > 0) {
                             color += d_vpl.intensity.cwiseProduct(vert_color) * cos_theta_diffuse;
                         }
@@ -43,7 +43,7 @@ void Rasterizer::VertexProcessing() {
                         Vec3f view_dir = camera->getPosition() - vert.position;
                         view_dir.normalize();
                         Vec3f half_vec = (view_dir + light_dir).normalized();
-                        float cos_theta_specular = half_vec.dot(vert.normal);
+                        float cos_theta_specular = half_vec.dot(vert.normal.normalized());
                         //printf("Cos Theta Specular: %f\n", cos_theta_specular);
                         if (cos_theta_specular > 0) {
                             color += d_vpl.intensity.cwiseProduct(vert_color) * pow(cos_theta_specular, shininess);
@@ -110,18 +110,53 @@ void Rasterizer::FragmentProcessing() {
                 );
                 
                 if (tri.isInsidefor2D(pos)) {
+                    // Interpolation Weights
                     Vec3f weights = tri.getInterpolationWeightsfor2D(pos);
+                    // Check weights valid
+                    if (weights.x() < 0 || weights.y() < 0 || weights.z() < 0) {
+                        puts("Weights < 0");
+                        continue;
+                    }
+                    if (weights.x() > 1 || weights.y() > 1 || weights.z() > 1) {
+                        puts("Weights > 1");
+                        continue;
+                    }
+                    if (weights.x() + weights.y() + weights.z() > 1+1e-2) {
+                        puts("Weights Sum > 1");
+                        printf("Weights: ");
+                        utils::printVec(weights);
+                        printf("Sum: %f\n", weights.x() + weights.y() + weights.z());
+                        continue;
+                    }
+                    // Depth
+                    float depth = weights.x() * tri.getVertex(0).position.z() +
+                        weights.y() * tri.getVertex(1).position.z() +
+                        weights.z() * tri.getVertex(2).position.z();
+                    
+                    // Check the Depth Buffer
+                    if (std::abs(depth) >= depth_buffer[y * camera->getWidth() + x]) {
+                        //printf("Depth: %f, Depth Buffer: %f\n", depth, depth_buffer[y * camera->getWidth() + x]);
+                        continue;
+                    }
+                    
+                    // Write to the Depth Buffer
+                    depth_buffer[y * camera->getWidth() + x] = std::abs(depth);
+
+                    // Color
                     Vec3f color = weights.x() * tri.getVertex(0).color +
                         weights.y() * tri.getVertex(1).color +
                         weights.z() * tri.getVertex(2).color;
                     // Write to the Color Buffer
                     color_buffer[y * camera->getWidth() + x] = color;
 
-                    float depth = weights.x() * tri.getVertex(0).position.z() +
-                        weights.y() * tri.getVertex(1).position.z() +
-                        weights.z() * tri.getVertex(2).position.z();
-                    // Write to the Depth Buffer
-                    depth_buffer[y * camera->getWidth() + x] = (depth + 1) / 2;
+
+                    // Normal
+                    Vec3f normal = weights.x() * tri.getVertex(0).normal +
+                        weights.y() * tri.getVertex(1).normal +
+                        weights.z() * tri.getVertex(2).normal;
+                    // printf("Normal: ");
+                    // utils::printVec(normal);
+                    normal_buffer[y * camera->getWidth() + x] = normal;
                 }
             }
         }
@@ -133,4 +168,6 @@ void Rasterizer::DisplayToImage() {
     writeImageToFile(color_buffer, camera->getResolution(), "color.png");
     // Write Depth Buffer
     writeImageToFile(depth_buffer, camera->getResolution(), "depth.png");
+    // Write Normal Buffer
+    writeImageToFile(normal_buffer, camera->getResolution(), "normal.png");
 }
