@@ -41,7 +41,6 @@ public:
     virtual Vec3f evalColor(Vec2f uv) override {
         // Get the color from the texture
         int x = uv.x() * width, y = uv.y() * height;
-        printf("x: %d, y: %d\n", x, y);
         return texture[y * width + x];
     }
 
