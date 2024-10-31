@@ -3,6 +3,7 @@
 void Rasterizer::Pass() {
     VertexProcessing();
     FragmentProcessing();
+    FragmentShading();
     DisplayToImage();
 }
 
@@ -23,55 +24,18 @@ void Rasterizer::VertexProcessing() {
                 Vec4f org_pos = Vec4f(vert.position.x(), vert.position.y(), vert.position.z(), 1),
                     org_norm = Vec4f(vert.normal.x(), vert.normal.y(), vert.normal.z(), 0);
                 
-                // Use the Material to Evaluate the Color of the Vertex
-                Vec3f vert_color = mat->evalColor(vert.uv);
-                float shininess = mat->evalShininess();
-                // Shading
-                Vec3f color = AMBIENT.cwiseProduct(vert_color); // Ambient Light
-                for (std::shared_ptr<Light> light : scene->getLights()) {
-                    // Direct Shading
-                    std::vector<DirectVPL> d_vpls = light->getDirectVPLs();
-                    for (DirectVPL d_vpl : d_vpls) {
-                        Vec3f light_dir = d_vpl.position - vert.position;
-                        light_dir.normalize();
-                        // Diffuse Shading
-                        float cos_theta_diffuse = light_dir.dot(vert.normal.normalized());
-                        if (cos_theta_diffuse > 0) {
-                            color += d_vpl.intensity.cwiseProduct(vert_color) * cos_theta_diffuse;
-                        }
-                        // Specular Shading
-                        Vec3f view_dir = camera->getPosition() - vert.position;
-                        view_dir.normalize();
-                        Vec3f half_vec = (view_dir + light_dir).normalized();
-                        float cos_theta_specular = half_vec.dot(vert.normal.normalized());
-                        //printf("Cos Theta Specular: %f\n", cos_theta_specular);
-                        if (cos_theta_specular > 0) {
-                            color += d_vpl.intensity.cwiseProduct(vert_color) * pow(cos_theta_specular, shininess);
-                        }
-                    }
-
-                    std::vector<IndirectVPL> i_vpls = light->getIndirectVPLs();
-                    // TODO: Indirect Shading
-                }
-                
                 
                 // Apply the Transformation
                 Vertex new_vert = vert;
                 Vec4f pos = projection_matrix * view_matrix * org_pos;
-                new_vert.position = Vec3f(pos.x() / pos.w(), pos.y() / pos.w(), pos.z() / pos.w());
                 Vec4f norm = view_matrix * org_norm;
+                
+                new_vert.position = Vec3f(pos.x() / pos.w(), pos.y() / pos.w(), pos.z() / pos.w());
                 new_vert.normal = Vec3f(norm.x(), norm.y(), norm.z());
                 new_vert.uv = vert.uv;
-                new_vert.color = color;
-                
-                // printf("Vertex %d\n", i);
-                // printf("\tPosition: ");
-                // utils::printVec(new_vert.position);
-                // printf("\tNormal: ");
-                // utils::printVec(new_vert.normal);
-                // printf("\tColor: ");
-                // utils::printVec(color);
+
                 new_tri.setVertex(i, new_vert);
+                new_tri.setMaterial(mat);
             }
             triangle_buffer.push_back(new_tri);
         }
@@ -97,9 +61,7 @@ void Rasterizer::FragmentProcessing() {
         // Clip the bounding box
         min_screen = (min_screen - Vec2i(1, 1)).cwiseMax(Vec2i(0, 0));
         max_screen = (max_screen + Vec2i(1, 1)).cwiseMin(Vec2i(camera->getWidth(), camera->getHeight()));
-        //printf("Screen Space AABB: ");
-        //printf("(%d, %d) -> (%d, %d)\n", min_screen.x(), min_screen.y(), max_screen.x(), max_screen.y());
-    
+
         // Rasterize the Triangle
         for (int x = min_screen.x(); x < max_screen.x(); x++) {
             for (int y = min_screen.y(); y < max_screen.y(); y++) {
@@ -113,19 +75,7 @@ void Rasterizer::FragmentProcessing() {
                     // Interpolation Weights
                     Vec3f weights = tri.getInterpolationWeightsfor2D(pos);
                     // Check weights valid
-                    if (weights.x() < 0 || weights.y() < 0 || weights.z() < 0) {
-                        puts("Weights < 0");
-                        continue;
-                    }
-                    if (weights.x() > 1 || weights.y() > 1 || weights.z() > 1) {
-                        puts("Weights > 1");
-                        continue;
-                    }
-                    if (weights.x() + weights.y() + weights.z() > 1+1e-2) {
-                        puts("Weights Sum > 1");
-                        printf("Weights: ");
-                        utils::printVec(weights);
-                        printf("Sum: %f\n", weights.x() + weights.y() + weights.z());
+                    if (!utils::isValidWeight(weights)) {
                         continue;
                     }
                     // Depth
@@ -135,38 +85,78 @@ void Rasterizer::FragmentProcessing() {
                     
                     // Check the Depth Buffer
                     if (std::abs(depth) >= depth_buffer[y * camera->getWidth() + x]) {
-                        //printf("Depth: %f, Depth Buffer: %f\n", depth, depth_buffer[y * camera->getWidth() + x]);
                         continue;
                     }
-                    
                     // Write to the Depth Buffer
                     depth_buffer[y * camera->getWidth() + x] = std::abs(depth);
 
-                    // TODO: Complete the Fragment Processing
-                    Vec2f uv = weights.x() * tri.getVertex(0).uv +
-                        weights.y() * tri.getVertex(1).uv +
-                        weights.z() * tri.getVertex(2).uv;
-                    Vec3f frag_color = scene->getObjects()[0]->getMaterial()->evalColor(uv);
-
-
-                    // Color
-                    Vec3f color = weights.x() * tri.getVertex(0).color +
-                        weights.y() * tri.getVertex(1).color +
-                        weights.z() * tri.getVertex(2).color;
-                    // Write to the Color Buffer
-                    color_buffer[y * camera->getWidth() + x] = frag_color;
-
-
+                    // Position
+                    Vec3f position = weights.x() * tri.getVertex(0).position +
+                        weights.y() * tri.getVertex(1).position +
+                        weights.z() * tri.getVertex(2).position;
+                    position_buffer[y * camera->getWidth() + x] = position;
                     // Normal
                     Vec3f normal = weights.x() * tri.getVertex(0).normal +
                         weights.y() * tri.getVertex(1).normal +
                         weights.z() * tri.getVertex(2).normal;
-                    // printf("Normal: ");
-                    // utils::printVec(normal);
                     normal_buffer[y * camera->getWidth() + x] = normal;
+                    // uv
+                    Vec2f uv = weights.x() * tri.getVertex(0).uv +
+                        weights.y() * tri.getVertex(1).uv +
+                        weights.z() * tri.getVertex(2).uv;
+                    uv_buffer[y * camera->getWidth() + x] = uv;
+                    // Material
+                    material_buffer[y * camera->getWidth() + x] = tri.getMaterial();
                 }
             }
         }
+    }
+}
+
+void Rasterizer::FragmentShading() {
+    for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
+        // Get each fragment, and do the shading
+        Vec3f position = position_buffer[i],
+            normal = normal_buffer[i];
+        Vec2f uv = uv_buffer[i];
+        std::shared_ptr<Materials> mat = material_buffer[i];
+        // Check if the material is nullptr
+        if (mat == nullptr) {
+            continue;
+        }
+
+        // Shading
+        Vec3f vert_color = mat->evalColor(uv);
+        float shininess = mat->evalShininess();
+        // Ambient Light
+        Vec3f color = AMBIENT.cwiseProduct(vert_color);
+        // Diffuse and Specular Light
+        for (std::shared_ptr<Light> light : scene->getLights()) {
+            // Direct Shading
+            std::vector<DirectVPL> d_vpls = light->getDirectVPLs();
+            for (DirectVPL d_vpl : d_vpls) {
+                Vec3f light_dir = d_vpl.position - position;
+                light_dir.normalize();
+                // Diffuse Shading
+                float cos_theta_diffuse = light_dir.dot(normal.normalized());
+                if (cos_theta_diffuse > 0) {
+                    color += d_vpl.intensity.cwiseProduct(vert_color) * cos_theta_diffuse;
+                }
+                // Specular Shading
+                Vec3f view_dir = camera->getPosition() - position;
+                view_dir.normalize();
+                Vec3f half_vec = (view_dir + light_dir).normalized();
+                float cos_theta_specular = half_vec.dot(normal.normalized());
+                if (cos_theta_specular > 0) {
+                    color += d_vpl.intensity.cwiseProduct(vert_color) * pow(cos_theta_specular, shininess);
+                }
+            }
+            // Indirect Shading
+            std::vector<IndirectVPL> i_vpls = light->getIndirectVPLs();
+            // TODO: Implement Indirect Shading
+
+        }
+        color_buffer[i] = color;
     }
 }
 

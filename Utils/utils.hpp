@@ -35,6 +35,21 @@ namespace utils {
         }
         return true;
     }
+    static bool isValidWeight(const Vec3f& weights) {
+        if (weights.x() < 0 || weights.y() < 0 || weights.z() < 0) {
+            throw std::runtime_error("Weights < 0");
+            return false;
+        }
+        if (weights.x() > 1 || weights.y() > 1 || weights.z() > 1) {
+            throw std::runtime_error("Weights > 1");
+            return false;
+        }
+        if (weights.x() + weights.y() + weights.z() > 1+1e-2) {
+            throw std::runtime_error("Weights Sum > 1");
+            return false;
+        }
+        return true;
+    }
 
     // Specific Function
     static Mat4f generateTranslationMatrix(const Vec3f& translation) {
