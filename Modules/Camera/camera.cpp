@@ -31,6 +31,16 @@ Camera::Camera(Vec2i res, Vec3f pos, Vec3f targ):
     lookAt(targ);
 }
 
+Camera::Camera(const CameraConfig& config):
+    position(config.position),
+    focal_len(config.focal_length),
+    fov(config.fov),
+    width(config.resolution.x()),
+    height(config.resolution.y())
+{
+    lookAt(config.target);
+}
+
 void Camera::moveTo(Vec3f pos) {
     position = pos;
 }

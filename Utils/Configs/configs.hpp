@@ -16,6 +16,8 @@ struct CameraConfig {
     Vec2i resolution;
     Vec3f position;
     Vec3f target;
+    float focal_length;
+    float fov;
 };
 
 struct MaterialConfig {

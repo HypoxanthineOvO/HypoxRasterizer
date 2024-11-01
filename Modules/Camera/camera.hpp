@@ -2,6 +2,7 @@
 #define CAMERA_HPP_
 
 #include "utils.hpp"
+#include "configs.hpp"
 
 class Camera {
 public:
@@ -10,6 +11,7 @@ public:
     Camera();
     Camera(Vec3f pos, Vec3f targ);
     Camera(Vec2i res, Vec3f pos, Vec3f targ);
+    Camera(const CameraConfig& config);
     // Move Functions
     void moveTo(Vec3f pos);
     void lookAt(Vec3f target);
