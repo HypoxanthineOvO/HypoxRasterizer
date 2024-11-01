@@ -22,13 +22,21 @@ int main(int argc, char const *argv[]) {
     // std::shared_ptr<Materials> mat = std::make_shared<TextureMaterial>(
     //     "./assets/Money/2.png"
     // );
+    // std::shared_ptr<Object> obj = std::make_shared<Object>(
+    //     "./assets/Bunny/bunny.obj"    
+    // );
+    // Mat4f trans_matrix = utils::generateModelMatrix(
+    //     Vec3f(0.1, -2, -1), // Translation
+    //     Vec3f(0, 140, 20), // Rotation
+    //     Vec3f(5, 5, 5)
+    // );
     std::shared_ptr<Object> obj = std::make_shared<Object>(
-        "./assets/Bunny/bunny.obj"    
+        "./assets/Dragon/stanford_dragon.obj"    
     );
     Mat4f trans_matrix = utils::generateModelMatrix(
-        Vec3f(0.1, -2, -1), // Translation
-        Vec3f(0, 140, 20), // Rotation
-        Vec3f(5, 5, 5)
+        Vec3f(0.1, -2, -0.02), // Translation
+        Vec3f(0, 90, 0), // Rotation
+        Vec3f(20, 20, 20)
     );
     // std::shared_ptr<Object> obj = std::make_shared<Object>(
     //     "./assets/Objects/sphere.obj"    
