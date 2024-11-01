@@ -1,4 +1,5 @@
 #include <iostream>
+#include "configs.hpp"
 #include "rasterizer.hpp"
 
 int main(int argc, char const *argv[]) {
