@@ -1,4 +1,77 @@
 #include "rasterizer.hpp"
+#include <map>
+
+Rasterizer::Rasterizer(const std::string& config_path) {
+    Config config(config_path);
+    initializeFromConfig(config);
+    // Initialize Buffers.
+    triangle_buffer.clear();
+
+    // Initialize the Screen Space Buffer with -
+    color_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
+    depth_buffer.resize(camera->getWidth() * camera->getHeight(), 1e3);
+    position_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
+    normal_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
+    uv_buffer.resize(camera->getWidth() * camera->getHeight(), -Vec2f::Ones());
+    material_buffer.resize(camera->getWidth() * camera->getHeight(), nullptr);
+}
+
+void Rasterizer::initializeFromConfig(const Config& config) {
+    // 1. Initialize Camera
+    std::shared_ptr<Camera> cam = std::make_shared<Camera>(
+        config.camera_config.position, config.camera_config.target
+    );
+    cam->setResolution(config.camera_config.resolution);
+
+    // 2. Initialize Scene
+    std::shared_ptr<Scene> scn = std::make_shared<Scene>();
+    // 2.1. Initialize Materials
+    std::map<std::string, std::shared_ptr<Materials>> materials;
+    for (MaterialConfig mat_config : config.materials_config) {
+        std::shared_ptr<Materials> mat;
+        if (mat_config.type == Color_Mat) {
+            // Color Material: Have base_color
+            mat = std::make_shared<ColorMaterial>(
+                mat_config.base_color, mat_config.shininess
+            );
+        } else if (mat_config.type == Texture_Mat) {
+            mat = std::make_shared<TextureMaterial>(
+                mat_config.texture_file_path, mat_config.shininess
+            );
+        }
+        materials[mat_config.name] = mat;
+    }
+    // 2.2. Initialize Objects
+    for (ObjectConfig obj_config : config.objects_config) {
+        std::shared_ptr<Object> obj = std::make_shared<Object>(
+            obj_config.file_path
+        );
+        Mat4f trans_matrix = utils::generateModelMatrix(
+            obj_config.translation, obj_config.rotation, obj_config.scale
+        );
+        obj->localToWorld(trans_matrix);
+        obj->setMaterial(materials[obj_config.material]);
+        scn->addObject(obj);
+    }
+    // 2.3. Initialize Lights
+    for (LightConfig light_config : config.lights_config) {
+        std::shared_ptr<Light> light;
+        if (light_config.type == Point_Light) {
+            light = std::make_shared<PointLight>(
+                light_config.position, light_config.intensity
+            );
+        }
+        else {
+            puts("Unknown Light Type");
+            exit(1);
+        }
+        scn->addLight(light);
+    }
+
+    // 3. Initialize Rasterizer
+    camera = cam;
+    scene = scn;
+}
 
 void Rasterizer::Pass() {
     VertexProcessing();

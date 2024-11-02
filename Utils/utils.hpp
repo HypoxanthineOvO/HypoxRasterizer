@@ -5,6 +5,8 @@
 #include "image.hpp"
 #include <iostream>
 #include <cmath>
+
+
 namespace utils {
     // Print Function for Eigen Types
     static void printVec(const VecXf& vec) {

@@ -23,18 +23,23 @@ struct CameraConfig {
 struct MaterialConfig {
     std::string name;
     MaterialType type;
+    float shininess;
     Vec3f base_color;
     std::string texture_file_path;
 };
 
 struct ObjectConfig {
     std::string file_path;
+    Vec3f translation, rotation, scale;
     std::string material;
 };
 
 struct LightConfig {
     LightType type;
-    // TODO: Other
+    
+    // Point Light
+    Vec3f position;
+    Vec3f intensity;
 };
 
 class Config {

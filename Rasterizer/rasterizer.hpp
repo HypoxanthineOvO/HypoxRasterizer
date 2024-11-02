@@ -4,6 +4,7 @@
 
 #include "camera.hpp"
 #include "scene.hpp"
+#include "configs.hpp"
 
 class Rasterizer {
 public:
@@ -21,6 +22,9 @@ public:
             uv_buffer.resize(camera->getWidth() * camera->getHeight(), -Vec2f::Ones());
             material_buffer.resize(camera->getWidth() * camera->getHeight(), nullptr);
     }
+    Rasterizer(const std::string& config_path);
+
+    void initializeFromConfig(const Config& config);
 
     // Pass
     void Pass();
