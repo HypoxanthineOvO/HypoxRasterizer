@@ -2,7 +2,7 @@
 #include "configs.hpp"
 #include "rasterizer.hpp"
 
-std::string config_path = "./configs/Base.json";
+std::string config_path;
 
 int main(int argc, char const *argv[]) {
     puts("==================== HypoxRasterizer ====================");
