@@ -155,13 +155,13 @@ void Rasterizer::FragmentProcessing() {
                     float depth = weights.x() * tri.getVertex(0).position.z() +
                         weights.y() * tri.getVertex(1).position.z() +
                         weights.z() * tri.getVertex(2).position.z();
-                    
                     // Check the Depth Buffer
-                    if (std::abs(depth) >= depth_buffer[y * camera->getWidth() + x]) {
+                    if (std::abs((depth-1)/2) >= depth_buffer[y * camera->getWidth() + x]) {
                         continue;
+                        printf("Depth: %f\n", depth);
                     }
                     // Write to the Depth Buffer
-                    depth_buffer[y * camera->getWidth() + x] = std::abs(depth);
+                    depth_buffer[y * camera->getWidth() + x] = std::abs((depth-1)/2);
 
                     // Position
                     Vec3f position = weights.x() * tri.getVertex(0).position +
