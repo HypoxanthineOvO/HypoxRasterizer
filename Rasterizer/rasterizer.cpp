@@ -1,4 +1,5 @@
 #include "rasterizer.hpp"
+#include "shadowmap.hpp"
 #include <map>
 
 Rasterizer::Rasterizer(const std::string& config_path) {
@@ -60,6 +61,10 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             light = std::make_shared<PointLight>(
                 light_config.position, light_config.intensity
             );
+
+            // Initialize Shadow Map
+            std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
+            light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
         }
         else {
             puts("Unknown Light Type");
@@ -74,9 +79,13 @@ void Rasterizer::initializeFromConfig(const Config& config) {
 }
 
 void Rasterizer::Pass() {
+    puts("Passing the Rasterizer");
     VertexProcessing();
+    puts("Vertex Processing Done");
     FragmentProcessing();
+    puts("Fragment Processing Done");
     FragmentShading();
+    puts("Fragment Shading Done");
     DisplayToImage();
 }
 
@@ -205,6 +214,10 @@ void Rasterizer::FragmentShading() {
         Vec3f color = AMBIENT.cwiseProduct(vert_color);
         // Diffuse and Specular Light
         for (std::shared_ptr<Light> light : scene->getLights()) {
+            if (light->isShadowed(position)) {
+                continue;
+            }
+
             // Direct Shading
             std::vector<DirectVPL> d_vpls = light->getDirectVPLs();
             for (DirectVPL d_vpl : d_vpls) {

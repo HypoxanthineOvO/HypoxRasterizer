@@ -15,4 +15,6 @@
 #define DEFAULT_HEIGHT 100
 #define DEFAULT_FAR 20
 #define DEFAULT_FOV 120
+// Shadow Map
+#define DEFAULT_SHADOW_MAP_RESOLUTION 128
 #endif // CONSTANT_HPP_
