@@ -39,11 +39,14 @@ public:
     }
     void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) {
         shadow_map = std::make_shared<ShadowMap>(res);
-        shadow_map->initialize(position_proxy, Vec3f(-1, 0, 0));
+        shadow_map->initialize(position_proxy, Vec3f(0, -1, 0));
         shadow_map->generateDepthBuffer(objects);
     }
     bool isShadowed(Vec3f position) {
         return shadow_map->isShadowed(position);
+    }
+    void showShadowMap(const std::string& file_name) {
+        shadow_map->showShadowMap(file_name);
     }
 protected:
     Vec3f position_proxy;

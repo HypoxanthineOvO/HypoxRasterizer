@@ -65,6 +65,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
+            light->showShadowMap("shadowmap.png");
         }
         else {
             puts("Unknown Light Type");
@@ -167,7 +168,6 @@ void Rasterizer::FragmentProcessing() {
                     // Check the Depth Buffer
                     if (std::abs((depth-1)/2) >= depth_buffer[y * camera->getWidth() + x]) {
                         continue;
-                        printf("Depth: %f\n", depth);
                     }
                     // Write to the Depth Buffer
                     depth_buffer[y * camera->getWidth() + x] = std::abs((depth-1)/2);
