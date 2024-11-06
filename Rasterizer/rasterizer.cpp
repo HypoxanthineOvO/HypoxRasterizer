@@ -13,6 +13,8 @@ Rasterizer::Rasterizer(const std::string& config_path) {
     depth_buffer.resize(camera->getWidth() * camera->getHeight(), 1e3);
     position_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
     normal_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
+    org_position_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
+    org_normal_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
     uv_buffer.resize(camera->getWidth() * camera->getHeight(), -Vec2f::Ones());
     material_buffer.resize(camera->getWidth() * camera->getHeight(), nullptr);
 }
@@ -101,6 +103,7 @@ void Rasterizer::VertexProcessing() {
     for (std::shared_ptr<Object> obj : scene->getObjects()) {
         std::shared_ptr<Materials> mat = obj->getMaterial();
         for (Triangle tri : obj->getTriangles()) {
+            org_triangle_buffer.push_back(tri);
             Triangle new_tri;
             for (int i = 0; i < 3; i++) {
                 Vertex vert = tri.getVertex(i);
@@ -128,78 +131,93 @@ void Rasterizer::VertexProcessing() {
 
 
 void Rasterizer::FragmentProcessing() {
-    for (Triangle& tri: triangle_buffer) {
+    for (int tid = 0; tid < triangle_buffer.size(); tid++) {
+        //for (Triangle &tri : triangle_buffer)
+        Triangle& tri = triangle_buffer[tid];
+        Triangle& org_tri = org_triangle_buffer[tid];
         // Get AABB Of the Triangle
         Vec2f min = tri.getXYMin(), max = tri.getXYMax();
         float width = static_cast<float>(camera->getWidth()),
-            height = static_cast<float>(camera->getHeight());
+                height = static_cast<float>(camera->getHeight());
         Vec2i min_screen = Vec2i(
-            static_cast<int>((min.x() + 1) / 2 * width),
-            static_cast<int>((min.y() + 1) / 2 * height)
-        ),
-            max_screen = Vec2i(
-                static_cast<int>((max.x() + 1) / 2 * width),
-                static_cast<int>((max.y() + 1) / 2 * height)
-            );
+                    static_cast<int>((min.x() + 1) / 2 * width),
+                    static_cast<int>((min.y() + 1) / 2 * height)),
+                max_screen = Vec2i(
+                    static_cast<int>((max.x() + 1) / 2 * width),
+                    static_cast<int>((max.y() + 1) / 2 * height));
         // Clip the bounding box
         min_screen = (min_screen - Vec2i(1, 1)).cwiseMax(Vec2i(0, 0));
         max_screen = (max_screen + Vec2i(1, 1)).cwiseMin(Vec2i(camera->getWidth(), camera->getHeight()));
 
         // Rasterize the Triangle
-        for (int x = min_screen.x(); x < max_screen.x(); x++) {
-            for (int y = min_screen.y(); y < max_screen.y(); y++) {
+        for (int x = min_screen.x(); x < max_screen.x(); x++)
+        {
+            for (int y = min_screen.y(); y < max_screen.y(); y++)
+            {
                 Vec3f pos = Vec3f(
                     2 * static_cast<float>(x) / width - 1,
                     2 * static_cast<float>(y) / height - 1,
-                    0
-                );
-                
-                if (tri.isInsidefor2D(pos)) {
+                    0);
+
+                if (tri.isInsidefor2D(pos))
+                {
                     // Interpolation Weights
                     Vec3f weights = tri.getInterpolationWeightsfor2D(pos);
                     // Check weights valid
-                    if (!utils::isValidWeight(weights)) {
+                    if (!utils::isValidWeight(weights))
+                    {
                         continue;
                     }
                     // Depth
                     float depth = weights.x() * tri.getVertex(0).position.z() +
-                        weights.y() * tri.getVertex(1).position.z() +
-                        weights.z() * tri.getVertex(2).position.z();
+                                    weights.y() * tri.getVertex(1).position.z() +
+                                    weights.z() * tri.getVertex(2).position.z();
                     // Check the Depth Buffer
-                    if (std::abs((depth-1)/2) >= depth_buffer[y * camera->getWidth() + x]) {
+                    if (std::abs((depth - 1) / 2) >= depth_buffer[y * camera->getWidth() + x])
+                    {
                         continue;
                     }
                     // Write to the Depth Buffer
-                    depth_buffer[y * camera->getWidth() + x] = std::abs((depth-1)/2);
+                    depth_buffer[y * camera->getWidth() + x] = std::abs((depth - 1) / 2);
 
                     // Position
                     Vec3f position = weights.x() * tri.getVertex(0).position +
-                        weights.y() * tri.getVertex(1).position +
-                        weights.z() * tri.getVertex(2).position;
+                                        weights.y() * tri.getVertex(1).position +
+                                        weights.z() * tri.getVertex(2).position;
                     position_buffer[y * camera->getWidth() + x] = position;
+                    Vec3f org_position = weights.x() * org_tri.getVertex(0).position +
+                                        weights.y() * org_tri.getVertex(1).position +
+                                        weights.z() * org_tri.getVertex(2).position;
+                    org_position_buffer[y * camera->getWidth() + x] = org_position;
                     // Normal
                     Vec3f normal = weights.x() * tri.getVertex(0).normal +
-                        weights.y() * tri.getVertex(1).normal +
-                        weights.z() * tri.getVertex(2).normal;
+                                    weights.y() * tri.getVertex(1).normal +
+                                    weights.z() * tri.getVertex(2).normal;
                     normal_buffer[y * camera->getWidth() + x] = normal;
+                    Vec3f org_normal = weights.x() * org_tri.getVertex(0).normal +
+                                    weights.y() * org_tri.getVertex(1).normal +
+                                    weights.z() * org_tri.getVertex(2).normal;
+                    org_normal_buffer[y * camera->getWidth() + x] = org_normal;
                     // uv
                     Vec2f uv = weights.x() * tri.getVertex(0).uv +
-                        weights.y() * tri.getVertex(1).uv +
-                        weights.z() * tri.getVertex(2).uv;
+                                weights.y() * tri.getVertex(1).uv +
+                                weights.z() * tri.getVertex(2).uv;
                     uv_buffer[y * camera->getWidth() + x] = uv;
                     // Material
                     material_buffer[y * camera->getWidth() + x] = tri.getMaterial();
+                    
                 }
             }
         }
     }
 }
 
+
 void Rasterizer::FragmentShading() {
     for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
         // Get each fragment, and do the shading
-        Vec3f position = position_buffer[i],
-            normal = normal_buffer[i];
+        Vec3f position = org_position_buffer[i],
+            normal = org_normal_buffer[i];
         Vec2f uv = uv_buffer[i];
         std::shared_ptr<Materials> mat = material_buffer[i];
         // Check if the material is nullptr
