@@ -9,13 +9,13 @@ class ShadowMap {
 public:
     // Constructors
     ShadowMap(): resolution(DEFAULT_SHADOW_MAP_RESOLUTION, DEFAULT_SHADOW_MAP_RESOLUTION),
-        depth_buffer(DEFAULT_SHADOW_MAP_RESOLUTION * DEFAULT_SHADOW_MAP_RESOLUTION, 1e3) {}
+        depth_buffer(resolution.x() * resolution.y(), 1e3) {}
     ShadowMap(int res): resolution(res, res),
-        depth_buffer(DEFAULT_SHADOW_MAP_RESOLUTION * DEFAULT_SHADOW_MAP_RESOLUTION, 1e3)  {}
+        depth_buffer(resolution.x() * resolution.y(), 1e3)  {}
     ShadowMap(int x, int y): resolution(x, y),
-        depth_buffer(DEFAULT_SHADOW_MAP_RESOLUTION * DEFAULT_SHADOW_MAP_RESOLUTION, 1e3)  {}
+        depth_buffer(resolution.x() * resolution.y(), 1e3)  {}
     ShadowMap(Vec2i res): resolution(res),
-        depth_buffer(DEFAULT_SHADOW_MAP_RESOLUTION * DEFAULT_SHADOW_MAP_RESOLUTION, 1e3)  {}
+        depth_buffer(resolution.x() * resolution.y(), 1e3)  {}
 
     void initialize(Vec3f position, Vec3f direction) {
         Vec3f target = position + direction;

@@ -16,10 +16,17 @@
     ],
     "Objects": [
         {
-            "SourceFile": "./assets/Objects/sphere.obj",
-            "Translation":  [0, -1, 0],
+            "SourceFile": "./assets/Objects/ground.obj",
+            "Translation":  [0, -2, 0],
+            "Rotation": [0, 0, 0],
+            "Scale": [10, 1, 10],
+            "Material": "mat-white"
+        },
+        {
+            "SourceFile": "./assets/Bunny/bunny.obj",
+            "Translation":  [0, -1.9, 0],
             "Rotation": [0, 60, 0],
-            "Scale": [2, 2, 2],
+            "Scale": [3, 3, 3],
             "Material": "mat-white"
         }
     ],

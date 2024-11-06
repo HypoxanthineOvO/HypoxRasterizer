@@ -55,11 +55,11 @@ void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& object
                             weights.y() * screen_space_tri.getVertex(1).position.z() +
                             weights.z() * screen_space_tri.getVertex(2).position.z();
                         // Check the Depth Buffer
-                        if ((depth+1)/2 >= depth_buffer[y * resolution.x() + x]) {
+                        if (std::abs((depth-1)/2) >= depth_buffer[y * resolution.x() + x]) {
                             continue;
                         }
                         // Write to the Depth Buffer
-                        depth_buffer[y * resolution.x() + x] = (depth+1)/2;
+                        depth_buffer[y * resolution.x() + x] = std::abs((depth-1)/2);
                     }
                 }
             }
@@ -75,15 +75,15 @@ bool ShadowMap::isShadowed(Vec3f position) {
     int x = static_cast<int>((screen_pos.x() + 1) / 2 * resolution.x()),
         y = static_cast<int>((screen_pos.y() + 1) / 2 * resolution.y());
     
+    //printf("X: %d, Y: %d | ", x, y);
     if (x >= 0 && x < resolution.x() && y >= 0 && y < resolution.y()) {
         float depth = screen_pos.z();
-        //printf("SHADOW? %d\n", depth_normalized <= depth_buffer[y * resolution.x() + x] - SHADOW_MAP_BIAS);
-        if ((depth+1)/2 <= depth_buffer[y * resolution.x() + x] + SHADOW_MAP_BIAS) {
-            printf("NO SHADOW! DEPTH: %f, BUFFER: %f\n", (depth+1)/2, depth_buffer[y * resolution.x() + x]);
+        if (std::abs((depth-1)/2) <= depth_buffer[y * resolution.x() + x] + SHADOW_MAP_BIAS) {
+            //printf("NO SHADOW! DEPTH: %f, BUFFER: %f\n", std::abs((depth-1)/2), depth_buffer[y * resolution.x() + x]);
             return false;
         }
         else {
-            printf("SHADOW! DEPTH: %f, BUFFER: %f\n", (depth+1)/2, depth_buffer[y * resolution.x() + x]);
+            //printf("SHADOW! DEPTH: %f, BUFFER: %f\n", std::abs((depth-1)/2), depth_buffer[y * resolution.x() + x]);
             return true;
         }
     }
