@@ -118,8 +118,8 @@ void Rasterizer::VertexProcessing() {
                 new_vert.uv = vert.uv;
 
                 new_tri.setVertex(i, new_vert);
-                new_tri.setMaterial(mat);
             }
+            new_tri.setMaterial(mat);
             triangle_buffer.push_back(new_tri);
         }
     }
