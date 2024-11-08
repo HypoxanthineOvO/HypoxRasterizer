@@ -75,15 +75,12 @@ bool ShadowMap::isShadowed(Vec3f position) {
     int x = static_cast<int>((screen_pos.x() + 1) / 2 * resolution.x()),
         y = static_cast<int>((screen_pos.y() + 1) / 2 * resolution.y());
     
-    //printf("X: %d, Y: %d | ", x, y);
     if (x >= 0 && x < resolution.x() && y >= 0 && y < resolution.y()) {
         float depth = screen_pos.z();
         if (std::abs((depth-1)/2) <= depth_buffer[y * resolution.x() + x] + SHADOW_MAP_BIAS) {
-            //printf("NO SHADOW! DEPTH: %f, BUFFER: %f\n", std::abs((depth-1)/2), depth_buffer[y * resolution.x() + x]);
             return false;
         }
         else {
-            //printf("SHADOW! DEPTH: %f, BUFFER: %f\n", std::abs((depth-1)/2), depth_buffer[y * resolution.x() + x]);
             return true;
         }
     }

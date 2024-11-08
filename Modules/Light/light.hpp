@@ -37,17 +37,9 @@ public:
     std::vector<IndirectVPL> getIndirectVPLs() {
         return indirect_vpls;
     }
-    void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) {
-        shadow_map = std::make_shared<ShadowMap>(res);
-        shadow_map->initialize(position_proxy, Vec3f(0, -1, 0));
-        shadow_map->generateDepthBuffer(objects);
-    }
-    bool isShadowed(Vec3f position) {
-        return shadow_map->isShadowed(position);
-    }
-    void showShadowMap(const std::string& file_name) {
-        shadow_map->showShadowMap(file_name);
-    }
+    virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) = 0;
+    virtual bool isShadowed(Vec3f position) = 0;
+    virtual void showShadowMap(const std::string& file_name) = 0;
 protected:
     Vec3f position_proxy;
     std::vector<DirectVPL> direct_vpls;
@@ -64,11 +56,60 @@ public:
 
         position_proxy = pos;
     }
+
+    virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) override {
+
+
+        shadow_maps.clear();
+        for (int i = 0; i < 6; i++) {
+            std::shared_ptr<ShadowMap> shadow_map = std::make_shared<ShadowMap>(res);
+            shadow_map->initialize(position_proxy, directions[i]);
+            shadow_map->generateDepthBuffer(objects);
+            shadow_maps.push_back(shadow_map);
+        }
+    }
     
-private:
+    virtual bool isShadowed(Vec3f position) override {
+        bool is_shadowed = false;
+        //printf("| ");
+        for (std::shared_ptr<ShadowMap> shadow_map: shadow_maps) {
+            //printf("%d | ", shadow_map->isShadowed(position));
+            is_shadowed = is_shadowed || shadow_map->isShadowed(position);
+        }
+        //puts("");
+        return is_shadowed;
+    }
+
+    virtual void showShadowMap(const std::string& file_name) override {
+        for (int i = 0; i < 6; i++) {
+            std::string sub_file_name = file_name + "_" + std::to_string(i);
+            sub_file_name = sub_file_name + "(" + 
+            std::to_string(roundf(directions[i].x() * 100) / 100)
+            + "," + 
+            std::to_string(roundf(directions[i].y() * 100) / 100)
+            + "," + 
+            std::to_string(roundf(directions[i].z() * 100) / 100)
+            + ")";
+            sub_file_name = sub_file_name + ".png";
+            shadow_maps[i]->showShadowMap(sub_file_name);
+        }
+    }
+
+protected:
+    std::vector<std::shared_ptr<ShadowMap>> shadow_maps;
+
+    // Directions Constants
+    Vec3f directions[6] = {
+        Vec3f(1, 0, 0), 
+        Vec3f(-1, 0, 0),
+        Vec3f(0, 1, 0),
+        Vec3f(0, -1, 0),
+        Vec3f(0, 0, 1), 
+        Vec3f(0, 0, -1)
+    };
 };
 
 // TODO: Real Light Class
 
 
-#endif // LIGHT_HPP_
+#endif // LIGHT_HPP_11

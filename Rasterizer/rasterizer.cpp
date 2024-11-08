@@ -67,7 +67,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
-            light->showShadowMap("shadowmap.png");
+            light->showShadowMap("shadow_map");
         }
         else {
             puts("Unknown Light Type");
@@ -131,7 +131,8 @@ void Rasterizer::VertexProcessing() {
 
 
 void Rasterizer::FragmentProcessing() {
-    for (int tid = 0; tid < triangle_buffer.size(); tid++) {
+    uint32_t triangle_cnt = triangle_buffer.size();
+    for (int tid = 0; tid < triangle_cnt; tid++) {
         //for (Triangle &tri : triangle_buffer)
         Triangle& tri = triangle_buffer[tid];
         Triangle& org_tri = org_triangle_buffer[tid];
@@ -150,22 +151,18 @@ void Rasterizer::FragmentProcessing() {
         max_screen = (max_screen + Vec2i(1, 1)).cwiseMin(Vec2i(camera->getWidth(), camera->getHeight()));
 
         // Rasterize the Triangle
-        for (int x = min_screen.x(); x < max_screen.x(); x++)
-        {
-            for (int y = min_screen.y(); y < max_screen.y(); y++)
-            {
+        for (int x = min_screen.x(); x < max_screen.x(); x++) {
+            for (int y = min_screen.y(); y < max_screen.y(); y++) {
                 Vec3f pos = Vec3f(
                     2 * static_cast<float>(x) / width - 1,
                     2 * static_cast<float>(y) / height - 1,
                     0);
 
-                if (tri.isInsidefor2D(pos))
-                {
+                if (tri.isInsidefor2D(pos)) {
                     // Interpolation Weights
                     Vec3f weights = tri.getInterpolationWeightsfor2D(pos);
                     // Check weights valid
-                    if (!utils::isValidWeight(weights))
-                    {
+                    if (!utils::isValidWeight(weights)) {
                         continue;
                     }
                     // Depth
@@ -173,13 +170,16 @@ void Rasterizer::FragmentProcessing() {
                                     weights.y() * tri.getVertex(1).position.z() +
                                     weights.z() * tri.getVertex(2).position.z();
                     // Check the Depth Buffer
-                    if (std::abs((depth - 1) / 2) >= depth_buffer[y * camera->getWidth() + x])
-                    {
+                    if (std::abs((depth - 1) / 2) >= depth_buffer[y * camera->getWidth() + x]) {
                         continue;
                     }
                     // Write to the Depth Buffer
                     depth_buffer[y * camera->getWidth() + x] = std::abs((depth - 1) / 2);
 
+                    /*
+                    We save the original information (In the global / world space) of the fragment
+                    We also save the information in the camera space
+                    */
                     // Position
                     Vec3f position = weights.x() * tri.getVertex(0).position +
                                         weights.y() * tri.getVertex(1).position +
@@ -205,7 +205,6 @@ void Rasterizer::FragmentProcessing() {
                     uv_buffer[y * camera->getWidth() + x] = uv;
                     // Material
                     material_buffer[y * camera->getWidth() + x] = tri.getMaterial();
-                    
                 }
             }
         }

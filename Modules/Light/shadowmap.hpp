@@ -20,6 +20,7 @@ public:
     void initialize(Vec3f position, Vec3f direction) {
         Vec3f target = position + direction;
         camera = std::make_shared<Camera>(position, target);
+        camera->setFOV(90);
         camera->setResolution(resolution);
     }
 
