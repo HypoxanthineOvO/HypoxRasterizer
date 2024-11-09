@@ -30,8 +30,8 @@
             "Material": "mat-white"
         },
         {
-            "SourceFile": "./assets/Objects/sphere.obj",
-            "Translation":  [2, -0.9, -0.5],
+            "SourceFile": "./assets/Objects/torus.obj",
+            "Translation":  [3, -0.9, -0.5],
             "Rotation": [0, 0, 0],
             "Scale": [1, 1, 1],
             "Material": "mat-white"
