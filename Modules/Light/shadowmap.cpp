@@ -76,7 +76,7 @@ void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& object
                             weights.z() * screen_space_tri.getVertex(2).position.z();
                         // Check the Depth Buffer
                         // Only the front-most pixel is considered
-                        if (depth < -1 || depth > 1) {
+                        if (depth < -1 || depth > 0) {
                             continue;
                         }
                         if (std::abs((depth-1)/2) >= depth_buffer[y * resolution.x() + x]) {

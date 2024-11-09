@@ -25,6 +25,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
         config.camera_config.position, config.camera_config.target
     );
     cam->setResolution(config.camera_config.resolution);
+    cam->setFOV(config.camera_config.fov);
 
     // 2. Initialize Scene
     std::shared_ptr<Scene> scn = std::make_shared<Scene>();

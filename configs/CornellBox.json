@@ -1,0 +1,102 @@
+{
+    "Camera": {
+        "Resolution": [400, 400],
+        "Position": [0, 1, 6.8],
+        "Target": [0, 1, 0],
+        "FocalLength": 1,
+        "Fov": 19.5
+    },
+    "Materials": [
+        {
+            "Name": "mat-grey",
+            "Type": "ColorMat",
+            "BaseColor": [0.725, 0.71, 0.68],
+            "Shininess": 50
+        },
+        {
+            "Name": "mat-red",
+            "Type": "ColorMat",
+            "BaseColor": [0.63, 0.065, 0.05],
+            "Shininess": 50
+        },
+        {
+            "Name": "mat-green",
+            "Type": "ColorMat",
+            "BaseColor": [0.14, 0.45, 0.091],
+            "Shininess": 50
+        }
+    ],
+    "Objects": [
+        {
+            "SourceFile" : "./assets/CornellBox/left.obj",
+            "Material" : "mat-red",
+            "Rotation": [0, 0, 0],
+            "Translation": [0 ,0, 0],
+            "Scale": [1, 1, 1]
+        },
+        {
+            "SourceFile" : "./assets/CornellBox/right.obj",
+            "Material" : "mat-green",
+            "Rotation": [0, 0, 0],
+            "Translation": [0, 0, 0],
+            "Scale": [1, 1, 1]
+        },
+        {
+            "SourceFile" : "./assets/CornellBox/floor.obj",
+            "Material" : "mat-grey",
+            "Rotation": [0, 0, 0],
+            "Translation": [0, 0, 0],
+            "Scale": [1, 1, 1]
+        },
+        {
+            "SourceFile" : "./assets/CornellBox/ceiling.obj",
+            "Material" : "mat-grey",
+            "Rotation": [0, 0, 0],
+            "Translation": [0, 0, 0],
+            "Scale": [1, 1, 1]
+        },
+        {
+            "SourceFile" : "./assets/CornellBox/back.obj",
+            "Material" : "mat-grey",
+            "Rotation": [0, 0, 0],
+            "Translation": [0, 0, 0],
+            "Scale": [1, 1, 1]
+        },
+        {
+            "SourceFile" : "./assets/CornellBox/short_box.obj",
+            "Material" : "mat-grey",
+            "Rotation": [0, 0, 0],
+            "Translation": [-0.7, 0, 0.6],
+            "Scale": [1, 1, 1]
+        },
+        {
+            "SourceFile" : "./assets/CornellBox/tall_box.obj",
+            "Material" : "mat-grey",
+            "Rotation": [0, 0, 0],
+            "Translation": [0.7, 0, -0.5],
+            "Scale": [1, 1, 1]
+        }
+    ],
+    "Lights": [
+        {
+        "Type": "PointLight",
+        "Position": [0, 1.98, 0],
+        "Intensity": [0.5, 0.35, 0.15]
+        },
+        {
+        "Type": "PointLight",
+        "Position": [0.5, 1.98, 0],
+        "Intensity": [0.5, 0.35, 0.15]
+        },
+        {
+        "Type": "PointLight",
+        "Position": [0, 1.98, 0.5],
+        "Intensity": [0.5, 0.35, 0.15]
+        },
+        {
+        "Type": "PointLight",
+        "Position": [0.5, 1.98, 0.5],
+        "Intensity": [0.5, 0.35, 0.15]
+        }
+    ]
+}
