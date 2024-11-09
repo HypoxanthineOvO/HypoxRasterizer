@@ -23,6 +23,22 @@ void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& object
             
             // Transform the Triangle to Screen Space
             Vec2f min_screen = screen_space_tri.getXYMin(), max_screen = screen_space_tri.getXYMax();
+            
+            // If invalid, continue
+            if (
+                ((min_screen.x() > 1) && (max_screen.x() > 1))
+                ||
+                ((min_screen.x() < -1) && (max_screen.x() < -1))
+                ||
+                ((min_screen.y() > 1) && (max_screen.y() > 1))
+                ||
+                ((min_screen.y() < -1) && (max_screen.y() < -1))
+                ||
+                ((min_screen.x() > max_screen.x()) || (min_screen.y() > max_screen.y()))
+            ){
+                continue;
+            }
+            
             float width = static_cast<float>(resolution.x()), height = static_cast<float>(resolution.y());
             Vec2i min_screen_i = Vec2i(
                 static_cast<int>((min_screen.x() + 1) / 2 * width),
@@ -36,6 +52,10 @@ void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& object
             min_screen_i = (min_screen_i - Vec2i(1, 1)).cwiseMax(Vec2i(0, 0));
             max_screen_i = (max_screen_i + Vec2i(1, 1)).cwiseMin(resolution);
 
+            // Count the pixels
+            int num_pixels = (max_screen_i.x() - min_screen_i.x()) * (max_screen_i.y() - min_screen_i.y());
+
+            if (num_pixels < 0) continue;
             // Rasterize the Triangle
             for (int x = min_screen_i.x(); x < max_screen_i.x(); x++) {
                 for (int y = min_screen_i.y(); y < max_screen_i.y(); y++) {
@@ -55,6 +75,10 @@ void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& object
                             weights.y() * screen_space_tri.getVertex(1).position.z() +
                             weights.z() * screen_space_tri.getVertex(2).position.z();
                         // Check the Depth Buffer
+                        // Only the front-most pixel is considered
+                        if (depth < -1 || depth > 1) {
+                            continue;
+                        }
                         if (std::abs((depth-1)/2) >= depth_buffer[y * resolution.x() + x]) {
                             continue;
                         }

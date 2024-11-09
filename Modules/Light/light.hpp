@@ -84,12 +84,17 @@ public:
         for (int i = 0; i < 6; i++) {
             std::string sub_file_name = file_name + "_" + std::to_string(i);
             sub_file_name = sub_file_name + "(" + 
-            std::to_string(roundf(directions[i].x() * 100) / 100)
-            + "," + 
-            std::to_string(roundf(directions[i].y() * 100) / 100)
-            + "," + 
-            std::to_string(roundf(directions[i].z() * 100) / 100)
-            + ")";
+            std::to_string(roundf(directions[i].x() * 100) / 100);
+            sub_file_name = sub_file_name.substr(0, sub_file_name.size() - 4);
+            sub_file_name = sub_file_name + ",";
+            
+            sub_file_name = sub_file_name + std::to_string(roundf(directions[i].y() * 100) / 100);
+            sub_file_name = sub_file_name.substr(0, sub_file_name.size() - 4);
+            sub_file_name = sub_file_name + ",";
+            sub_file_name = sub_file_name + std::to_string(roundf(directions[i].z() * 100) / 100);
+            sub_file_name = sub_file_name.substr(0, sub_file_name.size() - 4);
+            sub_file_name = sub_file_name + ")";
+            // Remove last 3 characters
             sub_file_name = sub_file_name + ".png";
             shadow_maps[i]->showShadowMap(sub_file_name);
         }
