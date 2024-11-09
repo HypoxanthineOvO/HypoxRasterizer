@@ -44,7 +44,6 @@ protected:
     Vec3f position_proxy;
     std::vector<DirectVPL> direct_vpls;
     std::vector<IndirectVPL> indirect_vpls;
-    std::shared_ptr<ShadowMap> shadow_map;
 };
 
 class PointLight: public Light {
@@ -114,7 +113,50 @@ protected:
     };
 };
 
-// TODO: Real Light Class
+class AreaLight: public Light {
+public:
+    AreaLight(Vec3f pos, Vec3f inten, Vec3f norm, Vec2f sz):
+        normal(norm), size(sz)
+    {
+        direct_vpls.clear();
+        Vec3f avg_inten = inten / (NUM_SQRT_DIRECT_VPL * NUM_SQRT_DIRECT_VPL);
+        // Use normal and ref_up to get offset_right and offset_up
+        Vec3f ref_up = REF_UP, ref_right = REF_RIGHT;
+        Vec3f offset_up = normal.cross(ref_right);
+        Vec3f offset_right = normal.cross(ref_up);
+        
+        for (int i = 0; i < NUM_SQRT_DIRECT_VPL; i++) {
+            for (int j = 0; j < NUM_SQRT_DIRECT_VPL; j++) {
+                Vec3f d = pos + offset_right * (i - NUM_SQRT_DIRECT_VPL / 2) * size.x() / NUM_SQRT_DIRECT_VPL +
+                    offset_up * (j - NUM_SQRT_DIRECT_VPL / 2) * size.y() / NUM_SQRT_DIRECT_VPL;
 
+                DirectVPL d_vpl(d, avg_inten);
+                direct_vpls.push_back(d_vpl);
+            }
+        }
+        position_proxy = pos;
+    }
+
+    virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) override {
+        std::shared_ptr<ShadowMap> shadow_map = std::make_shared<ShadowMap>(res);
+        shadow_map->initialize(position_proxy, normal);
+        shadow_map->generateDepthBuffer(objects);
+
+        this->shadow_map = shadow_map;
+    }
+
+    virtual bool isShadowed(Vec3f position) override {
+        return shadow_map->isShadowed(position);
+    }
+
+    virtual void showShadowMap(const std::string& file_name) override {
+        shadow_map->showShadowMap(file_name);
+    }
+
+protected:
+    std::shared_ptr<ShadowMap> shadow_map;
+    Vec3f normal;
+    Vec2f size;
+};
 
 #endif // LIGHT_HPP_11

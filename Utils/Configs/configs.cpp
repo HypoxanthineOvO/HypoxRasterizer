@@ -14,6 +14,12 @@ Vec2i loadVec2i(const nlohmann::json& j) {
     return Vec2i(x, y);
 }
 
+Vec2f loadVec2f(const nlohmann::json& j) {
+    float x, y;
+    j[0].get_to(x), j[1].get_to(y);
+    return Vec2f(x, y);
+}
+
 Vec3f loadVec3f(const nlohmann::json& j) {
     float x, y, z;
     j[0].get_to(x), j[1].get_to(y), j[2].get_to(z);
@@ -44,6 +50,13 @@ void Config::loadConfig(const std::string& config_file_path) {
             l.type = LightType::Point_Light;
             l.position = loadVec3f(light["Position"]);
             l.intensity = loadVec3f(light["Intensity"]);
+        }
+        else if (light["Type"] == "AreaLight") {
+            l.type = LightType::Area_Light;
+            l.position = loadVec3f(light["Position"]);
+            l.intensity = loadVec3f(light["Intensity"]);
+            l.normal = loadVec3f(light["Normal"]);
+            l.size = loadVec2f(light["Size"]);
         }
         else {
             puts("Unknown Light Type");

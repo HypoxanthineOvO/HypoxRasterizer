@@ -69,6 +69,15 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
         }
+        else if (light_config.type == Area_Light) {
+            light = std::make_shared<AreaLight>(
+                light_config.position, light_config.intensity,
+                light_config.normal, light_config.size
+            );
+            // Initialize Shadow Map
+            std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
+            light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
+        }
         else {
             puts("Unknown Light Type");
             exit(1);

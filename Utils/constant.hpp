@@ -10,6 +10,8 @@
 #define REF_RIGHT Vec3f(1, 0, 0)
 // Scene
 #define AMBIENT Vec3f(0.1, 0.1, 0.1)
+// Light
+#define NUM_SQRT_DIRECT_VPL 10
 // Default Values
 #define DEFAULT_WIDTH 100
 #define DEFAULT_HEIGHT 100

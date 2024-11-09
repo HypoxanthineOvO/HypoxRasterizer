@@ -9,7 +9,8 @@ typedef enum MaterialType {
     Texture_Mat
 } MaterialType;
 typedef enum LightType {
-    Point_Light
+    Point_Light,
+    Area_Light
 } LightType;
 
 struct CameraConfig {
@@ -40,6 +41,10 @@ struct LightConfig {
     // Point Light
     Vec3f position;
     Vec3f intensity;
+
+    // Area Light
+    Vec3f normal;
+    Vec2f size;
 };
 
 class Config {

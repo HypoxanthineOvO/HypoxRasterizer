@@ -79,24 +79,11 @@
     ],
     "Lights": [
         {
-        "Type": "PointLight",
-        "Position": [0, 1.98, 0],
-        "Intensity": [0.5, 0.35, 0.15]
-        },
-        {
-        "Type": "PointLight",
-        "Position": [0.5, 1.98, 0],
-        "Intensity": [0.5, 0.35, 0.15]
-        },
-        {
-        "Type": "PointLight",
-        "Position": [0, 1.98, 0.5],
-        "Intensity": [0.5, 0.35, 0.15]
-        },
-        {
-        "Type": "PointLight",
-        "Position": [0.5, 1.98, 0.5],
-        "Intensity": [0.5, 0.35, 0.15]
+            "Type": "AreaLight",
+            "Position": [0, 1.98, 0],
+            "Normal": [0, -1, 0],
+            "Size": [0.5, 0.5],
+            "Intensity": [0.5, 0.35, 0.15]
         }
     ]
 }
