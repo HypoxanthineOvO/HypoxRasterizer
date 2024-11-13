@@ -122,24 +122,31 @@ public:
         Vec3f avg_inten = inten / (NUM_SQRT_DIRECT_VPL * NUM_SQRT_DIRECT_VPL);
         // Use normal and ref_up to get offset_right and offset_up
         Vec3f ref_up = REF_UP, ref_right = REF_RIGHT;
-        Vec3f offset_up = normal.cross(ref_right);
-        Vec3f offset_right = normal.cross(ref_up);
+        Vec3f offset_up = -normal;
+        Vec3f offset_right = ref_right.cross(offset_up);
+        Vec3f offset_forward = offset_up.cross(offset_right);
         
         for (int i = 0; i < NUM_SQRT_DIRECT_VPL; i++) {
             for (int j = 0; j < NUM_SQRT_DIRECT_VPL; j++) {
-                Vec3f d = pos + offset_right * (i - NUM_SQRT_DIRECT_VPL / 2) * size.x() / NUM_SQRT_DIRECT_VPL +
-                    offset_up * (j - NUM_SQRT_DIRECT_VPL / 2) * size.y() / NUM_SQRT_DIRECT_VPL;
-
+                Vec3f d = pos + 
+                    offset_right * (i - NUM_SQRT_DIRECT_VPL / 2 - 0.5) * size.x() / (2 * NUM_SQRT_DIRECT_VPL) +
+                    offset_forward * (j - NUM_SQRT_DIRECT_VPL / 2 - 0.5) * size.y() / (2 * NUM_SQRT_DIRECT_VPL)
+                    - 0.01 * offset_up;
                 DirectVPL d_vpl(d, avg_inten);
                 direct_vpls.push_back(d_vpl);
             }
         }
+
+
         position_proxy = pos;
     }
 
     virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) override {
         std::shared_ptr<ShadowMap> shadow_map = std::make_shared<ShadowMap>(res);
-        shadow_map->initialize(position_proxy, normal);
+        shadow_map->initialize(position_proxy, normal, 53);
+        // printf("Generating Depth Buffer\n");
+        // printf("POSITON: %f %f %f\n", position_proxy.x(), position_proxy.y(), position_proxy.z());
+        // printf("NORMAL: %f %f %f\n", normal.x(), normal.y(), normal.z());
         shadow_map->generateDepthBuffer(objects);
 
         this->shadow_map = shadow_map;

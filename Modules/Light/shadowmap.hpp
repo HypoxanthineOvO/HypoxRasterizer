@@ -16,11 +16,11 @@ public:
         depth_buffer(resolution.x() * resolution.y(), 1e3)  {}
     ShadowMap(Vec2i res): resolution(res),
         depth_buffer(resolution.x() * resolution.y(), 1e3)  {}
-
-    void initialize(Vec3f position, Vec3f direction) {
+    void initialize(Vec3f position, Vec3f direction, float fov = 90) {
         Vec3f target = position + direction;
         camera = std::make_shared<Camera>(position, target);
-        camera->setFOV(90);
+        camera->setFOV(fov);
+        camera->setFocalLength(0.0001);
         camera->setResolution(resolution);
     }
 

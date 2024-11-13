@@ -45,6 +45,10 @@ void Rasterizer::initializeFromConfig(const Config& config) {
         }
         materials[mat_config.name] = mat;
     }
+    // Material for Light
+    materials["light"] = std::make_shared<ColorMaterial>(
+        AMBIENT.cwiseInverse()
+    );
     // 2.2. Initialize Objects
     for (ObjectConfig obj_config : config.objects_config) {
         std::shared_ptr<Object> obj = std::make_shared<Object>(
@@ -77,6 +81,16 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
+            light->showShadowMap("ArealightShadowMap.png");
+            // Add an object for the area light
+            // std::shared_ptr<Object> obj = std::make_shared<Object>(
+            //     "assets/Objects/ground.obj"
+            // );
+            // obj->localToWorld(utils::generateModelMatrix(
+            //     light_config.position + Vec3f(0, 0.01, 0), Vec3f(0, 180, 0), Vec3f(light_config.size.x(), 1, light_config.size.y())
+            // ));
+            // obj->setMaterial(materials["light"]);
+            // scn->addObject(obj);
         }
         else {
             puts("Unknown Light Type");
@@ -278,6 +292,19 @@ void Rasterizer::DisplayToImage() {
     // Write Color Buffer
     writeImageToFile(color_buffer, camera->getResolution(), "color.png");
     // Write Depth Buffer
+    // Get min_value and max_value
+    float min_value = 1e3, max_value = -1;
+    for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
+        if (depth_buffer[i] >= 1e2) {
+            depth_buffer[i] = 0;
+        }
+        min_value = std::min(min_value, depth_buffer[i]);
+        max_value = std::max(max_value, depth_buffer[i]);
+    }
+    // Normalize the Depth Buffer
+    for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
+        depth_buffer[i] = (depth_buffer[i] - min_value) / (max_value - min_value);
+    }
     writeImageToFile(depth_buffer, camera->getResolution(), "depth.png");
     // Write Normal Buffer
     writeImageToFile(normal_buffer, camera->getResolution(), "normal.png");

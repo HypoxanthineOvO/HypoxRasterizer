@@ -4,7 +4,7 @@
         "Position": [5, 2, 1],
         "Target": [0, -2, 0],
         "FocalLength": 1,
-        "Fov": 45
+        "Fov": 90
     },
     "Materials": [
         {

@@ -88,12 +88,17 @@ Mat4f Camera::getViewMatrix() {
     return view_matrix;
 }
 
-Mat4f Camera::getProjectionMatrix() {
+Mat4f Camera::getProjectionMatrix(bool isShadowMap) {
     float near = -focal_len, far = -DEFAULT_FAR;
+    if (isShadowMap) {
+        //near = -1e-3;
+        //far = -1000;
+    }
     Mat4f persp2ortho, ortho;
     
     float aspect_ratio = static_cast<float>(width) / static_cast<float>(height);
     float top = near * tan(fov / 2 * M_PI / 180), bottom = -top;
+    
     float right = top * aspect_ratio, left = -right;
     persp2ortho << -near, 0, 0, 0,
         0,  -near, 0, 0,

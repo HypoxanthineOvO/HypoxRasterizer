@@ -3,7 +3,7 @@
 
 void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& objects) {
     for (std::shared_ptr<Object> obj: objects) {
-        Mat4f view_mat = camera->getViewMatrix(), proj_mat = camera->getProjectionMatrix();
+        Mat4f view_mat = camera->getViewMatrix(), proj_mat = camera->getProjectionMatrix(true);
         for (Triangle tri: obj->getTriangles()) {
             // For each Triangle, project the vertices, and update the depth buffer
             // 1. Vertex Processing
@@ -92,7 +92,7 @@ void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& object
 }
 
 bool ShadowMap::isShadowed(Vec3f position) {
-    Mat4f view_mat = camera->getViewMatrix(), proj_mat = camera->getProjectionMatrix();
+    Mat4f view_mat = camera->getViewMatrix(), proj_mat = camera->getProjectionMatrix(true);
     Vec4f pos = Vec4f(position.x(), position.y(), position.z(), 1);
     Vec4f proj_pos = proj_mat * view_mat * pos;
     Vec3f screen_pos = Vec3f(proj_pos.x() / proj_pos.w(), proj_pos.y() / proj_pos.w(), proj_pos.z() / proj_pos.w());
@@ -113,5 +113,18 @@ bool ShadowMap::isShadowed(Vec3f position) {
 
 void ShadowMap::showShadowMap(const std::string& file_name) {
     // Write image
+    // Get min_value and max_value
+    float min_value = 1e3, max_value = -1;
+    for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
+        if (depth_buffer[i] >= 5e2) {
+            depth_buffer[i] = 0;
+        }
+        min_value = std::min(min_value, depth_buffer[i]);
+        max_value = std::max(max_value, depth_buffer[i]);
+    }
+    // Normalize the Depth Buffer
+    for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
+        depth_buffer[i] = (depth_buffer[i] - min_value) / (max_value - min_value);
+    }
     writeImageToFile(depth_buffer, resolution, file_name);
 }

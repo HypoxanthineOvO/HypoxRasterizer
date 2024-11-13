@@ -18,7 +18,7 @@ public:
 
     // Get Matrix Functions
     Mat4f getViewMatrix();
-    Mat4f getProjectionMatrix();
+    Mat4f getProjectionMatrix(bool isShadowMap = false);
 
     // Setters
     void setResolution(uint32_t h, uint32_t w) { height = h; width = w; }
