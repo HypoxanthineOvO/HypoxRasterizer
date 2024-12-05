@@ -38,7 +38,7 @@ public:
         return indirect_vpls;
     }
     virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) = 0;
-    virtual bool isShadowed(Vec3f position) = 0;
+    virtual bool isLighted(Vec3f position) = 0;
     virtual void showShadowMap(const std::string& file_name) = 0;
 protected:
     Vec3f position_proxy;
@@ -68,12 +68,12 @@ public:
         }
     }
     
-    virtual bool isShadowed(Vec3f position) override {
+    virtual bool isLighted(Vec3f position) override {
         bool is_shadowed = false;
         //printf("| ");
         for (std::shared_ptr<ShadowMap> shadow_map: shadow_maps) {
             //printf("%d | ", shadow_map->isShadowed(position));
-            is_shadowed = is_shadowed || shadow_map->isShadowed(position);
+            is_shadowed = is_shadowed || shadow_map->isLighted(position);
         }
         //puts("");
         return is_shadowed;
@@ -143,7 +143,7 @@ public:
 
     virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) override {
         std::shared_ptr<ShadowMap> shadow_map = std::make_shared<ShadowMap>(res);
-        shadow_map->initialize(position_proxy, normal, 53);
+        shadow_map->initialize(position_proxy, normal, 120);
         // printf("Generating Depth Buffer\n");
         // printf("POSITON: %f %f %f\n", position_proxy.x(), position_proxy.y(), position_proxy.z());
         // printf("NORMAL: %f %f %f\n", normal.x(), normal.y(), normal.z());
@@ -152,8 +152,8 @@ public:
         this->shadow_map = shadow_map;
     }
 
-    virtual bool isShadowed(Vec3f position) override {
-        return shadow_map->isShadowed(position);
+    virtual bool isLighted(Vec3f position) override {
+        return shadow_map->isLighted(position);
     }
 
     virtual void showShadowMap(const std::string& file_name) override {

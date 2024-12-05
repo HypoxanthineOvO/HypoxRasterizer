@@ -1,9 +1,9 @@
 {
     "Camera": {
         "Resolution": [800, 800],
-        "Position": [3, 0, 0],
-        "Target": [0, -1, 0],
-        "FocalLength": 1,
+        "Position": [7, 0, 0],
+        "Target": [0.1, 0, -0.02],
+        "FocalLength": 0.5,
         "Fov": 45
     },
     "Materials": [
@@ -25,7 +25,7 @@
     ],
     "Lights": [{
         "Type": "PointLight",
-        "Position": [8, 3, 5],
+        "Position": [8, 0, 0],
         "Intensity": [1, 1, 1]
     }]
 }

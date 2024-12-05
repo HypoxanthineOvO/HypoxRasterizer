@@ -48,13 +48,7 @@
             "Translation": [0, 0, 0],
             "Scale": [1, 1, 1]
         },
-        {
-            "SourceFile" : "./assets/CornellBox/ceiling.obj",
-            "Material" : "mat-grey",
-            "Rotation": [0, 0, 0],
-            "Translation": [0, 0, 0],
-            "Scale": [1, 1, 1]
-        },
+
         {
             "SourceFile" : "./assets/CornellBox/back.obj",
             "Material" : "mat-grey",
@@ -80,7 +74,7 @@
     "Lights": [
         {
             "Type": "AreaLight",
-            "Position": [0, 1.98, 0],
+            "Position": [0, 2.2, 0],
             "Normal": [0, -1, 0],
             "Size": [0.5, 0.5],
             "Intensity": [0.5, 0.35, 0.15]

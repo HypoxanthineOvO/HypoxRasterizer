@@ -10,7 +10,7 @@ Rasterizer::Rasterizer(const std::string& config_path) {
 
     // Initialize the Screen Space Buffer with -
     color_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
-    depth_buffer.resize(camera->getWidth() * camera->getHeight(), 1e3);
+    depth_buffer.resize(camera->getWidth() * camera->getHeight(), 1);
     position_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
     normal_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
     org_position_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
@@ -72,6 +72,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
+            light->showShadowMap("PointlightShadowMap.png");
         }
         else if (light_config.type == Area_Light) {
             light = std::make_shared<AreaLight>(
@@ -256,7 +257,7 @@ void Rasterizer::FragmentShading() {
         Vec3f color = AMBIENT.cwiseProduct(vert_color);
         // Diffuse and Specular Light
         for (std::shared_ptr<Light> light : scene->getLights()) {
-            if (light->isShadowed(position)) {
+            if (!light->isLighted(position)) {
                 continue;
             }
 
@@ -289,23 +290,22 @@ void Rasterizer::FragmentShading() {
 }
 
 void Rasterizer::DisplayToImage() {
+    std::vector<float> depth_buffer_normal = depth_buffer;
     // Write Color Buffer
     writeImageToFile(color_buffer, camera->getResolution(), "color.png");
     // Write Depth Buffer
     // Get min_value and max_value
-    float min_value = 1e3, max_value = -1;
+    float min_value = 1, max_value = 0;
     for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
-        if (depth_buffer[i] >= 1e2) {
-            depth_buffer[i] = 0;
-        }
         min_value = std::min(min_value, depth_buffer[i]);
         max_value = std::max(max_value, depth_buffer[i]);
     }
+
     // Normalize the Depth Buffer
     for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
-        depth_buffer[i] = (depth_buffer[i] - min_value) / (max_value - min_value);
+        depth_buffer_normal[i] = (depth_buffer[i] - min_value) / (max_value-min_value);
     }
-    writeImageToFile(depth_buffer, camera->getResolution(), "depth.png");
+    writeImageToFile(depth_buffer_normal, camera->getResolution(), "depth.png");
     // Write Normal Buffer
     writeImageToFile(normal_buffer, camera->getResolution(), "normal.png");
 }

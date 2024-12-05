@@ -16,7 +16,7 @@ public:
 
             // Initialize the Screen Space Buffer with -
             color_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
-            depth_buffer.resize(camera->getWidth() * camera->getHeight(), 1e3);
+            depth_buffer.resize(camera->getWidth() * camera->getHeight(), 1);
             position_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
             normal_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
             uv_buffer.resize(camera->getWidth() * camera->getHeight(), -Vec2f::Ones());
