@@ -1,0 +1,31 @@
+{
+    "Camera": {
+        "Resolution": [800, 800],
+        "Position": [4, 3, -2],
+        "Target": [2, 2, -1],
+        "FocalLength": 1,
+        "Fov": 45
+    },
+    "Materials": [
+        {
+            "TextureFilePath": "./assets/Nylon/texture_pbr_v130.png",
+            "Name": "mat",
+            "Type": "TextureMat",
+            "Shininess": 15
+        }
+    ],
+    "Objects": [
+        {
+            "SourceFile": "./assets/Nylon/Nylon.obj",
+            "Translation":  [0, 1.2, 0],
+            "Rotation": [0, 100, 0],
+            "Scale": [3, 3, 3],
+            "Material": "mat"
+        }
+    ],
+    "Lights": [{
+        "Type": "PointLight",
+        "Position": [8, 3, 5],
+        "Intensity": [1, 1, 1]
+    }]
+}

@@ -72,7 +72,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
-            light->showShadowMap("PointlightShadowMap.png");
+            //light->showShadowMap("PointlightShadowMap.png");
         }
         else if (light_config.type == Area_Light) {
             light = std::make_shared<AreaLight>(
@@ -82,7 +82,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
-            light->showShadowMap("ArealightShadowMap.png");
+            //light->showShadowMap("ArealightShadowMap.png");
             // Add an object for the area light
             // std::shared_ptr<Object> obj = std::make_shared<Object>(
             //     "assets/Objects/ground.obj"
