@@ -14,7 +14,7 @@ end
 
 if is_mode("debug") then
     add_defines("DEBUG")
-    add_cxxflags("-g", {force = true})
+    add_cxxflags("-O2", {force = true})
 end
 
 target("Utils")
@@ -38,7 +38,6 @@ target("Rasterizer")
     -- Object
     add_includedirs("Modules/Object", {public = true})
     add_files("Modules/Object/*.cpp")
-    -- TODO: Add all thr directories
     -- Rasterizer
     add_includedirs("Rasterizer", {public = true})
     add_files("Rasterizer/*.cpp")
@@ -48,7 +47,6 @@ target("HypoxRasterizer")
     set_kind("binary")
     set_targetdir(".")
     add_files("main.cpp")
-
 ---------- Testcases ----------
 -- target("CameraTest")
 --     add_deps("Utils")
@@ -87,7 +85,7 @@ target("HypoxRasterizer")
 --     add_packages(depends, {public = true})
 --     set_targetdir(".")
 
---     target("TriangleTestpy")
+-- target("TriangleTestpy")
 --     add_deps("Utils")
 --     set_kind("binary")
 --     add_includedirs("Modules/Object/")

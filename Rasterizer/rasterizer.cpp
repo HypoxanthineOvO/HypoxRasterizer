@@ -2,6 +2,11 @@
 #include "shadowmap.hpp"
 #include <map>
 
+/**
+ * @brief 构造函数，从配置文件初始化光栅化器。
+ * @param config_path 配置文件路径。
+ * @note 初始化相机、场景、材质、光源以及各种缓冲区。
+ */
 Rasterizer::Rasterizer(const std::string& config_path) {
     Config config(config_path);
     initializeFromConfig(config);
@@ -19,6 +24,11 @@ Rasterizer::Rasterizer(const std::string& config_path) {
     material_buffer.resize(camera->getWidth() * camera->getHeight(), nullptr);
 }
 
+/**
+ * @brief 根据配置文件初始化光栅化器。
+ * @param config 配置对象。
+ * @note 初始化相机、场景中的对象和光源，并为光源生成阴影贴图。
+ */
 void Rasterizer::initializeFromConfig(const Config& config) {
     // 1. Initialize Camera
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(
@@ -107,6 +117,10 @@ void Rasterizer::initializeFromConfig(const Config& config) {
     printf("Initialized Rasterizer with %ld objects and %ld lights\n", scene->getObjects().size(), scene->getLights().size());
 }
 
+/**
+ * @brief 执行光栅化的主要流程。
+ * @note 包括顶点处理、片元处理、片元着色和图像输出。
+ */
 void Rasterizer::Pass() {
     puts("Passing the Rasterizer");
     VertexProcessing();
@@ -118,6 +132,10 @@ void Rasterizer::Pass() {
     DisplayToImage();
 }
 
+/**
+ * @brief 顶点处理阶段。
+ * @note 将场景中的顶点从世界坐标转换到屏幕空间。
+ */
 void Rasterizer::VertexProcessing() {
     /*
     Read the vertices from the scene and apply the camera transformation to them.
@@ -154,8 +172,10 @@ void Rasterizer::VertexProcessing() {
     }
 }
 
-
-
+/**
+ * @brief 片元处理阶段。
+ * @note 对每个三角形进行光栅化，计算每个像素的深度、法线、材质等信息。
+ */
 void Rasterizer::FragmentProcessing() {
     uint32_t triangle_cnt = triangle_buffer.size();
     for (int tid = 0; tid < triangle_cnt; tid++) {
@@ -237,7 +257,10 @@ void Rasterizer::FragmentProcessing() {
     }
 }
 
-
+/**
+ * @brief 片元着色阶段。
+ * @note 根据光照模型计算每个像素的颜色。
+ */
 void Rasterizer::FragmentShading() {
     for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
         // Get each fragment, and do the shading
@@ -289,6 +312,10 @@ void Rasterizer::FragmentShading() {
     }
 }
 
+/**
+ * @brief 将缓冲区中的数据保存为图像文件。
+ * @note 包括颜色缓冲区、深度缓冲区和法线缓冲区。
+ */
 void Rasterizer::DisplayToImage() {
     std::vector<float> depth_buffer_normal = depth_buffer;
     // Write Color Buffer
