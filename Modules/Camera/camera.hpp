@@ -5,6 +5,15 @@
 #include "configs.hpp"
 
 class Camera {
+    // Extrinsic Parameters
+    Vec3f position;
+    Vec3f forward, right, up;
+
+    // Intrinsic Parameters
+    float focal_len;
+    float fov;
+    uint32_t width, height;
+    float aspect_ratio;
 public:
     /* Constructors */
     // Default Initialization
@@ -17,8 +26,8 @@ public:
     void lookAt(Vec3f target);
 
     // Get Matrix Functions
-    Mat4f getViewMatrix();
-    Mat4f getProjectionMatrix(bool isShadowMap = false);
+    Mat4f getViewMatrix() const;
+    Mat4f getProjectionMatrix(bool isShadowMap = false) const;
 
     // Setters
     void setResolution(uint32_t h, uint32_t w) { height = h; width = w; }
@@ -27,15 +36,15 @@ public:
     void setFOV(float f) { fov = f; }
 
     // Getters
-    Vec3f getPosition() { return position; }
-    Vec3f getForward() { return forward; }
-    Vec3f getRight() { return right; }
-    Vec3f getUp() { return up; }
-    float getFocalLength() { return focal_len; }
-    float getFOV() { return fov; }
-    uint32_t getWidth() { return width; }
-    uint32_t getHeight() { return height; }
-    Vec2i getResolution() { return Vec2i(width, height); }
+    Vec3f getPosition() const { return position; }
+    Vec3f getForward() const { return forward; }
+    Vec3f getRight() const { return right; }
+    Vec3f getUp() const { return up; }
+    float getFocalLength() const { return focal_len; }
+    float getFOV() const { return fov; }
+    uint32_t getWidth() const { return width; }
+    uint32_t getHeight() const { return height; }
+    Vec2i getResolution() const { return Vec2i(width, height); }
     void printCameraInfo() {
         printf("Position: ");
         utils::printVec(position);
@@ -48,16 +57,6 @@ public:
         printf("Focal Length: %f\n", focal_len);
         printf("FOV: %f\n", fov);
     }
-private:
-    // Extrinsic Parameters
-    Vec3f position;
-    Vec3f forward, right, up;
-
-    // Intrinsic Parameters
-    float focal_len;
-    float fov;
-    uint32_t width, height;
-    float aspect_ratio;
 };
 
 

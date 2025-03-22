@@ -23,30 +23,64 @@ public:
 };
 
 class Light {
+protected:
+    Vec3f position_proxy;
+    std::vector<DirectVPL> direct_vpls;
+    std::vector<IndirectVPL> indirect_vpls;
+
 public:
     Light() {}
     Light(std::vector<DirectVPL> d_vpls, std::vector<IndirectVPL> i_vpls):
         direct_vpls(d_vpls), indirect_vpls(i_vpls)
     {}
-    Vec3f getPosition() {
+    Vec3f getPosition() const {
         return position_proxy;
     }
-    std::vector<DirectVPL> getDirectVPLs() {
+    std::vector<DirectVPL> getDirectVPLs() const {
         return direct_vpls;
     }
-    std::vector<IndirectVPL> getIndirectVPLs() {
+    std::vector<IndirectVPL> getIndirectVPLs() const {
         return indirect_vpls;
     }
+
+    /**
+     * @brief 初始化阴影贴图。
+     * @param res 阴影贴图的分辨率。
+     * @param objects 场景中的对象列表。
+     * @note 该函数会为光源生成阴影贴图，用于阴影计算。
+     */
     virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) = 0;
-    virtual bool isLighted(Vec3f position) = 0;
+
+    /**
+     * @brief 检查指定位置是否被光照到。
+     * @param position 世界坐标中的位置。
+     * @return 如果位置被光照到，返回 true；否则返回 false。
+     * @note 该函数会使用阴影贴图判断位置是否在阴影中。
+     */
+    virtual bool isLighted(Vec3f position) const = 0;
+
+    /**
+     * @brief 将阴影贴图保存为图像文件。
+     * @param file_name 输出图像文件的路径。
+     * @note 该函数用于调试，生成的图像可视化阴影贴图。
+     */
     virtual void showShadowMap(const std::string& file_name) = 0;
-protected:
-    Vec3f position_proxy;
-    std::vector<DirectVPL> direct_vpls;
-    std::vector<IndirectVPL> indirect_vpls;
 };
 
 class PointLight: public Light {
+protected:
+    std::vector<std::shared_ptr<ShadowMap>> shadow_maps;
+
+    // Directions Constants
+    Vec3f directions[6] = {
+        Vec3f(1, 0, 0),
+        Vec3f(-1, 0, 0),
+        Vec3f(0, 1, 0),
+        Vec3f(0, -1, 0),
+        Vec3f(0, 0, 1),
+        Vec3f(0, 0, -1)
+    };
+
 public:
     PointLight(Vec3f pos, Vec3f inten) {
         direct_vpls.clear();
@@ -56,9 +90,13 @@ public:
         position_proxy = pos;
     }
 
+    /**
+     * @brief 初始化点光源的阴影贴图。
+     * @param res 阴影贴图的分辨率。
+     * @param objects 场景中的对象列表。
+     * @note 点光源需要为每个方向生成 6 张阴影贴图。
+     */
     virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) override {
-
-
         shadow_maps.clear();
         for (int i = 0; i < 6; i++) {
             std::shared_ptr<ShadowMap> shadow_map = std::make_shared<ShadowMap>(res);
@@ -68,7 +106,13 @@ public:
         }
     }
     
-    virtual bool isLighted(Vec3f position) override {
+    /**
+     * @brief 检查指定位置是否被点光源照亮。
+     * @param position 世界坐标中的位置。
+     * @return 如果位置被光照到，返回 true；否则返回 false。
+     * @note 该函数会遍历所有方向的阴影贴图进行判断。
+     */
+    virtual bool isLighted(Vec3f position) const override {
         bool is_shadowed = false;
         //printf("| ");
         for (std::shared_ptr<ShadowMap> shadow_map: shadow_maps) {
@@ -79,6 +123,11 @@ public:
         return is_shadowed;
     }
 
+    /**
+     * @brief 将点光源的阴影贴图保存为图像文件。
+     * @param file_name 输出图像文件的路径。
+     * @note 每个方向的阴影贴图会保存为单独的图像文件。
+     */
     virtual void showShadowMap(const std::string& file_name) override {
         for (int i = 0; i < 6; i++) {
             std::string sub_file_name = file_name + "_" + std::to_string(i);
@@ -98,22 +147,14 @@ public:
             // shadow_maps[i]->showShadowMap(sub_file_name);
         }
     }
-
-protected:
-    std::vector<std::shared_ptr<ShadowMap>> shadow_maps;
-
-    // Directions Constants
-    Vec3f directions[6] = {
-        Vec3f(1, 0, 0), 
-        Vec3f(-1, 0, 0),
-        Vec3f(0, 1, 0),
-        Vec3f(0, -1, 0),
-        Vec3f(0, 0, 1), 
-        Vec3f(0, 0, -1)
-    };
 };
 
-class AreaLight: public Light {
+class AreaLight : public Light {
+protected:
+    std::shared_ptr<ShadowMap> shadow_map;
+    Vec3f normal;
+    Vec2f size;
+
 public:
     AreaLight(Vec3f pos, Vec3f inten, Vec3f norm, Vec2f sz):
         normal(norm), size(sz)
@@ -141,6 +182,12 @@ public:
         position_proxy = pos;
     }
 
+    /**
+     * @brief 初始化区域光源的阴影贴图。
+     * @param res 阴影贴图的分辨率。
+     * @param objects 场景中的对象列表。
+     * @note 区域光源只需要生成一张阴影贴图。
+     */
     virtual void initShadowMap(int res, std::vector<std::shared_ptr<Object>>& objects) override {
         std::shared_ptr<ShadowMap> shadow_map = std::make_shared<ShadowMap>(res);
         shadow_map->initialize(position_proxy, normal, 120);
@@ -152,18 +199,24 @@ public:
         this->shadow_map = shadow_map;
     }
 
-    virtual bool isLighted(Vec3f position) override {
+    /**
+     * @brief 检查指定位置是否被区域光源照亮。
+     * @param position 世界坐标中的位置。
+     * @return 如果位置被光照到，返回 true；否则返回 false。
+     * @note 该函数会使用区域光源的阴影贴图进行判断。
+     */
+    virtual bool isLighted(Vec3f position) const override {
         return shadow_map->isLighted(position);
     }
 
+    /**
+     * @brief 将区域光源的阴影贴图保存为图像文件。
+     * @param file_name 输出图像文件的路径。
+     * @note 生成的图像可视化区域光源的阴影贴图。
+     */
     virtual void showShadowMap(const std::string& file_name) override {
         shadow_map->showShadowMap(file_name);
     }
-
-protected:
-    std::shared_ptr<ShadowMap> shadow_map;
-    Vec3f normal;
-    Vec2f size;
 };
 
-#endif // LIGHT_HPP_11
+#endif // LIGHT_HPP_

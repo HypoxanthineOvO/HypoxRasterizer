@@ -10,7 +10,8 @@ int main(int argc, char const *argv[]) {
         config_path = argv[1];
     }
     else {
-        throw std::runtime_error("Please provide the config file path!");
+        std::cout << "Please provide the config file path: ";
+        std::cin >> config_path;
     }
     
     // Create a Rasterizer

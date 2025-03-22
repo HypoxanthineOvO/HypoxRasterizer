@@ -26,7 +26,7 @@ public:
 
     void generateDepthBuffer(std::vector<std::shared_ptr<Object>>& objects);
 
-    bool isLighted(Vec3f position);
+    bool isLighted(Vec3f position) const;
 
     void showShadowMap(const std::string& file_name);
 private:

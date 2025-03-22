@@ -7,6 +7,21 @@
 #include "configs.hpp"
 
 class Rasterizer {
+    std::shared_ptr<Camera> camera;
+    std::shared_ptr<Scene> scene;
+
+    /* Triangle Buffer */
+    std::vector<Triangle> triangle_buffer;
+    std::vector<Triangle> org_triangle_buffer;
+    /* Screen Space Buffer */
+    std::vector<Vec3f> color_buffer;
+    std::vector<float> depth_buffer;
+    std::vector<Vec3f> position_buffer;
+    std::vector<Vec3f> org_position_buffer;
+    std::vector<Vec3f> normal_buffer;
+    std::vector<Vec3f> org_normal_buffer;
+    std::vector<Vec2f> uv_buffer;
+    std::vector<std::shared_ptr<Materials>> material_buffer;
 public:
     /* Constructors */
     Rasterizer(std::shared_ptr<Camera> cam, std::shared_ptr<Scene> scn):
@@ -32,23 +47,6 @@ public:
     void FragmentProcessing();
     void FragmentShading();
     void DisplayToImage();
-
-private:
-    std::shared_ptr<Camera> camera;
-    std::shared_ptr<Scene> scene;
-
-    /* Triangle Buffer */
-    std::vector<Triangle> triangle_buffer;
-    std::vector<Triangle> org_triangle_buffer;
-    /* Screen Space Buffer */
-    std::vector<Vec3f> color_buffer;
-    std::vector<float> depth_buffer;
-    std::vector<Vec3f> position_buffer;
-    std::vector<Vec3f> org_position_buffer;
-    std::vector<Vec3f> normal_buffer;
-    std::vector<Vec3f> org_normal_buffer;    
-    std::vector<Vec2f> uv_buffer;
-    std::vector<std::shared_ptr<Materials>> material_buffer;
 };
 
 

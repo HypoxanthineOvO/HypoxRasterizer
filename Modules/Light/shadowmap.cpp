@@ -1,6 +1,12 @@
 #include "shadowmap.hpp"
 #include "image.hpp"
 
+/**
+ * @brief 生成深度缓冲区，用于阴影计算。
+ * @param objects 场景中的对象列表。
+ * @note 该函数会将对象的三角形投影到屏幕空间，并更新深度缓冲区。
+ *       仅支持三角形面片，且深度值范围为 [-1, 0]。
+ */
 void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& objects) {
     for (std::shared_ptr<Object> obj: objects) {
         Mat4f view_mat = camera->getViewMatrix(), proj_mat = camera->getProjectionMatrix(true);
@@ -91,7 +97,13 @@ void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& object
     }
 }
 
-bool ShadowMap::isLighted(Vec3f position) {
+/**
+ * @brief 检查指定位置是否被光照到。
+ * @param position 世界坐标中的位置。
+ * @return 如果位置被光照到，返回 true；否则返回 false。
+ * @note 该函数会将位置投影到屏幕空间，并与深度缓冲区进行比较。
+ */
+bool ShadowMap::isLighted(Vec3f position) const {
     Mat4f view_mat = camera->getViewMatrix(), proj_mat = camera->getProjectionMatrix(true);
     Vec4f pos = Vec4f(position.x(), position.y(), position.z(), 1);
     Vec4f proj_pos = proj_mat * view_mat * pos;
@@ -112,6 +124,11 @@ bool ShadowMap::isLighted(Vec3f position) {
     return true;
 }
 
+/**
+ * @brief 将深度缓冲区保存为图像文件。
+ * @param file_name 输出图像文件的路径。
+ * @note 深度值会被归一化到 [0, 1] 范围，以便可视化。
+ */
 void ShadowMap::showShadowMap(const std::string& file_name) {
     // Write image
     // Get min_value and max_value

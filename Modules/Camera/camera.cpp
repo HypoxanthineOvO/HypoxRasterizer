@@ -45,6 +45,12 @@ void Camera::moveTo(Vec3f pos) {
     position = pos;
 }
 
+/**
+ * @brief 设置相机的目标点，使相机朝向指定方向。
+ * @param target 目标点的世界坐标。
+ * @note 如果目标点与相机位置相同，将导致异常退出。
+ *       该函数会重新计算相机的前向、右向和上向向量。
+ */
 void Camera::lookAt(Vec3f target) {
     forward = target - position;
     if(forward.norm() < LENGTH_EPS){
@@ -73,7 +79,12 @@ void Camera::lookAt(Vec3f target) {
     }
 }
 
-Mat4f Camera::getViewMatrix() {
+/**
+ * @brief 获取相机的视图矩阵。
+ * @return 视图矩阵，用于将世界坐标转换为相机坐标。
+ * @note 视图矩阵由相机的位置和方向计算得出。
+ */
+Mat4f Camera::getViewMatrix() const {
     Mat4f T_camera_inv,R_camera_T ;
     // Right-handed coordinate system
     T_camera_inv << 1, 0, 0, -position.x(),
@@ -88,7 +99,14 @@ Mat4f Camera::getViewMatrix() {
     return view_matrix;
 }
 
-Mat4f Camera::getProjectionMatrix(bool isShadowMap) {
+/**
+ * @brief 获取相机的投影矩阵。
+ * @param isShadowMap 是否为阴影贴图生成投影矩阵。
+ * @return 投影矩阵，用于将相机坐标转换为标准化设备坐标 (NDC)。
+ * @note 如果 `isShadowMap` 为 true，可能会调整近裁剪面和远裁剪面的值。
+ */
+Mat4f Camera::getProjectionMatrix(bool isShadowMap) const {
+
     float near = -focal_len, far = -DEFAULT_FAR;
     if (isShadowMap) {
         //near = -1e-3;

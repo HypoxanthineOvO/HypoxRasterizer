@@ -2,11 +2,20 @@ add_languages("c++17")
 
 add_rules("plugin.compile_commands.autoupdate", {outputdir = ".vscode"})
 
-add_rules("mode.release")
+add_rules("mode.release", "mode.debug")
 local depends = {
     "eigen", "stb", "nlohmann_json", "openmp", "tinyobjloader"
 }
 add_requires(depends)
+
+if is_mode("release") then
+    add_cxxflags("-O2", {force = true})
+end
+
+if is_mode("debug") then
+    add_defines("DEBUG")
+    add_cxxflags("-g", {force = true})
+end
 
 target("Utils")
     add_packages(depends, {public = true})

@@ -4,29 +4,30 @@
 #include "utils.hpp"
 
 class Materials {
+protected:
+    float shininess;
 public:
     Materials(): shininess(15.0f) {}
     Materials(float shininess): shininess(shininess) {}
-    virtual Vec3f evalColor(Vec2f uv) = 0;
-    virtual float evalShininess() { return shininess; }
-protected:
-    float shininess;
+    virtual Vec3f evalColor(Vec2f uv) const = 0;
+    virtual float evalShininess() const { return shininess; }
 };
 
 class ColorMaterial : public Materials {
+    Vec3f color;
 public:
     ColorMaterial() : color(0, 0, 0) {}
     ColorMaterial(Vec3f color) : color(color) {}
     ColorMaterial(Vec3f color, float shininess) : color(color), Materials(shininess) {}
 
-    virtual Vec3f evalColor(Vec2f uv) override {
+    virtual Vec3f evalColor(Vec2f uv) const override {
         return color;
     }
-private:
-    Vec3f color;
 };
 
 class TextureMaterial : public Materials {
+    std::vector<Vec3f> texture;
+    int width, height;
 public:
     TextureMaterial(): Materials(shininess), width(1024), height(1024) {}
     TextureMaterial(const std::string& file_name): 
@@ -38,7 +39,7 @@ public:
         loadTexture(file_name);
     }
 
-    virtual Vec3f evalColor(Vec2f uv) override {
+    virtual Vec3f evalColor(Vec2f uv) const override {
         // Get the color from the texture
         int x = uv.x() * width, y = uv.y() * height;
         return texture[y * width + x];
@@ -60,9 +61,6 @@ public:
             }
         }
     }
-private:
-    std::vector<Vec3f> texture;
-    int width, height;
 };
 
 #endif /* MATERIALS_HPP_ */

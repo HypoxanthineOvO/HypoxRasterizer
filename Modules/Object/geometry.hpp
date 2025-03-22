@@ -19,6 +19,8 @@ public:
 };
 
 class Triangle {
+    Vertex v0, v1, v2;
+    std::shared_ptr<Materials> material;
 public:
     /* Constructors */
     Triangle(): v0(Vec3f(0, 0, 0)), v1(Vec3f(0, 0, 0)), v2(Vec3f(0, 0, 0)), material(nullptr) {}
@@ -26,7 +28,7 @@ public:
     Triangle(Vertex v0, Vertex v1, Vertex v2, std::shared_ptr<Materials> mat) : v0(v0), v1(v1), v2(v2), material(mat) {}
 
     /* Getters and Setters */
-    Vertex getVertex(int idx) {
+    Vertex getVertex(int idx) const {
         if (idx == 0) {
             return v0;
         } else if (idx == 1) {
@@ -49,30 +51,27 @@ public:
         }
     }
     /* AABB */
-    Vec2f getXYMin() {
+    Vec2f getXYMin() const {
         return Vec2f(std::min(v0.position.x(), std::min(v1.position.x(), v2.position.x())),
                      std::min(v0.position.y(), std::min(v1.position.y(), v2.position.y())));
     }
-    Vec2f getXYMax() {
+    Vec2f getXYMax() const {
         return Vec2f(std::max(v0.position.x(), std::max(v1.position.x(), v2.position.x())),
                      std::max(v0.position.y(), std::max(v1.position.y(), v2.position.y())));
     }
     /* Interpolation Functions */
-    bool isInside(Vec3f pos);
-    bool isInsidefor2D(Vec3f pos);
-    Vec3f getInterpolationWeights(Vec3f pos);
-    Vec3f getInterpolationWeightsfor2D(Vec3f pos);
+    bool isInside(Vec3f pos) const;
+    bool isInsidefor2D(Vec3f pos) const;
+    Vec3f getInterpolationWeights(Vec3f pos) const;
+    Vec3f getInterpolationWeightsfor2D(Vec3f pos) const;
 
     /* Material */
     void setMaterial(std::shared_ptr<Materials> mat) {
         material = mat;
     }
-    std::shared_ptr<Materials> getMaterial() {
+    std::shared_ptr<Materials> getMaterial() const {
         return material;
     }
-private:
-    Vertex v0, v1, v2;
-    std::shared_ptr<Materials> material;
 };
 
 #endif // GEOMETRY_HPP_

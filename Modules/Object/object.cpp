@@ -2,6 +2,12 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
+/**
+ * @brief 从文件加载对象并解析为三角形列表。
+ * @param file_name 要加载的对象文件路径。
+ * @note 该函数使用 tinyobjloader 库解析 .obj 文件，仅支持三角形面片。
+ *       如果文件中包含非三角形面片，将抛出异常。
+ */
 void Object::loadObject(const std::string& file_name) {
     printf("Loading Object: %s\n", file_name.c_str());
 
@@ -89,6 +95,12 @@ void Object::loadObject(const std::string& file_name) {
     utils::printVec(center_local);
 }
 
+/**
+ * @brief 将对象从局部空间转换到世界空间。
+ * @param model_mat 模型矩阵，用于将局部坐标转换为世界坐标。
+ * @note 该函数会更新对象的三角形列表、包围盒和中心点。
+ *       顶点法线也会根据模型矩阵进行变换。
+ */
 void Object::localToWorld(const Mat4f& model_mat) {
     // Clear Old triangles
     triangles.clear();

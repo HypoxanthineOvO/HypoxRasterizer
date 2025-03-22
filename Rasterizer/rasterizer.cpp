@@ -104,7 +104,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
     camera = cam;
     scene = scn;
 
-    printf("Initialized Rasterizer with %d objects and %d lights\n", scene->getObjects().size(), scene->getLights().size());
+    printf("Initialized Rasterizer with %ld objects and %ld lights\n", scene->getObjects().size(), scene->getLights().size());
 }
 
 void Rasterizer::Pass() {
