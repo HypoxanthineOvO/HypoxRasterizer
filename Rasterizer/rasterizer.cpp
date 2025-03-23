@@ -8,6 +8,8 @@
  * @note 初始化相机、场景、材质、光源以及各种缓冲区。
  */
 Rasterizer::Rasterizer(const std::string& config_path) {
+    printf("Initialize from config: ");
+    printf("%s\n", config_path.c_str());
     Config config(config_path);
     initializeFromConfig(config);
     // Initialize Buffers.
@@ -197,13 +199,16 @@ void Rasterizer::FragmentProcessing() {
         max_screen = (max_screen + Vec2i(1, 1)).cwiseMin(Vec2i(camera->getWidth(), camera->getHeight()));
 
         // Rasterize the Triangle
-        for (int x = min_screen.x(); x < max_screen.x(); x++) {
-            for (int y = min_screen.y(); y < max_screen.y(); y++) {
+        int min_x = min_screen.x(), min_y = min_screen.y(),
+            max_x = max_screen.x(), max_y = max_screen.y();
+        for (int x = min_x; x < max_x; x++) {
+            for (int y = min_y; y < max_y; y++) {
                 Vec3f pos = Vec3f(
                     2 * static_cast<float>(x) / width - 1,
                     2 * static_cast<float>(y) / height - 1,
                     0);
-
+                
+                int w = camera->getWidth(), h = camera->getHeight();
                 if (tri.isInsidefor2D(pos)) {
                     // Interpolation Weights
                     Vec3f weights = tri.getInterpolationWeightsfor2D(pos);
@@ -216,11 +221,11 @@ void Rasterizer::FragmentProcessing() {
                                     weights.y() * tri.getVertex(1).position.z() +
                                     weights.z() * tri.getVertex(2).position.z();
                     // Check the Depth Buffer
-                    if (std::abs((depth - 1) / 2) >= depth_buffer[y * camera->getWidth() + x]) {
+                    if (std::abs((depth - 1) / 2) >= depth_buffer[y * w + x]) {
                         continue;
                     }
                     // Write to the Depth Buffer
-                    depth_buffer[y * camera->getWidth() + x] = std::abs((depth - 1) / 2);
+                    depth_buffer[y * w + x] = std::abs((depth - 1) / 2);
 
                     /*
                     We save the original information (In the global / world space) of the fragment
@@ -230,27 +235,27 @@ void Rasterizer::FragmentProcessing() {
                     Vec3f position = weights.x() * tri.getVertex(0).position +
                                         weights.y() * tri.getVertex(1).position +
                                         weights.z() * tri.getVertex(2).position;
-                    position_buffer[y * camera->getWidth() + x] = position;
+                    position_buffer[y * w + x] = position;
                     Vec3f org_position = weights.x() * org_tri.getVertex(0).position +
                                         weights.y() * org_tri.getVertex(1).position +
                                         weights.z() * org_tri.getVertex(2).position;
-                    org_position_buffer[y * camera->getWidth() + x] = org_position;
+                    org_position_buffer[y * w + x] = org_position;
                     // Normal
                     Vec3f normal = weights.x() * tri.getVertex(0).normal +
                                     weights.y() * tri.getVertex(1).normal +
                                     weights.z() * tri.getVertex(2).normal;
-                    normal_buffer[y * camera->getWidth() + x] = normal;
+                    normal_buffer[y * w + x] = normal;
                     Vec3f org_normal = weights.x() * org_tri.getVertex(0).normal +
                                     weights.y() * org_tri.getVertex(1).normal +
                                     weights.z() * org_tri.getVertex(2).normal;
-                    org_normal_buffer[y * camera->getWidth() + x] = org_normal;
+                    org_normal_buffer[y * w + x] = org_normal;
                     // uv
                     Vec2f uv = weights.x() * tri.getVertex(0).uv +
                                 weights.y() * tri.getVertex(1).uv +
                                 weights.z() * tri.getVertex(2).uv;
-                    uv_buffer[y * camera->getWidth() + x] = uv;
+                    uv_buffer[y * w + x] = uv;
                     // Material
-                    material_buffer[y * camera->getWidth() + x] = tri.getMaterial();
+                    material_buffer[y * w + x] = tri.getMaterial();
                 }
             }
         }
@@ -262,7 +267,8 @@ void Rasterizer::FragmentProcessing() {
  * @note 根据光照模型计算每个像素的颜色。
  */
 void Rasterizer::FragmentShading() {
-    for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
+    uint32_t resolution = camera->getWidth() * camera->getHeight();
+    for (int i = 0; i < resolution; i++) {
         // Get each fragment, and do the shading
         Vec3f position = org_position_buffer[i],
             normal = org_normal_buffer[i];
@@ -279,7 +285,8 @@ void Rasterizer::FragmentShading() {
         // Ambient Light
         Vec3f color = AMBIENT.cwiseProduct(vert_color);
         // Diffuse and Specular Light
-        for (std::shared_ptr<Light> light : scene->getLights()) {
+        auto lights = scene->getLights();
+        for (std::shared_ptr<Light> light : lights) {
             if (!light->isLighted(position)) {
                 continue;
             }

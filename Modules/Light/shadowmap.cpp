@@ -10,7 +10,8 @@
 void ShadowMap::generateDepthBuffer(std::vector<std::shared_ptr<Object>>& objects) {
     for (std::shared_ptr<Object> obj: objects) {
         Mat4f view_mat = camera->getViewMatrix(), proj_mat = camera->getProjectionMatrix(true);
-        for (Triangle tri: obj->getTriangles()) {
+        auto triangles = obj->getTriangles();
+        for (Triangle tri: triangles) {
             // For each Triangle, project the vertices, and update the depth buffer
             // 1. Vertex Processing
             Triangle screen_space_tri;

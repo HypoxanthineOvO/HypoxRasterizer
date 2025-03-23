@@ -14,7 +14,7 @@ end
 
 if is_mode("debug") then
     add_defines("DEBUG")
-    add_cxxflags("-O2", {force = true})
+    -- add_cxxflags("-O2", {force = true})
 end
 
 target("Utils")
