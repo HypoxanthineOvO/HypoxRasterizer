@@ -17,9 +17,9 @@
     "Objects": [
         {
             "SourceFile": "./assets/Bunny/bunny.obj",
-            "Translation":  [0.1, -2, -0.02],
+            "Translation":  [0.1, 0, -0.02],
             "Rotation": [0, 60, 0],
-            "Scale": [7, 7, 7],
+            "Scale": [2, 2, 2],
             "Material": "mat"
         }
     ],
