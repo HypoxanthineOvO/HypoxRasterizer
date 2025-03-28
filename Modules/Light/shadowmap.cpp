@@ -111,7 +111,9 @@ bool ShadowMap::isLighted(Vec3f position) const {
     Vec3f screen_pos = Vec3f(proj_pos.x() / proj_pos.w(), proj_pos.y() / proj_pos.w(), proj_pos.z() / proj_pos.w());
     int x = static_cast<int>((screen_pos.x() + 1) / 2 * resolution.x()),
         y = static_cast<int>((screen_pos.y() + 1) / 2 * resolution.y());
-    
+    if (x < 0 || x >= resolution.x() || y < 0 || y >= resolution.y()) {
+        return false;
+    }
     if (x >= 0 && x < resolution.x() && y >= 0 && y < resolution.y()) {
         float depth = screen_pos.z();
         if (std::abs((depth-1)/2) <= depth_buffer[y * resolution.x() + x] + SHADOW_MAP_BIAS) {
@@ -122,7 +124,7 @@ bool ShadowMap::isLighted(Vec3f position) const {
             return false;
         }
     }
-    return true;
+    return false;
 }
 
 /**

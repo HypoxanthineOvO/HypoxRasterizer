@@ -1,0 +1,33 @@
+{
+    "Camera": {
+        "Resolution": [800, 800],
+        "Position": [5, 2, 1],
+        "Target": [0, 0, 0],
+        "FocalLength": 1,
+        "Fov": 90
+    },
+    "Materials": [
+        {
+            "Name": "mat-white",
+            "Type": "ColorMat",
+            "BaseColor": [1, 1, 1],
+            "Shininess": 50
+        }
+    ],
+    "Objects": [
+        {
+            "SourceFile": "./debug/merged.obj",
+            "Translation":  [0, 0, 0],
+            "Rotation": [0, 0, 0],
+            "Scale": [1, 1, 1],
+            "Material": "mat-white"
+        }
+    ],
+    "Lights": [
+        {
+            "Type": "PointLight",
+            "Position": [0, 6, 0],
+            "Intensity": [0.5, 0.6, 0.7]
+        }
+    ]
+}
