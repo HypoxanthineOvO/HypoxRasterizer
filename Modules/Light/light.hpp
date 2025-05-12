@@ -144,7 +144,7 @@ public:
             sub_file_name = sub_file_name + ")";
             // Remove last 3 characters
             sub_file_name = sub_file_name + ".png";
-            shadow_maps[i]->showShadowMap(sub_file_name);
+            // shadow_maps[i]->showShadowMap(sub_file_name);
         }
     }
 };

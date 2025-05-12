@@ -84,7 +84,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
-            light->showShadowMap("PointlightShadowMap.png");
+            //light->showShadowMap("PointlightShadowMap.png");
         }
         else if (light_config.type == Area_Light) {
             light = std::make_shared<AreaLight>(
@@ -94,7 +94,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             // Initialize Shadow Map
             std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
             light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
-            light->showShadowMap("ArealightShadowMap.png");
+            //light->showShadowMap("ArealightShadowMap.png");
             // Add an object for the area light
             // std::shared_ptr<Object> obj = std::make_shared<Object>(
             //     "assets/Objects/ground.obj"
@@ -266,55 +266,58 @@ void Rasterizer::FragmentProcessing() {
  * @brief 片元着色阶段。
  * @note 根据光照模型计算每个像素的颜色。
  */
-void Rasterizer::FragmentShading() {
+ void Rasterizer::FragmentShading() {
     uint32_t resolution = camera->getWidth() * camera->getHeight();
     for (int i = 0; i < resolution; i++) {
-        // Get each fragment, and do the shading
-        Vec3f position = org_position_buffer[i],
-            normal = org_normal_buffer[i];
+        if (!material_buffer[i]) continue;
+
+        Vec3f position = org_position_buffer[i];
+        Vec3f normal = org_normal_buffer[i].normalized(); // 确保法线归一化
         Vec2f uv = uv_buffer[i];
-        std::shared_ptr<Materials> mat = material_buffer[i];
-        // Check if the material is nullptr
-        if (mat == nullptr) {
-            continue;
-        }
-
-        // Shading
-        Vec3f vert_color = mat->evalColor(uv);
-        float shininess = mat->evalShininess();
-        // Ambient Light
-        Vec3f color = AMBIENT.cwiseProduct(vert_color);
-        // Diffuse and Specular Light
-        auto lights = scene->getLights();
-        for (std::shared_ptr<Light> light : lights) {
-            if (!light->isLighted(position)) {
-                continue;
+        
+        // 获取材质属性
+        Vec3f albedo = material_buffer[i]->evalColor(uv);
+        float shininess = material_buffer[i]->evalShininess();
+        
+        // 初始化颜色 (环境光 + 自发光)
+        Vec3f color = AMBIENT.cwiseProduct(albedo);
+        
+        // 处理所有光源
+        for (auto& light : scene->getLights()) {
+            if (!light->isLighted(position)) continue;
+            
+            // 直接光照处理 (保持原样)
+            for (auto& d_vpl : light->getDirectVPLs()) {
+                Vec3f lightDir = (d_vpl.position - position).normalized();
+                float NdotL = std::max(0.0f, normal.dot(lightDir));
+                
+                // 漫反射
+                color += d_vpl.intensity.cwiseProduct(albedo) * NdotL;
+                
+                // 高光 (Blinn-Phong)
+                Vec3f viewDir = (camera->getPosition() - position).normalized();
+                Vec3f halfVec = (viewDir + lightDir).normalized();
+                float NdotH = std::max(0.0f, normal.dot(halfVec));
+                color += d_vpl.intensity * pow(NdotH, shininess);
             }
-
-            // Direct Shading
-            std::vector<DirectVPL> d_vpls = light->getDirectVPLs();
-            for (DirectVPL d_vpl : d_vpls) {
-                Vec3f light_dir = d_vpl.position - position;
-                light_dir.normalize();
-                // Diffuse Shading
-                float cos_theta_diffuse = light_dir.dot(normal.normalized());
-                if (cos_theta_diffuse > 0) {
-                    color += d_vpl.intensity.cwiseProduct(vert_color) * cos_theta_diffuse;
-                }
-                // Specular Shading
-                Vec3f view_dir = camera->getPosition() - position;
-                view_dir.normalize();
-                Vec3f half_vec = (view_dir + light_dir).normalized();
-                float cos_theta_specular = half_vec.dot(normal.normalized());
-                if (cos_theta_specular > 0) {
-                    color += d_vpl.intensity.cwiseProduct(vert_color) * pow(cos_theta_specular, shininess);
-                }
+            
+            // 间接光照处理 (新增RSM支持)
+            for (auto& i_vpl : light->getIndirectVPLs()) {
+                Vec3f lightDir = (i_vpl.position - position).normalized();
+                float NdotL = std::max(0.0f, normal.dot(lightDir));
+                
+                // 距离衰减
+                float distSq = (i_vpl.position - position).squaredNorm();
+                float attenuation = 1.0f / (1.0f + distSq); // 改进的距离衰减
+                
+                // 间接漫反射 (使用flux作为光强)
+                color += i_vpl.flux.cwiseProduct(albedo) * 
+                         NdotL * 
+                         attenuation * 
+                         indirectIntensity; // 全局控制强度
             }
-            // Indirect Shading
-            std::vector<IndirectVPL> i_vpls = light->getIndirectVPLs();
-            // TODO: Implement Indirect Shading
-
         }
+        
         color_buffer[i] = color;
     }
 }

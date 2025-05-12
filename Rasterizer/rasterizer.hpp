@@ -22,6 +22,8 @@ class Rasterizer {
     std::vector<Vec3f> org_normal_buffer;
     std::vector<Vec2f> uv_buffer;
     std::vector<std::shared_ptr<Materials>> material_buffer;
+    float indirectIntensity = 1.0f;
+
 public:
     /* Constructors */
     Rasterizer(std::shared_ptr<Camera> cam, std::shared_ptr<Scene> scn):
@@ -40,6 +42,10 @@ public:
     Rasterizer(const std::string& config_path);
 
     void initializeFromConfig(const Config& config);
+
+    void setIndirectIntensity(float intensity) {
+        indirectIntensity = std::max(0.0f, intensity);
+    }
 
     // Pass
     void Pass();
