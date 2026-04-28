@@ -1,0 +1,260 @@
+{
+  "files": {
+    "color.png": {
+      "bytes": 1629,
+      "kind": "png",
+      "path": "color.png",
+      "sha256": "c4dd8960636b05d1b562a54c5b702ae789def70eccbff9bc0419f4b3370dee2a",
+      "shape": [
+        64,
+        64,
+        3
+      ]
+    },
+    "gbuffer/albedo.f32": {
+      "bytes": 49185,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.800000011920929,
+      "mean": 0.6715071607856468,
+      "min": 0.1599999964237213,
+      "name": "albedo",
+      "nonzero_ratio": 1.0,
+      "path": "gbuffer/albedo.f32",
+      "sha256": "be6efd28a39a1d6e77cc70bbda3c41b797321279816f1bcb2879b03b312b3201",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "std": 0.23932700559696368
+    },
+    "gbuffer/depth.png": {
+      "bytes": 983,
+      "kind": "png",
+      "path": "gbuffer/depth.png",
+      "sha256": "b5650809f7d31ee2c878d2a4fe658063e1217e43d1458263c7503bca4b3860c9",
+      "shape": [
+        64,
+        64,
+        3
+      ]
+    },
+    "gbuffer/linear_depth.f32": {
+      "bytes": 16423,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.7930021286010742,
+      "mean": 0.6910876049660146,
+      "min": 0.5475629568099976,
+      "name": "linear_depth",
+      "nonzero_ratio": 1.0,
+      "path": "gbuffer/linear_depth.f32",
+      "sha256": "f021b0e3de49df6e63d0e357febe1a0231fd3d244f8ce159362fad226911574f",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "std": 0.07043593484708202
+    },
+    "gbuffer/linear_depth_preview.png": {
+      "bytes": 983,
+      "kind": "png",
+      "path": "gbuffer/linear_depth_preview.png",
+      "sha256": "b5650809f7d31ee2c878d2a4fe658063e1217e43d1458263c7503bca4b3860c9",
+      "shape": [
+        64,
+        64,
+        3
+      ]
+    },
+    "gbuffer/material_id.f32": {
+      "bytes": 16422,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0,
+      "mean": 1.0,
+      "min": 1.0,
+      "name": "material_id",
+      "nonzero_ratio": 1.0,
+      "path": "gbuffer/material_id.f32",
+      "sha256": "8cb125aa0d3894639ac698657e4f7acf7eb81095f334f1ce2144d30c1ea76509",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "std": 0.0
+    },
+    "gbuffer/metallic.f32": {
+      "bytes": 16419,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "name": "metallic",
+      "nonzero_ratio": 0.0,
+      "path": "gbuffer/metallic.f32",
+      "sha256": "6bf6c3f7d6cc9642e17579e1919f752a68f3c6d4796510d81f4d3cc398eed4b4",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "std": 0.0
+    },
+    "gbuffer/normal.png": {
+      "bytes": 478,
+      "kind": "png",
+      "path": "gbuffer/normal.png",
+      "sha256": "046a5308ff2f110558c5c351a81a22466a89acc03732c8da23281fe2d5308f54",
+      "shape": [
+        64,
+        64,
+        3
+      ]
+    },
+    "gbuffer/roughness.f32": {
+      "bytes": 16420,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.699999988079071,
+      "mean": 0.6645019327406771,
+      "min": 0.6499999761581421,
+      "name": "roughness",
+      "nonzero_ratio": 1.0,
+      "path": "gbuffer/roughness.f32",
+      "sha256": "3da218ef7a9f5c3ac8a746aae1ed68f4738d5ea6e27b5f8f4c6c4626b0fa774b",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "std": 0.02268901181809854
+    },
+    "gbuffer/shadow_visibility.f32": {
+      "bytes": 16428,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0,
+      "mean": 0.327880859375,
+      "min": 0.0,
+      "name": "shadow_visibility",
+      "nonzero_ratio": 0.327880859375,
+      "path": "gbuffer/shadow_visibility.f32",
+      "sha256": "904d5ccae5a6c5815b02e4b187d0b008ada020fab754d9446847ee43c5335781",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "std": 0.46944115864558733
+    },
+    "gbuffer/view_normal.f32": {
+      "bytes": 49190,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0000001192092896,
+      "mean": 0.16171694329879785,
+      "min": -1.0000001192092896,
+      "name": "view_normal",
+      "nonzero_ratio": 0.6593424479166666,
+      "path": "gbuffer/view_normal.f32",
+      "sha256": "a1a54c05b5e0fb429199c10c2ad67184f60aebca336661a270f9bac8f6b85d68",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "std": 0.5542390992300782
+    },
+    "gbuffer/view_position.f32": {
+      "bytes": 49192,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.2630704641342163,
+      "mean": -1.0213276569221155,
+      "min": -4.054467678070068,
+      "name": "view_position",
+      "nonzero_ratio": 1.0,
+      "path": "gbuffer/view_position.f32",
+      "sha256": "fb41e49c6f28c05d891ba21602afa1d2210ae67aef150d82eed51aac824ceffa",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "std": 1.6577729771719707
+    },
+    "gbuffer/world_normal.f32": {
+      "bytes": 49191,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0000001192092896,
+      "mean": 0.1691357843211799,
+      "min": -1.0000001192092896,
+      "name": "world_normal",
+      "nonzero_ratio": 0.5120442708333334,
+      "path": "gbuffer/world_normal.f32",
+      "sha256": "976251d84d90035bf1b87b28c434630248a1a8c619b2c017c340f60628cef47a",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "std": 0.5520203146810676
+    },
+    "gbuffer/world_position.f32": {
+      "bytes": 49193,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 2.000000238418579,
+      "mean": 0.24265326075379198,
+      "min": -1.0000001192092896,
+      "name": "world_position",
+      "nonzero_ratio": 0.9443359375,
+      "path": "gbuffer/world_position.f32",
+      "sha256": "2f2d1dfebcdd5007ce199e102cb91abd70063d452b3daa04278e9ac109c47d9a",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "std": 0.8025630072574625
+    },
+    "shadow/ArealightShadowMap_0.png": {
+      "bytes": 2069,
+      "kind": "png",
+      "path": "shadow/ArealightShadowMap_0.png",
+      "sha256": "2d1756d84427e8a6592b6f837c1adff0368178943ed2e5b9a6057e1618b38faa",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    },
+    "shadow/light_0_direct_vpls.f32": {
+      "bytes": 1581,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.850000023841858,
+      "mean": 0.3278645873069763,
+      "min": -0.39374998211860657,
+      "name": "light_0_direct_vpls",
+      "nonzero_ratio": 1.0,
+      "path": "shadow/light_0_direct_vpls.f32",
+      "sha256": "e157a932447d341d5759bc6e702aee47537bcde0adf677479ec7a6e28295a44f",
+      "shape": [
+        64,
+        1,
+        6
+      ],
+      "std": 0.6925897246123872
+    }
+  },
+  "root": "build/validation_outputs_m8_standard/standard/area_vpl_smoke",
+  "scene_id": "standard_area_vpl_smoke",
+  "version": 1
+}

@@ -1,0 +1,21 @@
+{
+    "scene": {"name": "standard_money_indirect_vpl"},
+    "camera": {"resolution": [48, 48], "position": [4, 3, -2], "target": [2, 2, -1], "focalLength": 1, "fov": 45},
+    "materials": [
+        {"id": "money", "type": "texture", "texture": "./assets/Money/2.png", "baseColor": [1, 1, 1], "shininess": 16, "roughness": 0.5, "metallic": 0.0}
+    ],
+    "objects": [
+        {"name": "money", "mesh": "./assets/Money/2.obj", "material": "money", "translation": [0, 0, 0], "rotation": [0, 0, 0], "scale": [1, 1, 1]}
+    ],
+    "lights": [
+        {
+            "name": "point_key",
+            "type": "point",
+            "position": [8, 4, 4],
+            "intensity": [1, 1, 1],
+            "shadow": {"enabled": true},
+            "indirectVPL": {"enabled": true, "samples": 32, "seed": 7, "bounces": 1, "visibility": false, "clamp": 0.35, "radius": 0.25}
+        }
+    ],
+    "outputs": {"root": "outputs", "buffers": ["color", "gbuffer", "shadow"]}
+}

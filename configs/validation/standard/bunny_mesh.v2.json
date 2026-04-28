@@ -1,0 +1,47 @@
+{
+    "scene": {
+        "name": "standard_bunny_mesh"
+    },
+    "camera": {
+        "resolution": [24, 24],
+        "position": [4, 3, -2],
+        "target": [2, 2, -1],
+        "focalLength": 1,
+        "fov": 45
+    },
+    "materials": [
+        {
+            "id": "mat",
+            "type": "phong",
+            "baseColor": [0.9, 0.9, 0.85],
+            "shininess": 18,
+            "roughness": 0.55,
+            "metallic": 0.0
+        }
+    ],
+    "objects": [
+        {
+            "name": "bunny",
+            "mesh": "./assets/Bunny/bunny.obj",
+            "material": "mat",
+            "translation": [0.1, 0, -0.02],
+            "rotation": [0, 60, 0],
+            "scale": [2, 2, 2]
+        }
+    ],
+    "lights": [
+        {
+            "name": "point_key",
+            "type": "point",
+            "position": [8, 3, 5],
+            "intensity": [0, 1, 1],
+            "shadow": {
+                "enabled": true
+            }
+        }
+    ],
+    "outputs": {
+        "root": "outputs",
+        "buffers": ["color", "gbuffer", "shadow"]
+    }
+}

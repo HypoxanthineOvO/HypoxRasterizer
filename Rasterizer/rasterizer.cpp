@@ -1,6 +1,12 @@
 #include "rasterizer.hpp"
+#include "float_buffer_writer.hpp"
+#include "gbuffer.hpp"
+#include "indirect_vpl_sampler.hpp"
 #include "shadowmap.hpp"
+#include "vpl_debug.hpp"
+#include <algorithm>
 #include <map>
+#include <utility>
 
 /**
  * @brief 构造函数，从配置文件初始化光栅化器。
@@ -24,6 +30,8 @@ Rasterizer::Rasterizer(const std::string& config_path) {
     org_normal_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
     uv_buffer.resize(camera->getWidth() * camera->getHeight(), -Vec2f::Ones());
     material_buffer.resize(camera->getWidth() * camera->getHeight(), nullptr);
+    shadow_visibility_buffer.resize(camera->getWidth() * camera->getHeight(), 0.0f);
+    indirect_vpl_radiance_buffer.resize(camera->getWidth() * camera->getHeight(), Vec3f::Zero());
 }
 
 /**
@@ -48,11 +56,13 @@ void Rasterizer::initializeFromConfig(const Config& config) {
         if (mat_config.type == Color_Mat) {
             // Color Material: Have base_color
             mat = std::make_shared<ColorMaterial>(
-                mat_config.base_color, mat_config.shininess
+                mat_config.base_color, mat_config.shininess,
+                mat_config.roughness, mat_config.metallic
             );
         } else if (mat_config.type == Texture_Mat) {
             mat = std::make_shared<TextureMaterial>(
-                mat_config.texture_file_path, mat_config.shininess
+                mat_config.texture_file_path, mat_config.shininess,
+                mat_config.roughness, mat_config.metallic
             );
         }
         materials[mat_config.name] = mat;
@@ -74,6 +84,7 @@ void Rasterizer::initializeFromConfig(const Config& config) {
         scn->addObject(obj);
     }
     // 2.3. Initialize Lights
+    int light_index = 0;
     for (LightConfig light_config : config.lights_config) {
         std::shared_ptr<Light> light;
         if (light_config.type == Point_Light) {
@@ -82,19 +93,38 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             );
 
             // Initialize Shadow Map
-            std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
-            light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
-            light->showShadowMap("PointlightShadowMap.png");
+            if (light_config.shadow_enabled) {
+                std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
+                light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
+                light->showShadowMap("PointlightShadowMap_" + std::to_string(light_index));
+            }
+        }
+        else if (light_config.type == Directional_Light) {
+            light = std::make_shared<DirectionalLight>(
+                light_config.direction, light_config.intensity
+            );
+
+            // Initialize Shadow Map
+            if (light_config.shadow_enabled) {
+                std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
+                light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
+                light->showShadowMap("DirectionalLightShadowMap_" + std::to_string(light_index));
+            }
         }
         else if (light_config.type == Area_Light) {
             light = std::make_shared<AreaLight>(
                 light_config.position, light_config.intensity,
-                light_config.normal, light_config.size
+                light_config.normal, light_config.size,
+                light_config.vpl_sample_count,
+                light_config.vpl_seed,
+                light_config.vpl_stochastic
             );
             // Initialize Shadow Map
-            std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
-            light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
-            light->showShadowMap("ArealightShadowMap.png");
+            if (light_config.shadow_enabled) {
+                std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
+                light->initShadowMap(DEFAULT_SHADOW_MAP_RESOLUTION, objects);
+                light->showShadowMap("ArealightShadowMap_" + std::to_string(light_index) + ".png");
+            }
             // Add an object for the area light
             // std::shared_ptr<Object> obj = std::make_shared<Object>(
             //     "assets/Objects/ground.obj"
@@ -109,7 +139,22 @@ void Rasterizer::initializeFromConfig(const Config& config) {
             puts("Unknown Light Type");
             exit(1);
         }
+        if (light_config.indirect_vpl.enabled) {
+            std::vector<std::shared_ptr<Object>> objects = scn->getObjects();
+            std::vector<IndirectVPL> indirect_samples = sampleFirstBounceIndirectVPLs(
+                *light,
+                objects,
+                light_config.indirect_vpl,
+                light_index
+            );
+            light->setIndirectVPLs(
+                indirect_samples,
+                light_config.indirect_vpl.visibility,
+                light_config.indirect_vpl.clamp
+            );
+        }
         scn->addLight(light);
+        ++light_index;
     }
 
     // 3. Initialize Rasterizer
@@ -142,6 +187,9 @@ void Rasterizer::VertexProcessing() {
     /*
     Read the vertices from the scene and apply the camera transformation to them.
     */
+    triangle_buffer.clear();
+    org_triangle_buffer.clear();
+    view_triangle_buffer.clear();
     // Generate the Matrix
     Mat4f view_matrix = camera->getViewMatrix(),
         projection_matrix = camera->getProjectionMatrix();
@@ -151,6 +199,7 @@ void Rasterizer::VertexProcessing() {
         for (Triangle tri : obj->getTriangles()) {
             org_triangle_buffer.push_back(tri);
             Triangle new_tri;
+            Triangle view_tri;
             for (int i = 0; i < 3; i++) {
                 Vertex vert = tri.getVertex(i);
                 Vec4f org_pos = Vec4f(vert.position.x(), vert.position.y(), vert.position.z(), 1),
@@ -159,7 +208,9 @@ void Rasterizer::VertexProcessing() {
                 
                 // Apply the Transformation
                 Vertex new_vert = vert;
-                Vec4f pos = projection_matrix * view_matrix * org_pos;
+                Vertex view_vert = vert;
+                Vec4f view_pos = view_matrix * org_pos;
+                Vec4f pos = projection_matrix * view_pos;
                 Vec4f norm = view_matrix * org_norm;
                 
                 new_vert.position = Vec3f(pos.x() / pos.w(), pos.y() / pos.w(), pos.z() / pos.w());
@@ -167,9 +218,15 @@ void Rasterizer::VertexProcessing() {
                 new_vert.uv = vert.uv;
 
                 new_tri.setVertex(i, new_vert);
+                view_vert.position = Vec3f(view_pos.x(), view_pos.y(), view_pos.z());
+                view_vert.normal = Vec3f(norm.x(), norm.y(), norm.z());
+                view_vert.uv = vert.uv;
+                view_tri.setVertex(i, view_vert);
             }
             new_tri.setMaterial(mat);
             triangle_buffer.push_back(new_tri);
+            view_tri.setMaterial(mat);
+            view_triangle_buffer.push_back(view_tri);
         }
     }
 }
@@ -184,6 +241,7 @@ void Rasterizer::FragmentProcessing() {
         //for (Triangle &tri : triangle_buffer)
         Triangle& tri = triangle_buffer[tid];
         Triangle& org_tri = org_triangle_buffer[tid];
+        Triangle& view_tri = view_triangle_buffer[tid];
         // Get AABB Of the Triangle
         Vec2f min = tri.getXYMin(), max = tri.getXYMax();
         float width = static_cast<float>(camera->getWidth()),
@@ -232,18 +290,18 @@ void Rasterizer::FragmentProcessing() {
                     We also save the information in the camera space
                     */
                     // Position
-                    Vec3f position = weights.x() * tri.getVertex(0).position +
-                                        weights.y() * tri.getVertex(1).position +
-                                        weights.z() * tri.getVertex(2).position;
+                    Vec3f position = weights.x() * view_tri.getVertex(0).position +
+                                        weights.y() * view_tri.getVertex(1).position +
+                                        weights.z() * view_tri.getVertex(2).position;
                     position_buffer[y * w + x] = position;
                     Vec3f org_position = weights.x() * org_tri.getVertex(0).position +
                                         weights.y() * org_tri.getVertex(1).position +
                                         weights.z() * org_tri.getVertex(2).position;
                     org_position_buffer[y * w + x] = org_position;
                     // Normal
-                    Vec3f normal = weights.x() * tri.getVertex(0).normal +
-                                    weights.y() * tri.getVertex(1).normal +
-                                    weights.z() * tri.getVertex(2).normal;
+                    Vec3f normal = weights.x() * view_tri.getVertex(0).normal +
+                                    weights.y() * view_tri.getVertex(1).normal +
+                                    weights.z() * view_tri.getVertex(2).normal;
                     normal_buffer[y * w + x] = normal;
                     Vec3f org_normal = weights.x() * org_tri.getVertex(0).normal +
                                     weights.y() * org_tri.getVertex(1).normal +
@@ -268,6 +326,7 @@ void Rasterizer::FragmentProcessing() {
  */
 void Rasterizer::FragmentShading() {
     uint32_t resolution = camera->getWidth() * camera->getHeight();
+    std::fill(indirect_vpl_radiance_buffer.begin(), indirect_vpl_radiance_buffer.end(), Vec3f::Zero());
     for (int i = 0; i < resolution; i++) {
         // Get each fragment, and do the shading
         Vec3f position = org_position_buffer[i],
@@ -286,10 +345,12 @@ void Rasterizer::FragmentShading() {
         Vec3f color = AMBIENT.cwiseProduct(vert_color);
         // Diffuse and Specular Light
         auto lights = scene->getLights();
+        int visible_lights = 0;
         for (std::shared_ptr<Light> light : lights) {
             if (!light->isLighted(position)) {
                 continue;
             }
+            ++visible_lights;
 
             // Direct Shading
             std::vector<DirectVPL> d_vpls = light->getDirectVPLs();
@@ -312,9 +373,36 @@ void Rasterizer::FragmentShading() {
             }
             // Indirect Shading
             std::vector<IndirectVPL> i_vpls = light->getIndirectVPLs();
-            // TODO: Implement Indirect Shading
+            for (const IndirectVPL& i_vpl : i_vpls) {
+                if (light->isIndirectVPLVisibilityEnabled()) {
+                    Vec3f ray = position - i_vpl.position;
+                    const float distance = ray.norm();
+                    if (distance > LENGTH_EPS) {
+                        RayHit hit = intersectSceneFirstHit(
+                            i_vpl.position + i_vpl.normal * 1e-4f,
+                            ray.normalized(),
+                            scene->getObjects()
+                        );
+                        if (hit.hit && hit.t < distance - 1e-3f) {
+                            continue;
+                        }
+                    }
+                }
+                Vec3f contribution = evaluateIndirectVPLContribution(
+                    position,
+                    normal,
+                    vert_color,
+                    i_vpl,
+                    light->getIndirectVPLClamp()
+                );
+                color += contribution;
+                indirect_vpl_radiance_buffer[i] += contribution;
+            }
 
         }
+        shadow_visibility_buffer[i] = lights.empty()
+            ? 1.0f
+            : static_cast<float>(visible_lights) / static_cast<float>(lights.size());
         color_buffer[i] = color;
     }
 }
@@ -336,10 +424,97 @@ void Rasterizer::DisplayToImage() {
     }
 
     // Normalize the Depth Buffer
+    float depth_range = max_value - min_value;
     for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
-        depth_buffer_normal[i] = (depth_buffer[i] - min_value) / (max_value-min_value);
+        depth_buffer_normal[i] = std::abs(depth_range) < 1e-8f ? 0.0f : (depth_buffer[i] - min_value) / depth_range;
     }
     writeImageToFile(depth_buffer_normal, camera->getResolution(), "depth.png");
     // Write Normal Buffer
     writeImageToFile(normal_buffer, camera->getResolution(), "normal.png");
+}
+
+void Rasterizer::ExportGBuffer(const std::filesystem::path& output_dir) const {
+    std::filesystem::create_directories(output_dir);
+    GBuffer gbuffer(camera->getResolution());
+    const int width = camera->getWidth();
+    const int height = camera->getHeight();
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            const int idx = y * width + x;
+            GBufferSample sample;
+            sample.world_position = org_position_buffer[idx];
+            sample.view_position = position_buffer[idx];
+            sample.linear_depth = depth_buffer[idx];
+            sample.world_normal = org_normal_buffer[idx];
+            sample.view_normal = normal_buffer[idx];
+            sample.material_id = material_buffer[idx] == nullptr ? 0 : 1;
+            sample.shadow_visibility = material_buffer[idx] == nullptr ? 0.0f : shadow_visibility_buffer[idx];
+            if (material_buffer[idx] != nullptr) {
+                MaterialSample material_sample = material_buffer[idx]->sample(uv_buffer[idx]);
+                sample.albedo = material_sample.base_color;
+                sample.roughness = material_sample.roughness;
+                sample.metallic = material_sample.metallic;
+            }
+            gbuffer.writePixel(x, y, sample);
+        }
+    }
+
+    for (const FloatBuffer& buffer : gbuffer.floatBuffers()) {
+        writeFloatBuffer(output_dir / (buffer.name + ".f32"), buffer);
+    }
+
+    std::vector<float> indirect_radiance;
+    indirect_radiance.reserve(static_cast<size_t>(width) * static_cast<size_t>(height) * 3);
+    for (const Vec3f& value : indirect_vpl_radiance_buffer) {
+        indirect_radiance.push_back(value.x());
+        indirect_radiance.push_back(value.y());
+        indirect_radiance.push_back(value.z());
+    }
+    FloatBuffer indirect_buffer;
+    indirect_buffer.name = "indirect_vpl_radiance";
+    indirect_buffer.width = width;
+    indirect_buffer.height = height;
+    indirect_buffer.channels = 3;
+    indirect_buffer.data = std::move(indirect_radiance);
+    writeFloatBuffer(output_dir / "indirect_vpl_radiance.f32", indirect_buffer);
+
+    std::vector<float> depth_preview = gbuffer.normalizedLinearDepthPreview();
+    writeImageToFile(depth_preview, camera->getResolution(), (output_dir / "linear_depth_preview.png").string());
+}
+
+void Rasterizer::ExportLightDebugData(const std::filesystem::path& output_dir) const {
+    std::filesystem::create_directories(output_dir);
+    auto lights = scene->getLights();
+    for (size_t light_index = 0; light_index < lights.size(); ++light_index) {
+        std::vector<DirectVPL> vpls = lights[light_index]->getDirectVPLs();
+        std::vector<IndirectVPL> indirect_vpls = lights[light_index]->getIndirectVPLs();
+        if (!indirect_vpls.empty()) {
+            FloatBuffer indirect_buffer = makeIndirectVPLFloatBuffer(light_index, indirect_vpls);
+            writeFloatBuffer(output_dir / (indirect_buffer.name + ".f32"), indirect_buffer);
+        }
+        if (vpls.size() <= 1) {
+            continue;
+        }
+
+        std::vector<float> data;
+        data.reserve(vpls.size() * 6);
+        for (const DirectVPL& vpl : vpls) {
+            data.push_back(vpl.position.x());
+            data.push_back(vpl.position.y());
+            data.push_back(vpl.position.z());
+            data.push_back(vpl.intensity.x());
+            data.push_back(vpl.intensity.y());
+            data.push_back(vpl.intensity.z());
+        }
+
+        FloatBuffer buffer;
+        buffer.name = "light_" + std::to_string(light_index) + "_direct_vpls";
+        buffer.width = static_cast<int>(vpls.size());
+        buffer.height = 1;
+        buffer.channels = 6;
+        buffer.data = std::move(data);
+        writeFloatBuffer(output_dir / (buffer.name + ".f32"), buffer);
+
+    }
 }

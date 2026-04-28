@@ -1,0 +1,56 @@
+{
+    "scene": {
+        "name": "fast_multi_light_shadow"
+    },
+    "camera": {
+        "resolution": [16, 16],
+        "position": [2, 1, -1],
+        "target": [0, 1, -2],
+        "focalLength": 1,
+        "fov": 45
+    },
+    "materials": [
+        {
+            "id": "mat",
+            "type": "phong",
+            "baseColor": [0.4, 0.7, 0.9],
+            "shininess": 20,
+            "roughness": 0.45,
+            "metallic": 0.0
+        }
+    ],
+    "objects": [
+        {
+            "name": "triangle",
+            "mesh": "./assets/Triangle/scene1.obj",
+            "material": "mat",
+            "translation": [0, 0, 0],
+            "rotation": [0, 0, 0],
+            "scale": [1, 1, 1]
+        }
+    ],
+    "lights": [
+        {
+            "name": "point_key",
+            "type": "point",
+            "position": [2, 5, -1],
+            "intensity": [0.8, 0.8, 0.8],
+            "shadow": {
+                "enabled": true
+            }
+        },
+        {
+            "name": "sun",
+            "type": "directional",
+            "direction": [-0.3, -1.0, -0.2],
+            "intensity": [0.4, 0.4, 0.4],
+            "shadow": {
+                "enabled": true
+            }
+        }
+    ],
+    "outputs": {
+        "root": "outputs",
+        "buffers": ["color", "gbuffer", "shadow"]
+    }
+}

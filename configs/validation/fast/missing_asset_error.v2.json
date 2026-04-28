@@ -1,0 +1,31 @@
+{
+    "scene": {
+        "name": "fast_missing_asset_error"
+    },
+    "camera": {
+        "resolution": [8, 8],
+        "position": [0, 0, 2],
+        "target": [0, 0, 0],
+        "fov": 45
+    },
+    "materials": [
+        {
+            "id": "mat",
+            "type": "phong",
+            "baseColor": [1, 1, 1],
+            "shininess": 15
+        }
+    ],
+    "objects": [
+        {
+            "name": "missing",
+            "mesh": "./assets/Missing/not_found.obj",
+            "material": "mat"
+        }
+    ],
+    "lights": [],
+    "outputs": {
+        "root": "outputs",
+        "buffers": ["color"]
+    }
+}

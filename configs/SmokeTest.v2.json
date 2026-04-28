@@ -1,0 +1,47 @@
+{
+    "scene": {
+        "name": "smoke_v2"
+    },
+    "camera": {
+        "resolution": [32, 32],
+        "position": [2, 1, -1],
+        "target": [0, 1, -2],
+        "focalLength": 1,
+        "fov": 45
+    },
+    "materials": [
+        {
+            "id": "mat",
+            "type": "phong",
+            "baseColor": [0, 1, 0],
+            "shininess": 15,
+            "roughness": 0.45,
+            "metallic": 0.1
+        }
+    ],
+    "objects": [
+        {
+            "name": "triangle",
+            "mesh": "./assets/Triangle/scene1.obj",
+            "material": "mat",
+            "translation": [0, 0, 0],
+            "rotation": [0, 0, 0],
+            "scale": [1, 1, 1]
+        }
+    ],
+    "lights": [
+        {
+            "name": "key",
+            "type": "point",
+            "position": [2, 5, -1],
+            "intensity": [1, 1, 1],
+            "shadow": {
+                "enabled": true
+            }
+        }
+    ],
+    "outputs": {
+        "root": "outputs",
+        "buffers": ["color", "gbuffer", "shadow"]
+    }
+}

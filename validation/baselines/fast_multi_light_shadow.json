@@ -1,0 +1,308 @@
+{
+  "files": {
+    "color.png": {
+      "bytes": 363,
+      "kind": "png",
+      "path": "color.png",
+      "sha256": "86609f736b856398b6f364db31c285e71ed98db727ace827b6d8a14dcf2a6c90",
+      "shape": [
+        16,
+        16,
+        3
+      ]
+    },
+    "gbuffer/albedo.f32": {
+      "bytes": 3105,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.8999999761581421,
+      "mean": 0.4244791603414342,
+      "min": 0.0,
+      "name": "albedo",
+      "nonzero_ratio": 0.63671875,
+      "path": "gbuffer/albedo.f32",
+      "sha256": "4ef364bd5fec260dcaccb12319d14d355583d85a304f18bd161e92709fb48827",
+      "shape": [
+        16,
+        16,
+        3
+      ],
+      "std": 0.3601211219354817
+    },
+    "gbuffer/depth.png": {
+      "bytes": 330,
+      "kind": "png",
+      "path": "gbuffer/depth.png",
+      "sha256": "226a3d7f4237a2c9654eb3c02589bc2db0654b7b1b6dfb0fae146975a6f9c012",
+      "shape": [
+        16,
+        16,
+        3
+      ]
+    },
+    "gbuffer/linear_depth.f32": {
+      "bytes": 1063,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0,
+      "mean": 0.5894804914714769,
+      "min": 0.26876863837242126,
+      "name": "linear_depth",
+      "nonzero_ratio": 1.0,
+      "path": "gbuffer/linear_depth.f32",
+      "sha256": "d181f1aa9684fe8bb5a22a09e729e88b0feb21266a7b614986888e7920cca1c7",
+      "shape": [
+        16,
+        16,
+        1
+      ],
+      "std": 0.3126919624408598
+    },
+    "gbuffer/linear_depth_preview.png": {
+      "bytes": 330,
+      "kind": "png",
+      "path": "gbuffer/linear_depth_preview.png",
+      "sha256": "226a3d7f4237a2c9654eb3c02589bc2db0654b7b1b6dfb0fae146975a6f9c012",
+      "shape": [
+        16,
+        16,
+        3
+      ]
+    },
+    "gbuffer/material_id.f32": {
+      "bytes": 1062,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0,
+      "mean": 0.63671875,
+      "min": 0.0,
+      "name": "material_id",
+      "nonzero_ratio": 0.63671875,
+      "path": "gbuffer/material_id.f32",
+      "sha256": "40a1c88edb81b1516350947ff94bbc89a3197a22838c9ba3283419056bb7f061",
+      "shape": [
+        16,
+        16,
+        1
+      ],
+      "std": 0.48094488603002894
+    },
+    "gbuffer/metallic.f32": {
+      "bytes": 1059,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "name": "metallic",
+      "nonzero_ratio": 0.0,
+      "path": "gbuffer/metallic.f32",
+      "sha256": "1f7211203e9006d9b21996ebf43b63b37c2dc6bcdb6e054c05b9188e168fbf77",
+      "shape": [
+        16,
+        16,
+        1
+      ],
+      "std": 0.0
+    },
+    "gbuffer/normal.png": {
+      "bytes": 130,
+      "kind": "png",
+      "path": "gbuffer/normal.png",
+      "sha256": "626c9c109897692f8aaa5af1d827a2c48f92479ac663301177391c49adf94185",
+      "shape": [
+        16,
+        16,
+        3
+      ]
+    },
+    "gbuffer/roughness.f32": {
+      "bytes": 1060,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.5,
+      "mean": 0.468164054909721,
+      "min": 0.44999998807907104,
+      "name": "roughness",
+      "nonzero_ratio": 1.0,
+      "path": "gbuffer/roughness.f32",
+      "sha256": "77b02c9f5b257cc1ea9cb733b7b14ef176d79478013b8c1023a07fc7c6b4df7f",
+      "shape": [
+        16,
+        16,
+        1
+      ],
+      "std": 0.024047250034811264
+    },
+    "gbuffer/shadow_visibility.f32": {
+      "bytes": 1068,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0,
+      "mean": 0.63671875,
+      "min": 0.0,
+      "name": "shadow_visibility",
+      "nonzero_ratio": 0.63671875,
+      "path": "gbuffer/shadow_visibility.f32",
+      "sha256": "52834d9e255e3e9ef06c43c4e2b231b70db4f3572d666f32c7b655bba4af92a1",
+      "shape": [
+        16,
+        16,
+        1
+      ],
+      "std": 0.48094488603002894
+    },
+    "gbuffer/view_normal.f32": {
+      "bytes": 3110,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 0.8944272994995117,
+      "mean": 0.2847492928073431,
+      "min": 0.0,
+      "name": "view_normal",
+      "nonzero_ratio": 0.4244791666666667,
+      "path": "gbuffer/view_normal.f32",
+      "sha256": "52fd1735e766cf013521152316cdc9a62950d1f508cfce6cdceb6df2295b91d1",
+      "shape": [
+        16,
+        16,
+        3
+      ],
+      "std": 0.36215664646595885
+    },
+    "gbuffer/view_position.f32": {
+      "bytes": 3112,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.024271011352539,
+      "mean": -0.3142878102274456,
+      "min": -1.94315505027771,
+      "name": "view_position",
+      "nonzero_ratio": 0.6236979166666666,
+      "path": "gbuffer/view_position.f32",
+      "sha256": "8a32edf4c411147177b170c5d6e1914d87e1665172ff9c9c824e65b48de31f15",
+      "shape": [
+        16,
+        16,
+        3
+      ],
+      "std": 0.709778748077891
+    },
+    "gbuffer/world_normal.f32": {
+      "bytes": 3111,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 1.0000001192092896,
+      "mean": 0.21223958302289248,
+      "min": 0.0,
+      "name": "world_normal",
+      "nonzero_ratio": 0.21223958333333334,
+      "path": "gbuffer/world_normal.f32",
+      "sha256": "ae7ef0994ed835a6f6fa533b55ce33f367d350c51954530690e3969c43c5a243",
+      "shape": [
+        16,
+        16,
+        3
+      ],
+      "std": 0.40889355841186886
+    },
+    "gbuffer/world_position.f32": {
+      "bytes": 3113,
+      "finite_ratio": 1.0,
+      "kind": "f32",
+      "max": 2.024271011352539,
+      "mean": 0.033109895147693656,
+      "min": -1.9932695627212524,
+      "name": "world_position",
+      "nonzero_ratio": 0.63671875,
+      "path": "gbuffer/world_position.f32",
+      "sha256": "20c065c83dbd845e457cb8b8262ab00b7003269c302c4643ff702f39ec07d030",
+      "shape": [
+        16,
+        16,
+        3
+      ],
+      "std": 0.9869396850008341
+    },
+    "shadow/DirectionalLightShadowMap_1.png": {
+      "bytes": 756,
+      "kind": "png",
+      "path": "shadow/DirectionalLightShadowMap_1.png",
+      "sha256": "8174c5c459c876d6ea6f1d82fe83af41683f1d3aa6edef39256299ac9afd82d2",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    },
+    "shadow/PointlightShadowMap_0_face_neg_x.png": {
+      "bytes": 644,
+      "kind": "png",
+      "path": "shadow/PointlightShadowMap_0_face_neg_x.png",
+      "sha256": "28ff57ee0e47fe44a9fe120d9569d8f1e3376a7668f787bd3546393ff7c4c9f2",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    },
+    "shadow/PointlightShadowMap_0_face_neg_y.png": {
+      "bytes": 1643,
+      "kind": "png",
+      "path": "shadow/PointlightShadowMap_0_face_neg_y.png",
+      "sha256": "8baf4662dfe95afcdeca2a76801c7951af3c212d220c370905f07b98de479f0f",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    },
+    "shadow/PointlightShadowMap_0_face_neg_z.png": {
+      "bytes": 1920,
+      "kind": "png",
+      "path": "shadow/PointlightShadowMap_0_face_neg_z.png",
+      "sha256": "36959716b51a3d29c58dd0ae7cdb845f7dae246741e4d8d61df3d43bee4f8956",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    },
+    "shadow/PointlightShadowMap_0_face_pos_x.png": {
+      "bytes": 543,
+      "kind": "png",
+      "path": "shadow/PointlightShadowMap_0_face_pos_x.png",
+      "sha256": "9b904e1ecbdb912c3fac8228c9ea8be0a6ae7669988ab3256d24c03505b58037",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    },
+    "shadow/PointlightShadowMap_0_face_pos_y.png": {
+      "bytes": 543,
+      "kind": "png",
+      "path": "shadow/PointlightShadowMap_0_face_pos_y.png",
+      "sha256": "9b904e1ecbdb912c3fac8228c9ea8be0a6ae7669988ab3256d24c03505b58037",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    },
+    "shadow/PointlightShadowMap_0_face_pos_z.png": {
+      "bytes": 1890,
+      "kind": "png",
+      "path": "shadow/PointlightShadowMap_0_face_pos_z.png",
+      "sha256": "f576daba99715503a39cd4f8941c28b3f3f75185f0dadefa3bcec0eaffa22605",
+      "shape": [
+        128,
+        128,
+        3
+      ]
+    }
+  },
+  "root": "build/validation_outputs_m8/fast/fast_multi_light_shadow",
+  "scene_id": "fast_multi_light_shadow",
+  "version": 1
+}

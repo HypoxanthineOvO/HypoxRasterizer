@@ -1,0 +1,21 @@
+{
+    "scene": {"name": "heavy_dragon_indirect_vpl_quick"},
+    "camera": {"resolution": [24, 24], "position": [7, 0, 0], "target": [0.1, 0, -0.02], "focalLength": 0.5, "fov": 45},
+    "materials": [
+        {"id": "mat", "type": "phong", "baseColor": [0.82, 0.82, 0.9], "shininess": 16, "roughness": 0.6, "metallic": 0.0}
+    ],
+    "objects": [
+        {"name": "dragon", "mesh": "./assets/Dragon/stanford_dragon.obj", "material": "mat", "translation": [0.1, -2, -0.02], "rotation": [0, 90, 0], "scale": [20, 20, 20]}
+    ],
+    "lights": [
+        {
+            "name": "point_key",
+            "type": "point",
+            "position": [8, 0, 0],
+            "intensity": [1, 1, 1],
+            "shadow": {"enabled": true},
+            "indirectVPL": {"enabled": true, "samples": 16, "seed": 3, "bounces": 1, "visibility": false, "clamp": 0.2, "radius": 0.3}
+        }
+    ],
+    "outputs": {"root": "outputs", "buffers": ["color", "gbuffer", "shadow"]}
+}

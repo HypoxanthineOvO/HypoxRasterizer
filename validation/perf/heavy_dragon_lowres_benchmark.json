@@ -1,0 +1,14 @@
+{
+  "notes": "Includes internal Dragon render and skipped missing external Bistro hook.",
+  "output_root": "build/test_outputs/m12_heavy_runner",
+  "recorded_at": "2026-04-28T13:16:00+08:00",
+  "resolution": [
+    24,
+    24
+  ],
+  "runner_command": "python3 tools/validation/validation_runner.py --manifest validation/scenes.yaml --tier heavy --render --output-root build/test_outputs/m12_heavy_runner",
+  "runtime_budget_seconds": 60,
+  "runtime_seconds": 3.616037436,
+  "scene_id": "heavy_dragon_lowres_benchmark",
+  "tier": "heavy"
+}

@@ -1,0 +1,19 @@
+{
+    "scene": {
+        "name": "fast_empty_scene"
+    },
+    "camera": {
+        "resolution": [8, 8],
+        "position": [0, 0, 2],
+        "target": [0, 0, 0],
+        "focalLength": 1,
+        "fov": 45
+    },
+    "materials": [],
+    "objects": [],
+    "lights": [],
+    "outputs": {
+        "root": "outputs",
+        "buffers": ["color", "gbuffer"]
+    }
+}

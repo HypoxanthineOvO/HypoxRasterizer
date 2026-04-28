@@ -2,6 +2,8 @@
 #define CONFIGS_HPP_
 
 #include "cores.hpp"
+#include "indirect_vpl_config.hpp"
+#include <cstdint>
 #include <string>
 
 typedef enum MaterialType {
@@ -10,6 +12,7 @@ typedef enum MaterialType {
 } MaterialType;
 typedef enum LightType {
     Point_Light,
+    Directional_Light,
     Area_Light
 } LightType;
 
@@ -25,6 +28,8 @@ struct MaterialConfig {
     std::string name;
     MaterialType type;
     float shininess;
+    float roughness = 0.5f;
+    float metallic = 0.0f;
     Vec3f base_color;
     std::string texture_file_path;
 };
@@ -42,9 +47,17 @@ struct LightConfig {
     Vec3f position;
     Vec3f intensity;
 
+    // Directional Light
+    Vec3f direction = Vec3f(0, -1, 0);
+
     // Area Light
     Vec3f normal;
     Vec2f size;
+    int vpl_sample_count = NUM_SQRT_DIRECT_VPL * NUM_SQRT_DIRECT_VPL;
+    uint32_t vpl_seed = 0;
+    bool vpl_stochastic = false;
+    bool shadow_enabled = true;
+    IndirectVPLConfig indirect_vpl;
 };
 
 class Config {

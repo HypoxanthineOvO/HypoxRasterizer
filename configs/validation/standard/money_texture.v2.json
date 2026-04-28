@@ -1,0 +1,47 @@
+{
+    "scene": {
+        "name": "standard_money_texture"
+    },
+    "camera": {
+        "resolution": [32, 32],
+        "position": [14, 0, 0],
+        "target": [0, 0, 0],
+        "focalLength": 1,
+        "fov": 45
+    },
+    "materials": [
+        {
+            "id": "mat",
+            "type": "texture",
+            "texture": "./assets/Money/2.png",
+            "shininess": 15,
+            "roughness": 0.5,
+            "metallic": 0.0
+        }
+    ],
+    "objects": [
+        {
+            "name": "money",
+            "mesh": "./assets/Money/2.obj",
+            "material": "mat",
+            "translation": [0.1, 0, -0.02],
+            "rotation": [180, 0, 0],
+            "scale": [0.1, 0.1, 0.1]
+        }
+    ],
+    "lights": [
+        {
+            "name": "point_key",
+            "type": "point",
+            "position": [15, 0, 0],
+            "intensity": [1, 0, 1],
+            "shadow": {
+                "enabled": true
+            }
+        }
+    ],
+    "outputs": {
+        "root": "outputs",
+        "buffers": ["color", "gbuffer", "shadow"]
+    }
+}

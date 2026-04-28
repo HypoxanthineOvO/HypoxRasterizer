@@ -1,0 +1,33 @@
+{
+    "Camera": {
+        "Resolution": [32, 32],
+        "Position": [2, 1, -1],
+        "Target": [0, 1, -2],
+        "FocalLength": 1,
+        "Fov": 45
+    },
+    "Materials": [
+        {
+            "Name": "mat",
+            "Type": "ColorMat",
+            "BaseColor": [0, 1, 0],
+            "Shininess": 15
+        }
+    ],
+    "Objects": [
+        {
+            "SourceFile": "./assets/Triangle/scene1.obj",
+            "Translation": [0, 0, 0],
+            "Rotation": [0, 0, 0],
+            "Scale": [1, 1, 1],
+            "Material": "mat"
+        }
+    ],
+    "Lights": [
+        {
+            "Type": "PointLight",
+            "Position": [2, 5, -1],
+            "Intensity": [1, 1, 1]
+        }
+    ]
+}

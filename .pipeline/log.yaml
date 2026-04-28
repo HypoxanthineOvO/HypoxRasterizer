@@ -1,0 +1,1189 @@
+entries:
+  - id: "M1-START"
+    type: milestone
+    ref: ".pipeline/prompts/00-build-test-baseline.md"
+    status: proposed
+    timestamp: "2026-04-27T21:31:46+08:00"
+    summary: "Started M1: Build, Test, and Baseline Recovery."
+    report: null
+    trigger: user
+    related_milestone: "M1"
+  - id: "M1-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/00-build-test-baseline.md#write_tests"
+    status: completed
+    timestamp: "2026-04-27T21:34:01+08:00"
+    summary: "Added baseline automated tests and a low-resolution smoke scene config."
+    report: null
+    trigger: auto
+    related_milestone: "M1"
+  - id: "M1-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/00-build-test-baseline.md#review_tests"
+    status: completed
+    timestamp: "2026-04-27T21:34:27+08:00"
+    summary: "Reviewed baseline tests; coverage is sufficient for M1 expectations."
+    report: null
+    trigger: auto
+    related_milestone: "M1"
+  - id: "M1-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/00-build-test-baseline.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-27T21:35:07+08:00"
+    summary: "RED confirmed: BaselineTests is not yet registered as an xmake target."
+    report: null
+    trigger: auto
+    related_milestone: "M1"
+  - id: "M1-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/00-build-test-baseline.md#implement"
+    status: completed
+    timestamp: "2026-04-27T21:43:06+08:00"
+    summary: "Implemented M1 baseline target, tests, smoke config, vendored header-only dependencies, and README commands."
+    report: null
+    trigger: auto
+    related_milestone: "M1"
+  - id: "M1-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/00-build-test-baseline.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-27T21:44:03+08:00"
+    summary: "GREEN passed: builds, baseline tests, and smoke render all succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M1"
+  - id: "M1-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/00-build-test-baseline.md"
+    status: completed
+    timestamp: "2026-04-27T21:45:00+08:00"
+    summary: "Completed M1 with passing build, baseline tests, and smoke render."
+    report: ".pipeline/reports/00-build-test-baseline.md"
+    trigger: auto
+    related_milestone: "M1"
+  - id: "M2-START"
+    type: milestone
+    ref: ".pipeline/prompts/01-scene-cli-output-contract.md"
+    status: proposed
+    timestamp: "2026-04-27T21:45:00+08:00"
+    summary: "Started M2: Scene Schema, CLI, and Output Contract."
+    report: null
+    trigger: auto
+    related_milestone: "M2"
+  - id: "M2-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/01-scene-cli-output-contract.md#write_tests"
+    status: completed
+    timestamp: "2026-04-27T21:47:13+08:00"
+    summary: "Added M2 tests for CLI parsing, scene v2 schema loading, schema errors, and output layout creation."
+    report: null
+    trigger: auto
+    related_milestone: "M2"
+  - id: "M2-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/01-scene-cli-output-contract.md#review_tests"
+    status: completed
+    timestamp: "2026-04-27T21:47:41+08:00"
+    summary: "Reviewed M2 tests; coverage is sufficient for CLI, schema, and output layout contracts."
+    report: null
+    trigger: auto
+    related_milestone: "M2"
+  - id: "M2-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/01-scene-cli-output-contract.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-27T21:48:12+08:00"
+    summary: "RED confirmed: SceneCliOutputTests fails because the planned CLI/schema/output interfaces are missing."
+    report: null
+    trigger: auto
+    related_milestone: "M2"
+  - id: "M2-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/01-scene-cli-output-contract.md#implement"
+    status: completed
+    timestamp: "2026-04-27T21:53:24+08:00"
+    summary: "Implemented CLI parsing, V2 scene loading, output layout management, and temporary V2-to-legacy render adapter."
+    report: null
+    trigger: auto
+    related_milestone: "M2"
+  - id: "M2-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/01-scene-cli-output-contract.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-27T21:55:15+08:00"
+    summary: "GREEN passed: baseline tests, M2 tests, and V2 smoke render output layout verification succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M2"
+  - id: "M2-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/01-scene-cli-output-contract.md"
+    status: completed
+    timestamp: "2026-04-27T22:00:46+08:00"
+    summary: "Completed M2 with passing CLI/schema/output tests and V2 smoke output layout verification."
+    report: ".pipeline/reports/01-scene-cli-output-contract.md"
+    trigger: auto
+    related_milestone: "M2"
+  - id: "M3-START"
+    type: milestone
+    ref: ".pipeline/prompts/02-gbuffer-depth-float-output.md"
+    status: proposed
+    timestamp: "2026-04-27T22:00:46+08:00"
+    summary: "Started M3: G-Buffer, Depth, and Float Output."
+    report: null
+    trigger: auto
+    related_milestone: "M3"
+  - id: "M3-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/02-gbuffer-depth-float-output.md#write_tests"
+    status: completed
+    timestamp: "2026-04-27T22:06:40+08:00"
+    summary: "Added M3 tests for GBuffer data, channel metadata, depth preview, and float buffer writing."
+    report: null
+    trigger: auto
+    related_milestone: "M3"
+  - id: "M3-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/02-gbuffer-depth-float-output.md#review_tests"
+    status: completed
+    timestamp: "2026-04-27T22:07:48+08:00"
+    summary: "Reviewed M3 tests; coverage is sufficient for buffer data and float output contracts."
+    report: null
+    trigger: auto
+    related_milestone: "M3"
+  - id: "M3-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/02-gbuffer-depth-float-output.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-27T22:09:31+08:00"
+    summary: "RED confirmed: GBufferTests fails because the planned buffer writer interface is missing."
+    report: null
+    trigger: auto
+    related_milestone: "M3"
+  - id: "M3-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/02-gbuffer-depth-float-output.md#implement"
+    status: completed
+    timestamp: "2026-04-27T22:12:55+08:00"
+    summary: "Implemented GBuffer, float buffer writer, and renderer export of current G-Buffer channels."
+    report: null
+    trigger: auto
+    related_milestone: "M3"
+  - id: "M3-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/02-gbuffer-depth-float-output.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-27T22:14:17+08:00"
+    summary: "GREEN passed: GBuffer tests and V2 smoke G-Buffer float output verification succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M3"
+  - id: "M3-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/02-gbuffer-depth-float-output.md"
+    status: completed
+    timestamp: "2026-04-27T22:15:04+08:00"
+    summary: "Completed M3 with passing GBuffer tests and V2 smoke float G-Buffer output verification."
+    report: ".pipeline/reports/02-gbuffer-depth-float-output.md"
+    trigger: auto
+    related_milestone: "M3"
+  - id: "M4-START"
+    type: milestone
+    ref: ".pipeline/prompts/03-material-system.md"
+    status: proposed
+    timestamp: "2026-04-27T22:15:04+08:00"
+    summary: "Started M4: Material System and Shading Correctness."
+    report: null
+    trigger: auto
+    related_milestone: "M4"
+  - id: "M4-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/03-material-system.md#write_tests"
+    status: completed
+    timestamp: "2026-04-27T22:18:26+08:00"
+    summary: "Added M4 material tests for sampling defaults, PBR parameters, texture dimensions, and V2 material fields."
+    report: null
+    trigger: auto
+    related_milestone: "M4"
+  - id: "M4-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/03-material-system.md#review_tests"
+    status: completed
+    timestamp: "2026-04-27T22:18:53+08:00"
+    summary: "Reviewed M4 material tests; coverage is sufficient for material parameter and texture-dimension contracts."
+    report: null
+    trigger: auto
+    related_milestone: "M4"
+  - id: "M4-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/03-material-system.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-27T22:19:32+08:00"
+    summary: "RED confirmed: MaterialTests fails because MaterialSample and PBRMaterial are missing."
+    report: null
+    trigger: auto
+    related_milestone: "M4"
+  - id: "M4-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/03-material-system.md#implement"
+    status: completed
+    timestamp: "2026-04-27T22:21:39+08:00"
+    summary: "Implemented material sampling, PBR parameters, texture dimension handling, and material parameter export."
+    report: null
+    trigger: auto
+    related_milestone: "M4"
+  - id: "M4-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/03-material-system.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-27T22:23:19+08:00"
+    summary: "GREEN passed: all regression tests and material smoke verification succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M4"
+  - id: "M4-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/03-material-system.md"
+    status: completed
+    timestamp: "2026-04-27T22:24:51+08:00"
+    summary: "Completed M4 with passing material tests and material G-Buffer output verification."
+    report: ".pipeline/reports/03-material-system.md"
+    trigger: auto
+    related_milestone: "M4"
+  - id: "M5-START"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md"
+    status: proposed
+    timestamp: "2026-04-27T22:24:51+08:00"
+    summary: "Started M5: Directional/Point Lights and Cube Shadow Maps."
+    report: null
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M5-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md#write_tests"
+    status: completed
+    timestamp: "2026-04-27T22:28:35+08:00"
+    summary: "Added M5 light-shadow tests for point-light cube face labels, directional light normalization, and v2 directional parsing."
+    report: null
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M5-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md#review_tests"
+    status: completed
+    timestamp: "2026-04-27T22:28:35+08:00"
+    summary: "Reviewed M5 tests; coverage is sufficient for the first directional/cube-shadow API contracts."
+    report: null
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M5-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-27T22:29:32+08:00"
+    summary: "RED confirmed: LightShadowTests fails because DirectionalLight and point cube face labels are missing."
+    report: null
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M5-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md#implement"
+    status: completed
+    timestamp: "2026-04-27T22:36:34+08:00"
+    summary: "Implemented DirectionalLight, structured point cube shadow output, directional config adapters, stale-output cleanup, and real shadow_visibility export."
+    report: null
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M5-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-27T22:36:34+08:00"
+    summary: "GREEN passed: HypoxRasterizer build, five test targets, point smoke, and directional smoke succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M5-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md#review_code"
+    status: completed
+    timestamp: "2026-04-27T22:38:05+08:00"
+    summary: "Reviewed M5 diff; kept Cascade deferred and adjusted light helper namespace for cleaner header structure."
+    report: null
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M5-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/04-directional-point-cube-shadow.md"
+    status: completed
+    timestamp: "2026-04-27T22:38:05+08:00"
+    summary: "Completed M5 with passing light-shadow tests and point/directional shadow smoke verification."
+    report: ".pipeline/reports/04-directional-point-cube-shadow.md"
+    trigger: auto
+    related_milestone: "M5"
+  - id: "M6-START"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md"
+    status: proposed
+    timestamp: "2026-04-27T22:38:05+08:00"
+    summary: "Started M6: VPL Area Lighting, Demo Scenes, and Quality Pass."
+    report: null
+    trigger: auto
+    related_milestone: "M6"
+  - id: "M6-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md#write_tests"
+    status: completed
+    timestamp: "2026-04-27T22:41:34+08:00"
+    summary: "Added M6 VPL area tests for configurable sample count, stochastic seed reproducibility, and V2 area VPL fields."
+    report: null
+    trigger: auto
+    related_milestone: "M6"
+  - id: "M6-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md#review_tests"
+    status: completed
+    timestamp: "2026-04-27T22:41:34+08:00"
+    summary: "Reviewed M6 tests; coverage is sufficient for VPL sampling and schema contracts."
+    report: null
+    trigger: auto
+    related_milestone: "M6"
+  - id: "M6-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-27T22:42:27+08:00"
+    summary: "RED confirmed: VPLAreaTests fails because AreaLight lacks configurable VPL constructor and fields."
+    report: null
+    trigger: auto
+    related_milestone: "M6"
+  - id: "M6-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md#implement"
+    status: completed
+    timestamp: "2026-04-27T22:50:10+08:00"
+    summary: "Implemented configurable AreaLight VPL sampling, V2/legacy area VPL fields, VPL debug output, AreaVPL smoke config, and output-directory cleanup."
+    report: null
+    trigger: auto
+    related_milestone: "M6"
+  - id: "M6-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-27T22:50:10+08:00"
+    summary: "GREEN passed: HypoxRasterizer build, six test targets, and point/directional/area smoke renders succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M6"
+  - id: "M6-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md#review_code"
+    status: completed
+    timestamp: "2026-04-27T22:51:33+08:00"
+    summary: "Reviewed final M6 diff; no blocking issues found and Cascade Shadow Maps remain deferred."
+    report: null
+    trigger: auto
+    related_milestone: "M6"
+  - id: "M6-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/05-vpl-area-demo-quality.md"
+    status: completed
+    timestamp: "2026-04-27T22:51:33+08:00"
+    summary: "Completed M6 with passing VPL area tests and final point/directional/area smoke verification."
+    report: ".pipeline/reports/05-vpl-area-demo-quality.md"
+    trigger: auto
+    related_milestone: "M6"
+  - id: "PIPELINE-COMPLETE"
+    type: lifecycle
+    ref: ".pipeline/state.yaml"
+    status: completed
+    timestamp: "2026-04-27T22:51:33+08:00"
+    summary: "Completed all 6 Hypo-Workflow milestones for the rasterizer modernization plan."
+    report: ".pipeline/reports/05-vpl-area-demo-quality.md"
+    trigger: auto
+    related_milestone: null
+  - id: "PLAN2-DISCOVER-START"
+    type: planning
+    ref: ".plan-state/discover.yaml"
+    status: proposed
+    timestamp: "2026-04-28T11:54:18+08:00"
+    summary: "Started append planning for validation scene data expansion."
+    report: null
+    trigger: user
+    related_milestone: null
+  - id: "PLAN2-DISCOVER-COMPLETE"
+    type: planning
+    ref: ".plan-state/discover.yaml"
+    status: completed
+    timestamp: "2026-04-28T12:03:49+08:00"
+    summary: "Completed discovery for scene suite expansion: fast/standard/heavy tiers, external GI assets, uv-managed 2D visualization, and stats/hash/tolerance baselines."
+    report: null
+    trigger: user
+    related_milestone: null
+  - id: "PLAN2-DECOMPOSE-START"
+    type: planning
+    ref: ".plan-state/decompose.yaml"
+    status: proposed
+    timestamp: "2026-04-28T12:03:49+08:00"
+    summary: "Started append milestone decomposition for validation scene data expansion."
+    report: null
+    trigger: auto
+    related_milestone: null
+  - id: "PLAN2-DECOMPOSE-DRAFT"
+    type: planning
+    ref: ".plan-state/decompose.yaml"
+    status: proposed
+    timestamp: "2026-04-28T12:03:49+08:00"
+    summary: "Drafted append milestones M7-M12 for validation manifest, fast/standard scenes, external GI ingestion, output baselines, uv 2D visualization, and heavy validation."
+    report: null
+    trigger: auto
+    related_milestone: null
+  - id: "PLAN2-DECOMPOSE-COMPLETE"
+    type: planning
+    ref: ".plan-state/decompose.yaml"
+    status: completed
+    timestamp: "2026-04-28T12:07:02+08:00"
+    summary: "Accepted append milestone split and Python/external-source planning decisions."
+    report: null
+    trigger: user
+    related_milestone: null
+  - id: "PLAN2-GENERATE-COMPLETE"
+    type: planning
+    ref: ".plan-state/generate.yaml"
+    status: completed
+    timestamp: "2026-04-28T12:07:02+08:00"
+    summary: "Generated append prompts 06-11 and updated architecture, state, and confirm summary."
+    report: ".pipeline/confirm-summary.md"
+    trigger: auto
+    related_milestone: null
+  - id: "PLAN2-CONFIRM-WAIT"
+    type: planning
+    ref: ".pipeline/confirm-summary.md"
+    status: proposed
+    timestamp: "2026-04-28T12:07:02+08:00"
+    summary: "Waiting for explicit user confirmation before executing M7."
+    report: ".pipeline/confirm-summary.md"
+    trigger: auto
+    related_milestone: null
+  - id: "M7-START"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md"
+    status: proposed
+    timestamp: "2026-04-28T12:16:00+08:00"
+    summary: "Started M7: Validation Dataset Manifest and Runner Foundation."
+    report: null
+    trigger: user
+    related_milestone: "M7"
+  - id: "M7-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md#write_tests"
+    status: completed
+    timestamp: "2026-04-28T12:16:00+08:00"
+    summary: "Added ValidationSceneTests for manifest parsing, tier/tag filtering, default heavy exclusion, missing reference diagnostics, and repository dry-run contract."
+    report: null
+    trigger: auto
+    related_milestone: "M7"
+  - id: "M7-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md#review_tests"
+    status: completed
+    timestamp: "2026-04-28T12:16:00+08:00"
+    summary: "Reviewed M7 tests; coverage matches manifest and runner-foundation expectations."
+    report: null
+    trigger: auto
+    related_milestone: "M7"
+  - id: "M7-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-28T12:18:34+08:00"
+    summary: "RED confirmed: ValidationSceneTests fails because validation_manifest.hpp is missing."
+    report: null
+    trigger: auto
+    related_milestone: "M7"
+  - id: "M7-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md#implement"
+    status: completed
+    timestamp: "2026-04-28T12:22:30+08:00"
+    summary: "Implemented validation manifest parser, selection/filtering, reference diagnostics, repository manifest, dry-run runner, and validation scene docs."
+    report: null
+    trigger: auto
+    related_milestone: "M7"
+  - id: "M7-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-28T12:22:30+08:00"
+    summary: "GREEN passed: HypoxRasterizer build, seven test targets, and validation runner dry-runs succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M7"
+  - id: "M7-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md#review_code"
+    status: completed
+    timestamp: "2026-04-28T12:24:48+08:00"
+    summary: "Reviewed M7 diff and corrected runner selection semantics for explicit heavy enumeration."
+    report: null
+    trigger: auto
+    related_milestone: "M7"
+  - id: "M7-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/06-validation-dataset-runner.md"
+    status: completed
+    timestamp: "2026-04-28T12:24:48+08:00"
+    summary: "Completed M7 with passing manifest tests, dry-run runner, docs, and validation scene seed manifest."
+    report: ".pipeline/reports/06-validation-dataset-runner.md"
+    trigger: auto
+    related_milestone: "M7"
+  - id: "M8-START"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md"
+    status: proposed
+    timestamp: "2026-04-28T12:24:48+08:00"
+    summary: "Started M8: Fast Corner Cases and Standard Internal Scenes."
+    report: null
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M8-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md#write_tests"
+    status: completed
+    timestamp: "2026-04-28T12:27:35+08:00"
+    summary: "Added ValidationSuiteTests for fast corner cases, expected-failure skips, standard texture/Bunny/Dragon quick coverage, and missing asset diagnostics."
+    report: null
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M8-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md#review_tests"
+    status: completed
+    timestamp: "2026-04-28T12:27:35+08:00"
+    summary: "Reviewed M8 tests; coverage matches fast/standard scene suite requirements."
+    report: null
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M8-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-28T12:28:35+08:00"
+    summary: "RED confirmed: ValidationSuiteTests fails because required fast/standard validation scene entries are missing."
+    report: null
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M8-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md#implement"
+    status: completed
+    timestamp: "2026-04-28T12:33:34+08:00"
+    summary: "Added fast corner case configs, standard texture/Bunny/Dragon quick configs, manifest entries, and V2 texture adapter support."
+    report: null
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M8-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-28T12:36:32+08:00"
+    summary: "GREEN passed: C++ regression targets, runner dry-runs, fast default render, and full standard render all succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M8-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md#review_code"
+    status: completed
+    timestamp: "2026-04-28T12:38:48+08:00"
+    summary: "Reviewed M8 diff, added texture-path assertion, and documented scene coverage plus runner summaries."
+    report: null
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M8-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/07-fast-standard-validation-scenes.md"
+    status: completed
+    timestamp: "2026-04-28T12:38:48+08:00"
+    summary: "Completed M8 with fast corner cases, standard texture/Bunny/Dragon quick scenes, output-checking runner, and passing render validation."
+    report: ".pipeline/reports/07-fast-standard-validation-scenes.md"
+    trigger: auto
+    related_milestone: "M8"
+  - id: "M9-START"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md"
+    status: proposed
+    timestamp: "2026-04-28T12:38:48+08:00"
+    summary: "Started M9: External GI Scene Source Ingestion."
+    report: null
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M9-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md#write_tests"
+    status: completed
+    timestamp: "2026-04-28T12:42:58+08:00"
+    summary: "Added Python unittest coverage for external source validation, dry-run plans, proxy ports, and runner skip semantics."
+    report: null
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M9-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md#review_tests"
+    status: completed
+    timestamp: "2026-04-28T12:42:58+08:00"
+    summary: "Reviewed M9 tests; coverage matches fetcher metadata, proxy, and optional external skip requirements."
+    report: null
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M9-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-28T12:43:50+08:00"
+    summary: "RED confirmed: M9 tests fail because hypo_assets external source tooling is not implemented."
+    report: null
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M9-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md#implement"
+    status: completed
+    timestamp: "2026-04-28T12:55:26+08:00"
+    summary: "Implemented uv Python tools project, external source manifest/fetcher, docs, and runner skip behavior."
+    report: null
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M9-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-28T12:55:26+08:00"
+    summary: "GREEN passed: uv Python unit tests, fetcher dry-runs, runner heavy skip, py_compile, and validation C++ tests succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M9-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md#review_code"
+    status: completed
+    timestamp: "2026-04-28T12:56:39+08:00"
+    summary: "Reviewed M9 diff, removed generated asset remnants, ignored uv/local Python caches, and documented external source policy."
+    report: null
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M9-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/08-external-gi-scene-ingestion.md"
+    status: completed
+    timestamp: "2026-04-28T12:56:39+08:00"
+    summary: "Completed M9 with uv-managed external source tooling, source manifest, proxy support, and optional/heavy skip behavior."
+    report: ".pipeline/reports/08-external-gi-scene-ingestion.md"
+    trigger: auto
+    related_milestone: "M9"
+  - id: "M10-START"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md"
+    status: proposed
+    timestamp: "2026-04-28T12:56:39+08:00"
+    summary: "Started M10: Output Statistics, Hashes, and Tolerance Baselines."
+    report: null
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M10-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md#write_tests"
+    status: completed
+    timestamp: "2026-04-28T12:59:36+08:00"
+    summary: "Added Python unittest coverage for f32 stats, PNG stats, baseline comparison, and output-tree roundtrip."
+    report: null
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M10-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md#review_tests"
+    status: completed
+    timestamp: "2026-04-28T12:59:36+08:00"
+    summary: "Reviewed M10 tests; coverage matches stats/hash/tolerance baseline requirements."
+    report: null
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M10-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-28T13:00:25+08:00"
+    summary: "RED confirmed: M10 tests fail because baseline collector/comparator modules are missing."
+    report: null
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M10-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md#implement"
+    status: completed
+    timestamp: "2026-04-28T13:04:06+08:00"
+    summary: "Implemented f32/PNG stats collection, baseline JSON writing, comparison CLIs, docs, and stats-only baselines."
+    report: null
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M10-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-28T13:04:06+08:00"
+    summary: "GREEN passed: Python baseline tests, baseline self-comparison, validation C++ tests, and runner dry-run succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M10-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md#review_code"
+    status: completed
+    timestamp: "2026-04-28T13:04:06+08:00"
+    summary: "Reviewed M10 diff and documented explicit baseline update/compare workflow."
+    report: null
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M10-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/09-output-baseline-stats.md"
+    status: completed
+    timestamp: "2026-04-28T13:04:06+08:00"
+    summary: "Completed M10 with stats-only baselines, tolerance comparison, and VPL/shadow/G-Buffer baseline coverage."
+    report: ".pipeline/reports/09-output-baseline-stats.md"
+    trigger: auto
+    related_milestone: "M10"
+  - id: "M11-START"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md"
+    status: proposed
+    timestamp: "2026-04-28T13:04:06+08:00"
+    summary: "Started M11: uv-managed 2D Visualization Tools."
+    report: null
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M11-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md#write_tests"
+    status: completed
+    timestamp: "2026-04-28T13:06:59+08:00"
+    summary: "Added visualization tests for f32 heatmaps, VPL overlays, point cube contact sheets, warnings, and stable output naming."
+    report: null
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M11-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md#review_tests"
+    status: completed
+    timestamp: "2026-04-28T13:06:59+08:00"
+    summary: "Reviewed M11 tests; coverage matches 2D static visualization requirements."
+    report: null
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M11-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-28T13:07:40+08:00"
+    summary: "RED confirmed: M11 tests fail because hypo_viz.render_2d is missing."
+    report: null
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M11-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md#implement"
+    status: completed
+    timestamp: "2026-04-28T13:10:23+08:00"
+    summary: "Implemented heatmaps, VPL overlays, shadow contact sheets, CLI, docs, README links, and sample outputs."
+    report: null
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M11-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-28T13:10:23+08:00"
+    summary: "GREEN passed: Python tool tests, py_compile, and real output visualization generation succeeded."
+    report: null
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M11-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md#review_code"
+    status: completed
+    timestamp: "2026-04-28T13:10:23+08:00"
+    summary: "Reviewed M11 diff, cleaned test warnings, and documented visualization commands."
+    report: null
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M11-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/10-uv-2d-visualization-tools.md"
+    status: completed
+    timestamp: "2026-04-28T13:10:23+08:00"
+    summary: "Completed M11 with uv-managed static 2D visualization tools and sample annotated outputs."
+    report: ".pipeline/reports/10-uv-2d-visualization-tools.md"
+    trigger: auto
+    related_milestone: "M11"
+  - id: "M12-START"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md"
+    status: proposed
+    timestamp: "2026-04-28T13:10:23+08:00"
+    summary: "Started M12: Heavy Scene Validation and Documentation Pass."
+    report: null
+    trigger: auto
+    related_milestone: "M12"
+  - id: "M12-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md#write_tests"
+    status: completed
+    timestamp: "2026-04-28T13:13:06+08:00"
+    summary: "Added tests for heavy manifest entries, heavy render pass/skip behavior, perf metadata, and documented runner commands."
+    report: null
+    trigger: auto
+    related_milestone: "M12"
+  - id: "M12-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md#review_tests"
+    status: completed
+    timestamp: "2026-04-28T13:13:06+08:00"
+    summary: "Reviewed M12 tests; coverage matches heavy validation and final documentation requirements."
+    report: null
+    trigger: auto
+    related_milestone: "M12"
+  - id: "M12-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-28T13:14:16+08:00"
+    summary: "RED confirmed: M12 tests fail because heavy Dragon config, external hook, perf metadata, and final docs are missing."
+    report: null
+    trigger: auto
+    related_milestone: "M12"
+  - id: "M12-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md#implement"
+    status: completed
+    timestamp: "2026-04-28T13:19:11+08:00"
+    summary: "Added heavy Dragon benchmark config, ORCA/Bistro external hook, perf metadata, docs, and README updates."
+    report: null
+    trigger: auto
+    related_milestone: "M12"
+  - id: "M12-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-28T13:19:11+08:00"
+    summary: "GREEN passed: full C++ regression, Python tool tests, runner dry-runs, heavy render pass/skip, and baseline comparisons."
+    report: null
+    trigger: auto
+    related_milestone: "M12"
+  - id: "M12-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md#review_code"
+    status: completed
+    timestamp: "2026-04-28T13:19:11+08:00"
+    summary: "Reviewed final validation stack and documented next work."
+    report: null
+    trigger: auto
+    related_milestone: "M12"
+  - id: "M12-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/11-heavy-scene-validation-docs.md"
+    status: completed
+    timestamp: "2026-04-28T13:19:11+08:00"
+    summary: "Completed M12 with heavy benchmark rendering, external hook skip behavior, perf metadata, and finalized validation docs."
+    report: ".pipeline/reports/11-heavy-scene-validation-docs.md"
+    trigger: auto
+    related_milestone: "M12"
+  - id: "PIPELINE-COMPLETE"
+    type: pipeline
+    ref: ".pipeline/state.yaml"
+    status: completed
+    timestamp: "2026-04-28T13:19:11+08:00"
+    summary: "Completed appended validation suite pipeline M7-M12; total progress is 12/12 milestones."
+    report: ".pipeline/reports/11-heavy-scene-validation-docs.md"
+    trigger: auto
+    related_milestone: null
+  - id: "PLAN3-DISCOVER-COMPLETE"
+    type: planning
+    ref: ".plan-state/3d-viz-discover.yaml"
+    status: completed
+    timestamp: "2026-04-28T13:40:00+08:00"
+    summary: "Discovered goals and constraints for Python 3D visualization: scene graph, static/headless preview, interactive viewer, and G-Buffer/Shadow/VPL linkage."
+    report: "reports/3d-visualization-plan-draft-2026-04-28.md"
+    trigger: user
+    related_milestone: null
+  - id: "PLAN3-DECOMPOSE-COMPLETE"
+    type: planning
+    ref: ".plan-state/3d-viz-decompose.yaml"
+    status: completed
+    timestamp: "2026-04-28T13:40:00+08:00"
+    summary: "Decomposed Python 3D visualization and IndirectVPL work into M13-M20."
+    report: null
+    trigger: auto
+    related_milestone: null
+  - id: "PLAN3-GENERATE-COMPLETE"
+    type: planning
+    ref: ".plan-state/3d-viz-generate.yaml"
+    status: completed
+    timestamp: "2026-04-28T13:40:00+08:00"
+    summary: "Generated prompts 12-19 and updated state, architecture, and confirm summary for 3D visualization and IndirectVPL planning."
+    report: ".pipeline/confirm-summary-3d-viz.md"
+    trigger: auto
+    related_milestone: null
+  - id: "PLAN3-CONFIRM-WAIT"
+    type: planning
+    ref: ".pipeline/confirm-summary-3d-viz.md"
+    status: proposed
+    timestamp: "2026-04-28T13:40:00+08:00"
+    summary: "Waiting for user confirmation before executing M13."
+    report: ".pipeline/confirm-summary-3d-viz.md"
+    trigger: auto
+    related_milestone: null
+  - id: "HIGHRES-VALIDATION-RENDER"
+    type: validation
+    ref: "build/highres_validation_20260428"
+    status: completed
+    timestamp: "2026-04-28T13:28:00+08:00"
+    summary: "Rendered all runnable validation scenes at 512x512, generated Area VPL comparison artifacts, and wrote a detailed high-resolution render report."
+    report: "reports/highres-validation-2026-04-28.md"
+    trigger: user
+    related_milestone: null
+  - id: "PLAN3D-DISCOVER-START"
+    type: planning
+    ref: ".plan-state/3d-viz-discover.yaml"
+    status: proposed
+    timestamp: "2026-04-28T13:28:00+08:00"
+    summary: "Started P1 Discover draft for Python 3D visualization planning after completing high-resolution validation rendering."
+    report: null
+    trigger: user
+    related_milestone: null
+  - id: "PLAN3-INDIRECT-VPL-APPEND"
+    type: planning
+    ref: ".pipeline/confirm-summary-3d-viz.md"
+    status: proposed
+    timestamp: "2026-04-28T13:42:00+08:00"
+    summary: "Appended IndirectVPL planning milestones M17-M20 covering design contract, first-bounce sampling, shading/visibility integration, and validation visualization."
+    report: "reports/indirect-vpl-plan-draft-2026-04-28.md"
+    trigger: user
+    related_milestone: null
+  - id: "M13-START"
+    type: milestone
+    ref: ".pipeline/prompts/12-python-3d-scene-data-model.md"
+    status: started
+    timestamp: "2026-04-28T13:48:10+08:00"
+    summary: "Started M13 after user confirmation; entering write_tests for the Python 3D scene data model."
+    report: null
+    trigger: user
+    related_milestone: "M13"
+  - id: "M13-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/12-python-3d-scene-data-model.md"
+    status: completed
+    timestamp: "2026-04-28T13:56:00+08:00"
+    summary: "Completed M13 with hypo_viz.scene3d, OBJ metadata loading, direct VPL buffer parsing, docs, and Python test coverage."
+    report: ".pipeline/reports/12-python-3d-scene-data-model.md"
+    trigger: auto
+    related_milestone: "M13"
+  - id: "M14-START"
+    type: milestone
+    ref: ".pipeline/prompts/13-static-3d-preview.md"
+    status: started
+    timestamp: "2026-04-28T13:56:00+08:00"
+    summary: "Started M14 write_tests for static 3D preview and headless screenshots."
+    report: null
+    trigger: auto
+    related_milestone: "M14"
+  - id: "M14-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/13-static-3d-preview.md"
+    status: completed
+    timestamp: "2026-04-28T14:05:00+08:00"
+    summary: "Completed M14 with headless static 3D preview rendering, CLI, docs, examples, and Python tests."
+    report: ".pipeline/reports/13-static-3d-preview.md"
+    trigger: auto
+    related_milestone: "M14"
+  - id: "M15-START"
+    type: milestone
+    ref: ".pipeline/prompts/14-interactive-3d-viewer.md"
+    status: started
+    timestamp: "2026-04-28T14:05:00+08:00"
+    summary: "Started M15 write_tests for interactive 3D viewer CLI and headless fallback."
+    report: null
+    trigger: auto
+    related_milestone: "M15"
+  - id: "M15-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/14-interactive-3d-viewer.md"
+    status: completed
+    timestamp: "2026-04-28T14:13:00+08:00"
+    summary: "Completed M15 with HTML viewer state, CLI, headless fallback, docs, examples, and Python tests."
+    report: ".pipeline/reports/14-interactive-3d-viewer.md"
+    trigger: auto
+    related_milestone: "M15"
+  - id: "M16-START"
+    type: milestone
+    ref: ".pipeline/prompts/15-gbuffer-shadow-vpl-3d-linkage.md"
+    status: started
+    timestamp: "2026-04-28T14:13:00+08:00"
+    summary: "Started M16 write_tests for G-Buffer, shadow, and VPL 3D linkage."
+    report: null
+    trigger: auto
+    related_milestone: "M16"
+  - id: "M16-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/15-gbuffer-shadow-vpl-3d-linkage.md"
+    status: completed
+    timestamp: "2026-04-28T14:23:00+08:00"
+    summary: "Completed M16 with combined 2D/3D report generation, world-position point clouds, shadow metadata, docs, examples, and Python tests."
+    report: ".pipeline/reports/15-gbuffer-shadow-vpl-3d-linkage.md"
+    trigger: auto
+    related_milestone: "M16"
+  - id: "M17-START"
+    type: milestone
+    ref: ".pipeline/prompts/16-indirect-vpl-design-data-contract.md"
+    status: started
+    timestamp: "2026-04-28T14:23:00+08:00"
+    summary: "Started M17 write_tests for IndirectVPL data contract and scene schema."
+    report: null
+    trigger: auto
+    related_milestone: "M17"
+  - id: "M17-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/16-indirect-vpl-design-data-contract.md"
+    status: completed
+    timestamp: "2026-04-28T14:36:00+08:00"
+    summary: "Completed M17 with IndirectVPL config parsing, sample records, debug float buffer contract, docs, and tests."
+    report: ".pipeline/reports/16-indirect-vpl-design-data-contract.md"
+    trigger: auto
+    related_milestone: "M17"
+  - id: "M18-START"
+    type: milestone
+    ref: ".pipeline/prompts/17-indirect-vpl-first-bounce-sampler.md"
+    status: started
+    timestamp: "2026-04-28T14:36:00+08:00"
+    summary: "Started M18 write_tests for first-bounce IndirectVPL sampling."
+    report: null
+    trigger: auto
+    related_milestone: "M18"
+  - id: "M18-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/17-indirect-vpl-first-bounce-sampler.md"
+    status: completed
+    timestamp: "2026-04-28T14:44:00+08:00"
+    summary: "Completed M18 with deterministic first-bounce IndirectVPL sampler and tests."
+    report: ".pipeline/reports/17-indirect-vpl-first-bounce-sampler.md"
+    trigger: auto
+    related_milestone: "M18"
+  - id: "M19-START"
+    type: milestone
+    ref: ".pipeline/prompts/18-indirect-vpl-shading-visibility.md"
+    status: started
+    timestamp: "2026-04-28T14:44:00+08:00"
+    summary: "Started M19 write_tests for IndirectVPL shading and visibility integration."
+    report: null
+    trigger: auto
+    related_milestone: "M19"
+  - id: "M19-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/18-indirect-vpl-shading-visibility.md"
+    status: completed
+    timestamp: "2026-04-28T14:46:00+08:00"
+    summary: "Completed M19 with renderer IndirectVPL generation, gather shading, visibility/clamp switches, and debug outputs."
+    report: ".pipeline/reports/18-indirect-vpl-shading-visibility.md"
+    trigger: auto
+    related_milestone: "M19"
+  - id: "M20-START"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md"
+    status: started
+    timestamp: "2026-04-28T14:47:00+08:00"
+    summary: "Started M20 write_tests for IndirectVPL validation and visualization."
+    report: null
+    trigger: auto
+    related_milestone: "M20"
+  - id: "M20-WRITE-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md#write_tests"
+    status: completed
+    timestamp: "2026-04-28T14:49:00+08:00"
+    summary: "Added tests for IndirectVPL validation scene registration and Python indirect VPL visualization/report support."
+    report: null
+    trigger: auto
+    related_milestone: "M20"
+  - id: "M20-REVIEW-TESTS"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md#review_tests"
+    status: completed
+    timestamp: "2026-04-28T14:49:00+08:00"
+    summary: "Reviewed M20 tests; validation registration and visualization/report linkage coverage is sufficient."
+    report: null
+    trigger: auto
+    related_milestone: "M20"
+  - id: "M20-RUN-RED"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md#run_tests_red"
+    status: completed
+    timestamp: "2026-04-28T14:50:00+08:00"
+    summary: "RED confirmed: IndirectVPL validation scene and indirect VPL visualization/report support were missing."
+    report: null
+    trigger: auto
+    related_milestone: "M20"
+  - id: "M20-IMPLEMENT"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md#implement"
+    status: completed
+    timestamp: "2026-04-28T14:53:00+08:00"
+    summary: "Implemented IndirectVPL validation configs, manifest entries, visualization/report support, Cornell direct-only comparison, and final artifacts."
+    report: null
+    trigger: auto
+    related_milestone: "M20"
+  - id: "M20-RUN-GREEN"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md#run_tests_green"
+    status: completed
+    timestamp: "2026-04-28T14:55:00+08:00"
+    summary: "GREEN passed: core C++ tests, Python unittest suite, IndirectVPL validation runner, and 3D report regeneration."
+    report: null
+    trigger: auto
+    related_milestone: "M20"
+  - id: "M20-REVIEW-CODE"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md#review_code"
+    status: completed
+    timestamp: "2026-04-28T14:55:00+08:00"
+    summary: "Reviewed final IndirectVPL validation and visualization outputs; documented known limitations for future GI quality work."
+    report: null
+    trigger: auto
+    related_milestone: "M20"
+  - id: "M20-COMPLETE"
+    type: milestone
+    ref: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md"
+    status: completed
+    timestamp: "2026-04-28T14:55:00+08:00"
+    summary: "Completed M20 with Cornell/Money/Dragon IndirectVPL validation scenes, direct-vs-indirect comparison, and 2D/3D report artifacts."
+    report: ".pipeline/reports/19-indirect-vpl-validation-visualization.md"
+    trigger: auto
+    related_milestone: "M20"
+  - id: "PIPELINE-COMPLETE"
+    type: pipeline
+    ref: ".pipeline/state.yaml"
+    status: completed
+    timestamp: "2026-04-28T14:55:00+08:00"
+    summary: "HypoxRasterizer pipeline completed: 20/20 milestones finished."
+    report: ".pipeline/reports/19-indirect-vpl-validation-visualization.md"
+    trigger: auto
+    related_milestone: null
+  - id: "RELEASE-v0.1.0-PREPARED"
+    type: release
+    ref: "v0.1.0"
+    status: completed
+    timestamp: "2026-04-28T16:03:00+08:00"
+    summary: "Prepared v0.1.0 release metadata, changelog, cleanup rules, and release regression results."
+    report: ".pipeline/releases/v0.1.0.md"
+    trigger: user
+    related_milestone: null

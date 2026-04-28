@@ -1,0 +1,469 @@
+pipeline:
+  name: "HypoxRasterizer"
+  status: completed
+  prompts_total: 20
+  prompts_completed: 20
+  started: "2026-04-27T21:31:46+08:00"
+  finished: "2026-04-28T14:55:00+08:00"
+
+current:
+  phase: lifecycle_release
+  prompt_index: 19
+  prompt_file: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md"
+  prompt_name: "M20 IndirectVPL Validation and Visualization"
+  step: review_code
+  step_index: 5
+
+milestones:
+  - name: "M1 Build, Test, and Baseline Recovery"
+    status: done
+    deferred_reason: null
+  - name: "M2 Scene Schema, CLI, and Output Contract"
+    status: done
+    deferred_reason: null
+  - name: "M3 G-Buffer, Depth, and Float Output"
+    status: done
+    deferred_reason: null
+  - name: "M4 Material System and Shading Correctness"
+    status: done
+    deferred_reason: null
+  - name: "M5 Directional/Point Lights and Cube Shadow Maps"
+    status: done
+    deferred_reason: null
+  - name: "M6 VPL Area Lighting, Demo Scenes, and Quality Pass"
+    status: done
+    deferred_reason: null
+  - name: "M7 Validation Dataset Manifest and Runner Foundation"
+    status: done
+    deferred_reason: null
+  - name: "M8 Fast Corner Cases and Standard Internal Scenes"
+    status: done
+    deferred_reason: null
+  - name: "M9 External GI Scene Source Ingestion"
+    status: done
+    deferred_reason: null
+  - name: "M10 Output Statistics, Hashes, and Tolerance Baselines"
+    status: done
+    deferred_reason: null
+  - name: "M11 uv-managed 2D Visualization Tools"
+    status: done
+    deferred_reason: null
+  - name: "M12 Heavy Scene Validation and Documentation Pass"
+    status: done
+    deferred_reason: null
+  - name: "M13 Python 3D Scene Data Model"
+    status: done
+    deferred_reason: null
+  - name: "M14 Static 3D Preview and Headless Screenshots"
+    status: done
+    deferred_reason: null
+  - name: "M15 Interactive 3D Viewer"
+    status: done
+    deferred_reason: null
+  - name: "M16 G-Buffer, Shadow, and VPL 3D Linkage"
+    status: done
+    deferred_reason: null
+  - name: "M17 IndirectVPL Design and Data Contract"
+    status: done
+    deferred_reason: null
+  - name: "M18 IndirectVPL First-Bounce Sampler"
+    status: done
+    deferred_reason: null
+  - name: "M19 IndirectVPL Shading and Visibility Integration"
+    status: done
+    deferred_reason: null
+  - name: "M20 IndirectVPL Validation and Visualization"
+    status: done
+    deferred_reason: null
+
+prompt_state:
+  started_at: "2026-04-28T14:47:00+08:00"
+  updated_at: "2026-04-28T14:55:00+08:00"
+  finished_at: "2026-04-28T14:55:00+08:00"
+  result: pass
+  diff_score: 1
+  code_quality: 4
+  steps:
+    - name: write_tests
+      status: completed
+      executor: self
+      subagent_tool: null
+      subagent_result: null
+      reason: null
+      started_at: "2026-04-28T14:47:00+08:00"
+      finished_at: "2026-04-28T14:49:00+08:00"
+      duration_seconds: 120
+      notes: "Added tests for IndirectVPL validation scene registration and Python indirect VPL visualization/report support."
+    - name: review_tests
+      status: completed
+      executor: self
+      subagent_tool: null
+      subagent_result: null
+      reason: null
+      started_at: "2026-04-28T14:49:00+08:00"
+      finished_at: "2026-04-28T14:49:00+08:00"
+      duration_seconds: 0
+      notes: "Reviewed M20 tests; they cover validation registration and visualization/report linkage."
+    - name: run_tests_red
+      status: completed
+      executor: self
+      subagent_tool: null
+      subagent_result: null
+      reason: null
+      started_at: "2026-04-28T14:49:00+08:00"
+      finished_at: "2026-04-28T14:50:00+08:00"
+      duration_seconds: 60
+      notes: "RED confirmed: IndirectVPL validation scene and indirect VPL visualization/report support are missing."
+    - name: implement
+      status: completed
+      executor: self
+      subagent_tool: null
+      subagent_result: null
+      reason: null
+      started_at: "2026-04-28T14:50:00+08:00"
+      finished_at: "2026-04-28T14:53:00+08:00"
+      duration_seconds: 180
+      notes: "Added IndirectVPL validation configs, manifest registrations, visualization/report support, Cornell direct-only comparison, and final report artifacts."
+    - name: run_tests_green
+      status: completed
+      executor: self
+      subagent_tool: null
+      subagent_result: null
+      reason: null
+      started_at: "2026-04-28T14:53:00+08:00"
+      finished_at: "2026-04-28T14:55:00+08:00"
+      duration_seconds: 120
+      notes: "GREEN passed: C++ core tests, full Python unittest suite, IndirectVPL validation runner, and 3D report regeneration."
+    - name: review_code
+      status: completed
+      executor: self
+      subagent_tool: null
+      subagent_result: null
+      reason: null
+      started_at: "2026-04-28T14:55:00+08:00"
+      finished_at: "2026-04-28T14:55:00+08:00"
+      duration_seconds: null
+      notes: "Reviewed final state and outputs; remaining limitations are documented as future GI quality work."
+
+history:
+  completed_prompts:
+    - prompt_index: 0
+      prompt_file: ".pipeline/prompts/00-build-test-baseline.md"
+      prompt_name: "M1 Build, Test, and Baseline Recovery"
+      result: pass
+      started_at: "2026-04-27T21:31:46+08:00"
+      finished_at: "2026-04-27T21:45:00+08:00"
+      report_file: ".pipeline/reports/00-build-test-baseline.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 1
+      prompt_file: ".pipeline/prompts/01-scene-cli-output-contract.md"
+      prompt_name: "M2 Scene Schema, CLI, and Output Contract"
+      result: pass
+      started_at: "2026-04-27T21:45:00+08:00"
+      finished_at: "2026-04-27T22:00:46+08:00"
+      report_file: ".pipeline/reports/01-scene-cli-output-contract.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 3
+        architecture_drift: 3
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 2
+      prompt_file: ".pipeline/prompts/02-gbuffer-depth-float-output.md"
+      prompt_name: "M3 G-Buffer, Depth, and Float Output"
+      result: pass
+      started_at: "2026-04-27T22:00:46+08:00"
+      finished_at: "2026-04-27T22:15:04+08:00"
+      report_file: ".pipeline/reports/02-gbuffer-depth-float-output.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 3
+        architecture_drift: 3
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 3
+      prompt_file: ".pipeline/prompts/03-material-system.md"
+      prompt_name: "M4 Material System and Shading Correctness"
+      result: pass
+      started_at: "2026-04-27T22:15:04+08:00"
+      finished_at: "2026-04-27T22:24:51+08:00"
+      report_file: ".pipeline/reports/03-material-system.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 3
+        architecture_drift: 3
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 4
+      prompt_file: ".pipeline/prompts/04-directional-point-cube-shadow.md"
+      prompt_name: "M5 Directional/Point Lights and Cube Shadow Maps"
+      result: pass
+      started_at: "2026-04-27T22:24:51+08:00"
+      finished_at: "2026-04-27T22:38:05+08:00"
+      report_file: ".pipeline/reports/04-directional-point-cube-shadow.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 3
+        architecture_drift: 3
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 5
+      prompt_file: ".pipeline/prompts/05-vpl-area-demo-quality.md"
+      prompt_name: "M6 VPL Area Lighting, Demo Scenes, and Quality Pass"
+      result: pass
+      started_at: "2026-04-27T22:38:05+08:00"
+      finished_at: "2026-04-27T22:51:33+08:00"
+      report_file: ".pipeline/reports/05-vpl-area-demo-quality.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 3
+        architecture_drift: 3
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 6
+      prompt_file: ".pipeline/prompts/06-validation-dataset-runner.md"
+      prompt_name: "M7 Validation Dataset Manifest and Runner Foundation"
+      result: pass
+      started_at: "2026-04-28T12:16:00+08:00"
+      finished_at: "2026-04-28T12:24:48+08:00"
+      report_file: ".pipeline/reports/06-validation-dataset-runner.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 7
+      prompt_file: ".pipeline/prompts/07-fast-standard-validation-scenes.md"
+      prompt_name: "M8 Fast Corner Cases and Standard Internal Scenes"
+      result: pass
+      started_at: "2026-04-28T12:24:48+08:00"
+      finished_at: "2026-04-28T12:38:48+08:00"
+      report_file: ".pipeline/reports/07-fast-standard-validation-scenes.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 8
+      prompt_file: ".pipeline/prompts/08-external-gi-scene-ingestion.md"
+      prompt_name: "M9 External GI Scene Source Ingestion"
+      result: pass
+      started_at: "2026-04-28T12:38:48+08:00"
+      finished_at: "2026-04-28T12:56:39+08:00"
+      report_file: ".pipeline/reports/08-external-gi-scene-ingestion.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 9
+      prompt_file: ".pipeline/prompts/09-output-baseline-stats.md"
+      prompt_name: "M10 Output Statistics, Hashes, and Tolerance Baselines"
+      result: pass
+      started_at: "2026-04-28T12:56:39+08:00"
+      finished_at: "2026-04-28T13:04:06+08:00"
+      report_file: ".pipeline/reports/09-output-baseline-stats.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 10
+      prompt_file: ".pipeline/prompts/10-uv-2d-visualization-tools.md"
+      prompt_name: "M11 uv-managed 2D Visualization Tools"
+      result: pass
+      started_at: "2026-04-28T13:04:06+08:00"
+      finished_at: "2026-04-28T13:10:23+08:00"
+      report_file: ".pipeline/reports/10-uv-2d-visualization-tools.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 11
+      prompt_file: ".pipeline/prompts/11-heavy-scene-validation-docs.md"
+      prompt_name: "M12 Heavy Scene Validation and Documentation Pass"
+      result: pass
+      started_at: "2026-04-28T13:10:23+08:00"
+      finished_at: "2026-04-28T13:19:11+08:00"
+      report_file: ".pipeline/reports/11-heavy-scene-validation-docs.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 12
+      prompt_file: ".pipeline/prompts/12-python-3d-scene-data-model.md"
+      prompt_name: "M13 Python 3D Scene Data Model"
+      result: pass
+      started_at: "2026-04-28T13:48:00+08:00"
+      finished_at: "2026-04-28T13:56:00+08:00"
+      report_file: ".pipeline/reports/12-python-3d-scene-data-model.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 13
+      prompt_file: ".pipeline/prompts/13-static-3d-preview.md"
+      prompt_name: "M14 Static 3D Preview and Headless Screenshots"
+      result: pass
+      started_at: "2026-04-28T13:56:00+08:00"
+      finished_at: "2026-04-28T14:05:00+08:00"
+      report_file: ".pipeline/reports/13-static-3d-preview.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 14
+      prompt_file: ".pipeline/prompts/14-interactive-3d-viewer.md"
+      prompt_name: "M15 Interactive 3D Viewer"
+      result: pass
+      started_at: "2026-04-28T14:05:00+08:00"
+      finished_at: "2026-04-28T14:13:00+08:00"
+      report_file: ".pipeline/reports/14-interactive-3d-viewer.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 15
+      prompt_file: ".pipeline/prompts/15-gbuffer-shadow-vpl-3d-linkage.md"
+      prompt_name: "M16 G-Buffer, Shadow, and VPL 3D Linkage"
+      result: pass
+      started_at: "2026-04-28T14:13:00+08:00"
+      finished_at: "2026-04-28T14:23:00+08:00"
+      report_file: ".pipeline/reports/15-gbuffer-shadow-vpl-3d-linkage.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 16
+      prompt_file: ".pipeline/prompts/16-indirect-vpl-design-data-contract.md"
+      prompt_name: "M17 IndirectVPL Design and Data Contract"
+      result: pass
+      started_at: "2026-04-28T14:23:00+08:00"
+      finished_at: "2026-04-28T14:36:00+08:00"
+      report_file: ".pipeline/reports/16-indirect-vpl-design-data-contract.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 17
+      prompt_file: ".pipeline/prompts/17-indirect-vpl-first-bounce-sampler.md"
+      prompt_name: "M18 IndirectVPL First-Bounce Sampler"
+      result: pass
+      started_at: "2026-04-28T14:36:00+08:00"
+      finished_at: "2026-04-28T14:44:00+08:00"
+      report_file: ".pipeline/reports/17-indirect-vpl-first-bounce-sampler.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 18
+      prompt_file: ".pipeline/prompts/18-indirect-vpl-shading-visibility.md"
+      prompt_name: "M19 IndirectVPL Shading and Visibility Integration"
+      result: pass
+      started_at: "2026-04-28T14:44:00+08:00"
+      finished_at: "2026-04-28T14:46:00+08:00"
+      report_file: ".pipeline/reports/18-indirect-vpl-shading-visibility.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []
+    - prompt_index: 19
+      prompt_file: ".pipeline/prompts/19-indirect-vpl-validation-visualization.md"
+      prompt_name: "M20 IndirectVPL Validation and Visualization"
+      result: pass
+      started_at: "2026-04-28T14:47:00+08:00"
+      finished_at: "2026-04-28T14:55:00+08:00"
+      report_file: ".pipeline/reports/19-indirect-vpl-validation-visualization.md"
+      evaluation:
+        diff_score: 1
+        code_quality: 4
+        test_coverage: 2
+        complexity: 2
+        architecture_drift: 2
+        overall: 2
+        adaptive_threshold: null
+        warnings: []

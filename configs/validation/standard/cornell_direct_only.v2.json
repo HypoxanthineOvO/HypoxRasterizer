@@ -1,0 +1,49 @@
+{
+    "scene": {
+        "name": "standard_cornell_direct_only"
+    },
+    "camera": {
+        "resolution": [48, 48],
+        "position": [0, 1.0, 3.0],
+        "target": [0, 0.8, 0],
+        "focalLength": 1,
+        "fov": 45
+    },
+    "materials": [
+        {"id": "white", "type": "phong", "baseColor": [0.8, 0.8, 0.78], "shininess": 12, "roughness": 0.65, "metallic": 0.0},
+        {"id": "red", "type": "phong", "baseColor": [0.8, 0.18, 0.16], "shininess": 10, "roughness": 0.7, "metallic": 0.0},
+        {"id": "green", "type": "phong", "baseColor": [0.18, 0.7, 0.22], "shininess": 10, "roughness": 0.7, "metallic": 0.0}
+    ],
+    "objects": [
+        {"name": "floor", "mesh": "./assets/CornellBox/floor.obj", "material": "white"},
+        {"name": "ceiling", "mesh": "./assets/CornellBox/ceiling.obj", "material": "white"},
+        {"name": "back", "mesh": "./assets/CornellBox/back.obj", "material": "white"},
+        {"name": "left", "mesh": "./assets/CornellBox/left.obj", "material": "red"},
+        {"name": "right", "mesh": "./assets/CornellBox/right.obj", "material": "green"},
+        {"name": "short_box", "mesh": "./assets/CornellBox/short_box.obj", "material": "white"},
+        {"name": "tall_box", "mesh": "./assets/CornellBox/tall_box.obj", "material": "white"}
+    ],
+    "lights": [
+        {
+            "name": "direct_key",
+            "type": "point",
+            "position": [0, 1.85, 0],
+            "intensity": [1.8, 1.8, 1.8],
+            "shadow": {"enabled": true},
+            "indirectVPL": {
+                "enabled": false,
+                "samples": 64,
+                "seed": 19,
+                "bounces": 1,
+                "visibility": false,
+                "clamp": 0.6,
+                "radius": 0.2,
+                "sourceLights": [0]
+            }
+        }
+    ],
+    "outputs": {
+        "root": "outputs",
+        "buffers": ["color", "gbuffer", "shadow"]
+    }
+}

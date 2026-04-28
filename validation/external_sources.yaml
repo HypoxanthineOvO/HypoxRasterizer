@@ -1,0 +1,57 @@
+version: 1
+
+proxy:
+  approved_ports: [7890, 7891, 7892]
+
+sources:
+  - id: bitterli_cornell_box_pbrt_v4
+    url: https://benedikt-bitterli.me/resources/pbrt-v4/cornell-box.zip
+    source_page: https://benedikt-bitterli.me/resources/
+    license: public-domain
+    tier: standard
+    target: assets/external/bitterli/cornell-box.zip
+    format: zip+pbrt-v4
+    sha256: pending
+    hash_policy: record_on_first_download
+    conversion: pbrt_v4_metadata
+    enabled: true
+    notes: Small GI reference scene used as the first external standard candidate.
+
+  - id: bitterli_veach_ajar_pbrt_v4
+    url: https://benedikt-bitterli.me/resources/pbrt-v4/veach-ajar.zip
+    source_page: https://benedikt-bitterli.me/resources/
+    license: public-domain
+    tier: standard
+    target: assets/external/bitterli/veach-ajar.zip
+    format: zip+pbrt-v4
+    sha256: pending
+    hash_policy: record_on_first_download
+    conversion: pbrt_v4_metadata
+    enabled: true
+    notes: Medium GI/material-lighting reference with a clear small-scene fetch path.
+
+  - id: pbrt_v4_bmw_m6_metadata
+    url: https://github.com/mmp/pbrt-v4-scenes/tree/master/bmw-m6
+    source_page: https://github.com/mmp/pbrt-v4-scenes
+    license: CC0
+    tier: heavy
+    target: assets/external/pbrt-v4/bmw-m6
+    format: git-subtree+pbrt-v4
+    sha256: pending
+    hash_policy: upstream_git_commit
+    conversion: pbrt_v4_scene_hook
+    enabled: false
+    notes: PBRT metadata hook only; subtree fetch/conversion is intentionally optional.
+
+  - id: orca_bistro_heavy_metadata
+    url: https://developer.nvidia.com/orca/amazon-lumberyard-bistro
+    source_page: https://developer.nvidia.com/orca/amazon-lumberyard-bistro
+    license: CC-BY-4.0
+    tier: heavy
+    target: assets/external/orca/bistro
+    format: archive+obj
+    sha256: pending
+    hash_policy: upstream_release
+    conversion: obj_heavy_scene_hook
+    enabled: false
+    notes: Bistro is a heavy optional validation/benchmark hook, not a default runnable scene.

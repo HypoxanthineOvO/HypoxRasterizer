@@ -38,10 +38,22 @@ HypoxRasterizer
 
 # Excute Results
 *.png
+*.f32
+*.meta.json
 !assets/*.png
+outputs/
 # Xmake
 .xmake/
 build/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+tools/python/.venv/
+
+# Hypo-Workflow local planning scratch
+.plan-state/
 
 # VSCode specific
 .vscode/

@@ -141,8 +141,9 @@ void ShadowMap::showShadowMap(const std::string& file_name) {
         max_value = std::max(max_value, depth_buffer[i]);
     }
     // Normalize the Depth Buffer
+    float depth_range = max_value - min_value;
     for (int i = 0; i < camera->getWidth() * camera->getHeight(); i++) {
-        depth_buffer_tofile[i] = (depth_buffer[i] - min_value) / (max_value - min_value);
+        depth_buffer_tofile[i] = std::abs(depth_range) < 1e-8f ? 0.0f : (depth_buffer[i] - min_value) / depth_range;
     }
     writeImageToFile(depth_buffer_tofile, resolution, file_name);
 }

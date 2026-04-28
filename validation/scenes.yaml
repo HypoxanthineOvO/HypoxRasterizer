@@ -1,0 +1,172 @@
+version: 1
+
+proxy:
+  approved_ports: [7890, 7891, 7892]
+
+scenes:
+  - id: fast_empty_scene
+    tier: fast
+    config: configs/validation/fast/empty_scene.v2.json
+    default: true
+    tags: [fast, corner_case, empty, gbuffer]
+    assets: []
+    expected_outputs: [color, gbuffer]
+    runtime_budget_seconds: 2
+    source_type: internal
+    license: project
+
+  - id: fast_offscreen_triangle
+    tier: fast
+    config: configs/validation/fast/offscreen_triangle.v2.json
+    default: true
+    tags: [fast, corner_case, offscreen, triangle, gbuffer]
+    assets: [assets/Triangle/scene1.obj]
+    expected_outputs: [color, gbuffer]
+    runtime_budget_seconds: 2
+    source_type: internal
+    license: project
+
+  - id: fast_multi_light_shadow
+    tier: fast
+    config: configs/validation/fast/multi_light_shadow.v2.json
+    default: true
+    tags: [fast, corner_case, point, directional, shadow, cube_shadow, gbuffer]
+    assets: [assets/Triangle/scene1.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 5
+    source_type: internal
+    license: project
+    baseline: validation/baselines/fast_multi_light_shadow.json
+
+  - id: fast_missing_asset_error
+    tier: fast
+    config: configs/validation/fast/missing_asset_error.v2.json
+    default: false
+    tags: [fast, corner_case, expected_failure, missing_asset]
+    assets: [assets/Missing/not_found.obj]
+    expected_outputs: [color]
+    runtime_budget_seconds: 1
+    source_type: internal
+    license: project
+
+  - id: fast_point_smoke
+    tier: fast
+    config: configs/SmokeTest.v2.json
+    default: true
+    tags: [fast, smoke, point, cube_shadow, gbuffer]
+    assets: [assets/Triangle/scene1.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 5
+    source_type: internal
+    license: project
+
+  - id: standard_directional_smoke
+    tier: standard
+    config: configs/DirectionalSmoke.v2.json
+    default: true
+    tags: [standard, directional, shadow, gbuffer]
+    assets: [assets/Triangle/scene1.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 10
+    source_type: internal
+    license: project
+
+  - id: standard_area_vpl_smoke
+    tier: standard
+    config: configs/AreaVPLSmoke.v2.json
+    default: true
+    tags: [standard, cornell, area, vpl, shadow, gbuffer]
+    assets: [assets/CornellBox/floor.obj, assets/CornellBox/short_box.obj, assets/CornellBox/tall_box.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 20
+    source_type: internal
+    license: project
+    baseline: validation/baselines/standard_area_vpl_smoke.json
+
+  - id: standard_cornell_indirect_vpl
+    tier: standard
+    config: configs/validation/standard/cornell_indirect_vpl.v2.json
+    default: true
+    tags: [standard, cornell, indirect_vpl, point, shadow, gbuffer]
+    assets: [assets/CornellBox/floor.obj, assets/CornellBox/short_box.obj, assets/CornellBox/tall_box.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 25
+    source_type: internal
+    license: project
+
+  - id: standard_money_texture
+    tier: standard
+    config: configs/validation/standard/money_texture.v2.json
+    default: true
+    tags: [standard, texture, point, shadow, gbuffer, money]
+    assets: [assets/Money/2.obj, assets/Money/2.png]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 20
+    source_type: internal
+    license: project
+
+  - id: standard_money_indirect_vpl
+    tier: standard
+    config: configs/validation/standard/money_indirect_vpl.v2.json
+    default: false
+    tags: [standard, texture, money, indirect_vpl, point, shadow, gbuffer]
+    assets: [assets/Money/2.obj, assets/Money/2.png]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 25
+    source_type: internal
+    license: project
+
+  - id: standard_bunny_mesh
+    tier: standard
+    config: configs/validation/standard/bunny_mesh.v2.json
+    default: true
+    tags: [standard, bunny, medium_mesh, point, cube_shadow, gbuffer]
+    assets: [assets/Bunny/bunny.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 20
+    source_type: internal
+    license: project
+
+  - id: standard_dragon_quick
+    tier: standard
+    config: configs/validation/standard/dragon_quick.v2.json
+    default: true
+    tags: [standard, dragon, quick, medium_mesh, point, cube_shadow, gbuffer]
+    assets: [assets/Dragon/stanford_dragon.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 30
+    source_type: internal
+    license: project
+
+  - id: heavy_dragon_lowres_benchmark
+    tier: heavy
+    config: configs/validation/heavy/dragon_lowres_benchmark.v2.json
+    default: false
+    tags: [heavy, dragon, benchmark, internal, point, cube_shadow, gbuffer]
+    assets: [assets/Dragon/stanford_dragon.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 60
+    source_type: internal
+    license: project
+
+  - id: heavy_dragon_indirect_vpl_quick
+    tier: heavy
+    config: configs/validation/heavy/dragon_indirect_vpl_quick.v2.json
+    default: false
+    tags: [heavy, dragon, indirect_vpl, benchmark, internal, point, cube_shadow, gbuffer]
+    assets: [assets/Dragon/stanford_dragon.obj]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 90
+    source_type: internal
+    license: project
+
+  - id: heavy_orca_bistro_hook
+    tier: heavy
+    config: configs/validation/heavy/orca_bistro_placeholder.v2.json
+    default: false
+    tags: [heavy, external, optional, bistro, orca]
+    assets: [assets/external/orca/bistro]
+    expected_outputs: [color, gbuffer, shadow]
+    runtime_budget_seconds: 180
+    source_type: external
+    license: CC-BY-4.0
